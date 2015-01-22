@@ -10,16 +10,12 @@ public class GameTile : MonoBehaviour
     
 
     private static float MoveTime = .2f;
-    public TileCategoryType TileCategory;
+    [HideInInspector]
+    public string Category = "";
 
-    int Width = 1;
-    int Height = 1;
-
-    private bool Selected
-    {
-        get { return _selected; }
-    }
-
+    public int X { get { return (int)((this.transform.position.x - this.gameboard.Left) / this.gameboard.TileSet.TileWidth); } }
+    public int Y { get { return -(int)((this.transform.position.y - this.gameboard.Top) / this.gameboard.TileSet.TileWidth); } }
+    private bool Selected { get { return _selected; } }
     public Color Color
     {
         get { return _renderer.color; }

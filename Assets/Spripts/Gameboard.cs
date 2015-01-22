@@ -6,40 +6,38 @@ public class Gameboard : MonoBehaviour
     public int TilesPerRow = 8;
     public int TilesPerComlumn = 9;
 
-
-    public float TileWidth = .54f;
-    public float TileHeight = .54f;
-
-    public List<TileCategorySet> tileCategories;
+    public TileSet TileSet;
           
     
 
     private GameTile selectedTile = null;
 
-    public float Left
-    {
-        get { return transform.position.x - (float)TilesPerRow / 2f * TileWidth; }
-    }
-    public float Right
-    {
-        get { return transform.position.x + (float)TilesPerRow / 2f * TileWidth; }
-    }
-
-    public float Top
-    {
-        get { return transform.position.y + TilesPerComlumn * TileHeight; }
-    }
-
-    public float Bottom
-    {
-        get { return transform.position.y; }
-    }
+    public float Left { get { return transform.position.x - (float)TilesPerRow / 2f * TileSet.TileWidth; } }
+    public float Right { get { return transform.position.x + (float)TilesPerRow / 2f * TileSet.TileWidth; } }
+    public float Top { get { return transform.position.y + (float)TilesPerComlumn / 2f * TileSet.TileHeight; } }
+    public float Bottom { get { return transform.position.y - (float)TilesPerComlumn / 2f * TileSet.TileHeight; } }
 
 
-    private List<GameTile> gameTiles;
+    private List<GameTile> gameTiles = new List<GameTile>();
+
+    public void AddTile(GameTile tile, int x, int y)
+    {
+        tile.transform.SetParent(this.transform);
+        tile.transform.localPosition = new Vector3(this.Left + TileSet.TileWidth * x + TileSet.TileWidth / 2, this.Top - TileSet.TileHeight * y - TileSet.TileHeight / 2);
+        gameTiles.Add(tile);
+    }
+
+    public bool WorldPositionToGridPosition(Vector3 worldPosition, out int x, out int y)
+    {
+        x = (int)((worldPosition.x - Left) / TileSet.TileWidth);
+        y = -(int)((worldPosition.y - Top) / TileSet.TileHeight);
+        return x >= 0 && x < TilesPerRow && y >= 0 && y < TilesPerComlumn;
+    }
 
     void Awake()
     {
+        TileSet.GameboardReference = this;
+        /*
         gameTiles = new List<GameTile>();
         for(int i = 0; i < TilesPerComlumn * TilesPerRow; i++)
         {
@@ -54,7 +52,7 @@ public class Gameboard : MonoBehaviour
                 //GameTile tile = (GameTile)Instantiate(TilePrefab, position, Quaternion.identity);
                 GameObject go = new GameObject("Tile");
                 BoxCollider2D bc = go.AddComponent<BoxCollider2D>();
-                bc.size = new Vector2(.54f, .54f);
+                bc.size = new Vector2(TileWidth, TileHeight);
                 GameTile tile = go.AddComponent<GameTile>();
 
                 tile.transform.SetParent(this.transform, false);
@@ -76,6 +74,7 @@ public class Gameboard : MonoBehaviour
 
             }
         }
+        */
     }
 
     void SelectTile(GameTile tile)
@@ -102,6 +101,7 @@ public class Gameboard : MonoBehaviour
             selectedTile = tileToSelect;
     }
 
+    /*
     void FixedUpdate()
     {
         if(Input.GetMouseButtonDown(0))
@@ -114,12 +114,14 @@ public class Gameboard : MonoBehaviour
             }
         }
     }
+    */
 
     private GameTile TileAt(int x, int y)
     {
         return gameTiles[x + y * TilesPerRow];
     }
 
+    /*
     private bool CheckForMatch(int x, int y)
     {
         // check vertical
@@ -161,5 +163,6 @@ public class Gameboard : MonoBehaviour
 
         return false;
     }
+    */
 
 }
