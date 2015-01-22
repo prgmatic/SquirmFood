@@ -1,0 +1,473 @@
+fileFormatVersion: 2
+guid: b316ab2ed083aff49af6045db3090b12
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Eye0
+    21300002: Torso
+    21300004: Rock0
+    21300006: Worm0
+    21300008: Foot
+    21300010: Foot
+    21300012: Rock1
+    21300014: Rock2
+    21300016: Tooth0
+    21300018: Bug0
+    21300020: Egg0
+    21300022: Egg1
+    21300024: Larva0
+    21300026: Eye1
+    21300028: Jewelry0
+    21300030: Worm1
+    21300032: Worm2
+    21300034: Skull
+    21300036: Eye2
+    21300038: Bug1
+    21300040: Hand
+    21300042: Eye3
+    21300044: Bug2
+    21300046: Eye4
+    21300048: Jewelery1
+    21300050: Tooth2
+    21300052: Bulb0
+    21300054: Bolt2
+    21300056: Tooth2
+    21300058: Bolt0
+    21300060: Bolt1
+    21300062: Seed0
+    21300064: Bulb1
+    21300066: Bulb2
+    21300068: Rock3
+    21300070: Seed1
+    21300072: Coin1
+    21300074: Coin2
+    21300076: Tooth1
+    21300078: Seed2
+    21300080: Coin0
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Bulb0
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 428
+        width: 42
+        height: 47
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Eye0
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 436
+        width: 40
+        height: 38
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Torso
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 321
+        width: 97
+        height: 152
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rock0
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 435
+        width: 42
+        height: 39
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Worm0
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 434
+        width: 31
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Foot
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 380
+        width: 93
+        height: 43
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tooth0
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 380
+        width: 39
+        height: 43
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rock1
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 377
+        width: 35
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rock2
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 378
+        width: 43
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bolt2
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 322
+        width: 42
+        height: 47
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tooth2
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 324
+        width: 35
+        height: 40
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bug0
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 325
+        width: 35
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Egg0
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 324
+        width: 34
+        height: 47
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Egg1
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 326
+        width: 31
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Larva0
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 271
+        width: 41
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bolt0
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 271
+        width: 38
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bolt1
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 269
+        width: 49
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Eye1
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 273
+        width: 47
+        height: 41
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Jewelry0
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 272
+        width: 38
+        height: 43
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Worm1
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 273
+        width: 35
+        height: 38
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Worm2
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 271
+        width: 38
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Seed0
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 215
+        width: 30
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Skull
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 164
+        width: 87
+        height: 95
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Eye2
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 220
+        width: 39
+        height: 40
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bug1
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 213
+        width: 40
+        height: 52
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Hand
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 166
+        width: 39
+        height: 97
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Eye3
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 216
+        width: 48
+        height: 44
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bulb1
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 166
+        width: 39
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bulb2
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 166
+        width: 39
+        height: 41
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bug2
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 162
+        width: 45
+        height: 50
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Eye4
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 166
+        width: 44
+        height: 41
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rock3
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 168
+        width: 38
+        height: 37
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Seed1
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 110
+        width: 24
+        height: 44
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Coin1
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 109
+        width: 39
+        height: 43
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Coin2
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 106
+        width: 37
+        height: 45
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tooth1
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 108
+        width: 41
+        height: 48
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Seed2
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 55
+        width: 25
+        height: 47
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Coin0
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 57
+        width: 42
+        height: 37
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
