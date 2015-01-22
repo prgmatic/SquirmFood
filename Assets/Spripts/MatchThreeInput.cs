@@ -23,7 +23,6 @@ public class MatchThreeInput : MonoBehaviour
             {
                 if (gameboard.GetTileAt(x, y) != null)
                 {
-                    gameboard.DestroyTileAt(x, y);
                     ruleset.SelectTile(x, y);
                 }
             }
