@@ -35,7 +35,6 @@ public class TileSet : ScriptableObject {
             prefab = tp.Prefab;
         GameTile result = (GameTile)Instantiate(prefab);
         result.SetSprite(tp.Sprites[Random.Range(0, tp.Sprites.Count)]);
-        result.gameObject.AddComponent<BoxCollider2D>().size = new Vector2(TileWidth, TileHeight);
 
         result.Category = tp.Category;
         result.gameObject.name = tp.Category;

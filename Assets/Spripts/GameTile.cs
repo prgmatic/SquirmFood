@@ -5,6 +5,9 @@ using System;
 [RequireComponent(typeof(SpriteRenderer))]
 public class GameTile : MonoBehaviour
 {
+    public delegate void GameTileEvent(GameTile sender);
+    public event GameTileEvent Settled;
+
     public bool FreeFall = true;
     public float Acceleration = 9.87f;
 
@@ -19,46 +22,8 @@ public class GameTile : MonoBehaviour
     [HideInInspector]
     public string Category = "";
 
-    public int X { get { return (int)((transform.position.x - gameboard.Left) / gameboard.TileSet.TileWidth); } }
-    public int Y { get { return -(int)((transform.position.y - gameboard.Top) / gameboard.TileSet.TileWidth); } }
-    public float Top
-    {
-        get { return transform.position.y + gameboard.TileSet.TileHeight / 2; }
-        set
-        {
-            Vector3 pos = transform.position;
-            pos.y = value - gameboard.TileSet.TileHeight / 2;
-            transform.position = pos;
-        }
-    }
-    public float Bottom
-    {
-        get { return transform.position.y - gameboard.TileSet.TileHeight / 2; }
-        set
-        {
-            Vector3 pos = transform.position;
-            pos.y = value + gameboard.TileSet.TileHeight / 2;
-            transform.position = pos;
-        }
-    }
-
-    public GameTile TileBelow
-    {
-        get
-        {
-            int x = X;
-            int y = Y + 1;
-            while(y < gameboard.TilesPerComlumn)
-            {
-                GameTile tile = gameboard.GetTileAt(x, y);
-                if (tile != null)
-                    return tile;
-                y++;
-            }
-            return null;
-        }
-    }
-    public bool AtBottom { get { return Y == gameboard.TilesPerComlumn - 1; } }
+    public int X { get { return targetX; } }
+    public int Y { get { return targetY; } }
     public Color Color
     {
         get { return _renderer.color; }
@@ -69,31 +34,6 @@ public class GameTile : MonoBehaviour
     void Awake()
     {
         _renderer = GetComponent<SpriteRenderer>();
-    }
-    void Update()
-    {
-        /*
-        if(FreeFall)
-        {
-            GameTile tileBelow = TileBelow;
-            _velocity.y -= Acceleration * Time.deltaTime;
-            transform.position += _velocity;
-
-            if(tileBelow != null)
-            {
-                if(Bottom < tileBelow.Top)
-                {
-                    Bottom = tileBelow.Top;
-                    _velocity.y = 0;
-                }
-            }
-            else if(Bottom < gameboard.Bottom)
-            {
-                Bottom = gameboard.Bottom;
-                _velocity.y = 0;
-            }
-        }
-        */
     }
     public void MoveTo(Vector3 endPosition, bool animate = true)
     {
@@ -135,6 +75,10 @@ public class GameTile : MonoBehaviour
                 reachedTarget = true;
             }
             yield return null;
+        }
+        if(Settled != null)
+        {
+            Settled(this);
         }
     }
     IEnumerator Move(Vector3 endPosition)

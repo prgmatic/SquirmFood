@@ -4,10 +4,12 @@ using System.Collections;
 [RequireComponent(typeof(MatchThreeRuleSet))]
 public class MatchThreeInput : MonoBehaviour
 {
+    Gameboard gameboard;
     MatchThreeRuleSet ruleset;
 
     void Awake()
     {
+        gameboard = GetComponent<Gameboard>();
         ruleset = GetComponent<MatchThreeRuleSet>();
     }
 
@@ -15,15 +17,14 @@ public class MatchThreeInput : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit2D hit = Physics2D.Raycast(new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y), Vector2.zero);
-            
-            if (hit.collider != null)
+            int x;
+            int y;
+            if (gameboard.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition), out x, out y))
             {
-                GameTile tile = hit.collider.GetComponent<GameTile>();
-                if(tile != null)
+                if (gameboard.GetTileAt(x, y) != null)
                 {
-                    Debug.Log(tile.X + " " + tile.Y);
-                    ruleset.SelectTile(tile.X, tile.Y);
+                    gameboard.DestroyTileAt(x, y);
+                    ruleset.SelectTile(x, y);
                 }
             }
         }

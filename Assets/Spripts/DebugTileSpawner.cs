@@ -21,7 +21,7 @@ public class DebugTileSpawner : MonoBehaviour
             {
                 if(gameboard.GetTileAt(x, y) != null)
                 {
-                    gameboard.DestoryTileAt(x, y);
+                    gameboard.DestroyTileAt(x, y);
                 }
             }
         }

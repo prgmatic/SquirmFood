@@ -16,7 +16,7 @@ public class Gameboard : MonoBehaviour
 
     private GameTile[,] tileTable;
     private List<GameTile> gameTiles = new List<GameTile>();
-
+    private RuleSet[] ruleSets;
     
 
     void Awake()
@@ -24,6 +24,7 @@ public class Gameboard : MonoBehaviour
         tileTable = new GameTile[TilesPerRow, TilesPerComlumn];
         TileSet.GameboardReference = this;
         CreateBackgroundTiles();
+        ruleSets = GetComponents<RuleSet>();
     }
 
     public void AddTile(GameTile tile, int x, int y)
@@ -46,6 +47,15 @@ public class Gameboard : MonoBehaviour
         }
         tileTable[x, y] = tile;
         tile.SetTarget(x, y);
+        tile.Settled += Tile_Settled;
+    }
+
+    private void Tile_Settled(GameTile sender)
+    {
+        foreach(var ruleset in ruleSets)
+        {
+            ruleset.OnTileSettled(sender);
+        }
     }
 
     public bool WorldPositionToGridPosition(Vector3 worldPosition, out int x, out int y)
@@ -65,7 +75,11 @@ public class Gameboard : MonoBehaviour
         tileTable[oldX, oldY] = null;
         tileTable[newX, newY].SetTarget(newX, newY);
     }
-    public void DestoryTileAt(int x, int y)
+    public void DestroyTile(GameTile tile)
+    {
+        DestroyTileAt(tile.X, tile.Y);
+    }
+    public void DestroyTileAt(int x, int y)
     {
         if (!IsValidTileCoordinate(x, y)) return;
         if (tileTable[x, y] == null) return;
