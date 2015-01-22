@@ -5,9 +5,9 @@ public class Gameboard : MonoBehaviour
 {
     public int TilesPerRow = 8;
     public int TilesPerComlumn = 9;
-
     public TileSet TileSet;
-          
+    public Color BackGroundColor1 = new Color(32f / 255, 30f / 255, 24f / 255);
+    public Color BackGroundColor2 = new Color(63f / 255, 51f / 255, 47f / 255);
     
 
     private GameTile selectedTile = null;
@@ -19,6 +19,15 @@ public class Gameboard : MonoBehaviour
 
 
     private List<GameTile> gameTiles = new List<GameTile>();
+
+    
+
+    void Awake()
+    {
+        TileSet.GameboardReference = this;
+
+        CreateBackgroundTiles();
+    }
 
     public void AddTile(GameTile tile, int x, int y)
     {
@@ -34,47 +43,29 @@ public class Gameboard : MonoBehaviour
         return x >= 0 && x < TilesPerRow && y >= 0 && y < TilesPerComlumn;
     }
 
-    void Awake()
+    private void CreateBackgroundTiles()
     {
-        TileSet.GameboardReference = this;
-        /*
-        gameTiles = new List<GameTile>();
-        for(int i = 0; i < TilesPerComlumn * TilesPerRow; i++)
-        {
-            gameTiles.Add(null);
-        }
+        GameObject backgroundTiles = new GameObject();
+        backgroundTiles.name = "BackgroundTiles";
+        backgroundTiles.transform.SetParent(this.transform);
 
         for(int y = 0; y < TilesPerComlumn; y++)
         {
-            for (int x = 0; x < TilesPerRow; x++)
+            for(int x = 0; x < TilesPerRow; x++)
             {
-                Vector3 position = new Vector3(Left + x * TileWidth, Bottom + y * TileHeight);
-                //GameTile tile = (GameTile)Instantiate(TilePrefab, position, Quaternion.identity);
-                GameObject go = new GameObject("Tile");
-                BoxCollider2D bc = go.AddComponent<BoxCollider2D>();
-                bc.size = new Vector2(TileWidth, TileHeight);
-                GameTile tile = go.AddComponent<GameTile>();
-
-                tile.transform.SetParent(this.transform, false);
-                tile.SetGameboard(this);
-                tile.transform.position = position;
-                gameTiles[x + y * TilesPerRow] = tile;
-
-                int categoryIndex = Random.Range(0, tileCategories.Count);
-                tile.TileCategory = tileCategories[categoryIndex].TileCategory;
-                tile.Color = tileCategories[categoryIndex].Color;
-
-                while (CheckForMatch(x, y))
-                {
-                    categoryIndex = Random.Range(0, tileCategories.Count);
-                    tile.TileCategory = tileCategories[categoryIndex].TileCategory;
-                    tile.Color = tileCategories[categoryIndex].Color;
-                }
-                tile.SetSprite(tileCategories[categoryIndex].Spites[Random.Range(0, tileCategories[categoryIndex].Spites.Count)]);
-
+                GameObject backgroundTile = new GameObject();
+                backgroundTile.name = "BackgroundTile";
+                backgroundTile.transform.SetParent(backgroundTiles.transform);
+                SpriteRenderer bgRenderer = backgroundTile.AddComponent<SpriteRenderer>();
+                bgRenderer.sprite = Utils.DummySprite;
+                bgRenderer.transform.localScale = new Vector3(TileSet.TileWidth * 100, TileSet.TileHeight * 100, 1);
+                bgRenderer.transform.position = new Vector3(
+                    Left + x * TileSet.TileWidth + TileSet.TileWidth / 2,
+                    Top - y * TileSet.TileHeight - TileSet.TileHeight / 2
+                    );
+                bgRenderer.color = (x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1) ? BackGroundColor1 : BackGroundColor2;
             }
         }
-        */
     }
 
     void SelectTile(GameTile tile)

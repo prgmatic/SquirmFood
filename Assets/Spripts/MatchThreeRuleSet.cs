@@ -16,6 +16,8 @@ public class MatchThreeRuleSet : MonoBehaviour
     {
         gameboard = this.GetComponent<Gameboard>();
         GameObject tileSelectGO = new GameObject();
+        tileSelectGO.name = "TileSelectionSprite";
+        tileSelectGO.transform.SetParent(gameboard.transform);
         tileSelectRenderer = tileSelectGO.AddComponent<SpriteRenderer>();
         tileSelectRenderer.sprite = TileSelectionSprite;
         tileSelectRenderer.enabled = false;

@@ -13,8 +13,8 @@ public class GameTile : MonoBehaviour
     [HideInInspector]
     public string Category = "";
 
-    public int X { get { return (int)((this.transform.position.x - this.gameboard.Left) / this.gameboard.TileSet.TileWidth); } }
-    public int Y { get { return -(int)((this.transform.position.y - this.gameboard.Top) / this.gameboard.TileSet.TileWidth); } }
+    public int X { get { return (int)((transform.position.x - gameboard.Left) / gameboard.TileSet.TileWidth); } }
+    public int Y { get { return -(int)((transform.position.y - gameboard.Top) / gameboard.TileSet.TileWidth); } }
     private bool Selected { get { return _selected; } }
     public Color Color
     {
