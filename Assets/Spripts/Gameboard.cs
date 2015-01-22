@@ -8,38 +8,88 @@ public class Gameboard : MonoBehaviour
     public TileSet TileSet;
     public Color BackGroundColor1 = new Color(32f / 255, 30f / 255, 24f / 255);
     public Color BackGroundColor2 = new Color(63f / 255, 51f / 255, 47f / 255);
-    
-
-    private GameTile selectedTile = null;
 
     public float Left { get { return transform.position.x - (float)TilesPerRow / 2f * TileSet.TileWidth; } }
     public float Right { get { return transform.position.x + (float)TilesPerRow / 2f * TileSet.TileWidth; } }
     public float Top { get { return transform.position.y + (float)TilesPerComlumn / 2f * TileSet.TileHeight; } }
     public float Bottom { get { return transform.position.y - (float)TilesPerComlumn / 2f * TileSet.TileHeight; } }
 
-
+    private GameTile[,] tileTable;
     private List<GameTile> gameTiles = new List<GameTile>();
 
     
 
     void Awake()
     {
+        tileTable = new GameTile[TilesPerRow, TilesPerComlumn];
         TileSet.GameboardReference = this;
-
         CreateBackgroundTiles();
     }
 
     public void AddTile(GameTile tile, int x, int y)
     {
+        if (!IsValidTileCoordinate(x, y))
+            return;     // If the coordinates are not valid, do nothing
+        if (GetTileAt(x, y) != null)                  // If a tile is already in this space, destory the tile
+        {
+            Destroy(tile.gameObject);
+            return;
+        }          
+        
         tile.transform.SetParent(this.transform);
         tile.transform.localPosition = new Vector3(this.Left + TileSet.TileWidth * x + TileSet.TileWidth / 2, this.Top - TileSet.TileHeight * y - TileSet.TileHeight / 2);
         gameTiles.Add(tile);
+
+        while(y < TilesPerComlumn - 1 && GetTileAt(x, y + 1) == null)
+        {
+            y++;
+        }
+        tileTable[x, y] = tile;
+        tile.SetTarget(x, y);
     }
 
     public bool WorldPositionToGridPosition(Vector3 worldPosition, out int x, out int y)
     {
         x = (int)((worldPosition.x - Left) / TileSet.TileWidth);
         y = -(int)((worldPosition.y - Top) / TileSet.TileHeight);
+        return IsValidTileCoordinate(x, y);
+    }
+
+    public GameTile GetTileAt(int x, int y)
+    {
+        return tileTable[x, y];   
+    }
+    public void MoveTile(int oldX, int oldY, int newX, int newY)
+    {
+        tileTable[newX, newY] = tileTable[oldX, oldY];
+        tileTable[oldX, oldY] = null;
+        tileTable[newX, newY].SetTarget(newX, newY);
+    }
+    public void DestoryTileAt(int x, int y)
+    {
+        if (!IsValidTileCoordinate(x, y)) return;
+        if (tileTable[x, y] == null) return;
+
+        
+        GameTile tile = tileTable[x, y];
+        gameTiles.Remove(tile);
+        tileTable[x, y] = null;
+        Destroy(tile.gameObject);
+
+        int tileCheck = y - 1;
+        while(tileCheck >= 0)
+        {
+            if(tileTable[x, tileCheck] != null)
+            {
+                MoveTile(x, tileCheck, x, y);
+                y--;
+            }
+            tileCheck--;
+        }
+    }
+
+    public bool IsValidTileCoordinate(int x, int y)
+    {
         return x >= 0 && x < TilesPerRow && y >= 0 && y < TilesPerComlumn;
     }
 
@@ -68,44 +118,7 @@ public class Gameboard : MonoBehaviour
         }
     }
 
-    void SelectTile(GameTile tile)
-    {
-        int index = gameTiles.IndexOf(tile);
-        GameTile tileToSelect = gameTiles[index];
-
-        if(selectedTile != null)
-        {
-            int selectedTileIndex = gameTiles.IndexOf(selectedTile);
-            gameTiles[selectedTileIndex] = tileToSelect;
-            gameTiles[index] = selectedTile;
-
-            Vector3 tileToSelectPosition = tileToSelect.transform.position;
-            //tileToSelect.transform.position = selectedTile.transform.position;
-            //selectedTile.transform.position = tileToSelectPosition;
-
-            tileToSelect.MoveTo(selectedTile.transform.position);
-            selectedTile.MoveTo(tileToSelectPosition);
-
-            selectedTile = null;
-        }
-        else
-            selectedTile = tileToSelect;
-    }
-
-    /*
-    void FixedUpdate()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            RaycastHit2D hit = Physics2D.Raycast(new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y), Vector2.zero);
-            if(hit.collider != null)
-            {
-                SelectTile(hit.collider.gameObject.GetComponent<GameTile>());
-                //Debug.Log(hit.transform.name);
-            }
-        }
-    }
-    */
+    
 
     private GameTile TileAt(int x, int y)
     {

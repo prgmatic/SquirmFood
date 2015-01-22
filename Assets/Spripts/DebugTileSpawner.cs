@@ -13,6 +13,19 @@ public class DebugTileSpawner : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetMouseButtonDown(1))
+        {
+            int x;
+            int y;
+            if (gameboard.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition), out x, out y))
+            {
+                if(gameboard.GetTileAt(x, y) != null)
+                {
+                    gameboard.DestoryTileAt(x, y);
+                }
+            }
+        }
+
         for(int i = 0; i < 10; i++)
         {
             if(Input.GetKeyDown(i.ToString()))

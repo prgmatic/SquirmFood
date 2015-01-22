@@ -6,7 +6,7 @@ public class MatchThreeBoardInitializer : MonoBehaviour
 {
     Gameboard gameboard;
 
-    void Awake()
+    void Start()
     {
         gameboard = GetComponent<Gameboard>();
         FillGameBoard();
@@ -14,7 +14,7 @@ public class MatchThreeBoardInitializer : MonoBehaviour
 
     void FillGameBoard()
     {
-        for(int y = 0; y < gameboard.TilesPerComlumn; y++)
+        for(int y = gameboard.TilesPerComlumn - 1; y >= 0; y--)
         {
             for(int x = 0; x < gameboard.TilesPerRow; x++)
             {
