@@ -6,8 +6,12 @@ using System;
 public class GameTile : MonoBehaviour
 {
     public delegate void GameTileEvent(GameTile sender);
-    public event GameTileEvent Settled;
+    public event GameTileEvent SettledFromFall;
+    public event GameTileEvent SettledFromMove;
+    public event GameTileEvent TileSwapped;
 
+    public int Width = 1;
+    public int Height = 1;
     public bool FreeFall = true;
     public float Acceleration = 9.87f;
 
@@ -102,8 +106,8 @@ public class GameTile : MonoBehaviour
             yield return null;
         }
         _moving = false;
-        if(Settled != null)
-            Settled(this);
+        if(SettledFromFall != null)
+            SettledFromFall(this);
     }
     IEnumerator Move(Vector3 endPosition)
     {
@@ -118,7 +122,7 @@ public class GameTile : MonoBehaviour
             yield return null;
         }
         _moving = false;
-        if (Settled != null)
-            Settled(this);
+        if (SettledFromMove != null)
+            SettledFromMove(this);
     }
 }

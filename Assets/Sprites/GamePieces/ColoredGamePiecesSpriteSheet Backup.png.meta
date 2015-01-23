@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 514996c201172164ba1eadd5ac608369
+guid: 9586de1b37ff3f343ba19d5be2f37ebc
 TextureImporter:
   fileIDToRecycleName:
     21300000: Eye
@@ -8,9 +8,6 @@ TextureImporter:
     21300006: Tooth
     21300008: Worm
     21300010: Egg
-    21300012: Torso
-    21300014: Skull
-    21300016: Foot
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -109,36 +106,6 @@ TextureImporter:
         y: 257
         width: 145
         height: 184
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Torso
-      rect:
-        serializedVersion: 2
-        x: 497
-        y: 49
-        width: 388
-        height: 597
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Skull
-      rect:
-        serializedVersion: 2
-        x: 955
-        y: 279
-        width: 369
-        height: 393
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Foot
-      rect:
-        serializedVersion: 2
-        x: 967
-        y: 32
-        width: 374
-        height: 191
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

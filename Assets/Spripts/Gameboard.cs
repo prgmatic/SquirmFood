@@ -50,7 +50,7 @@ public class Gameboard : MonoBehaviour
         tile.X = x;
         tile.Y = y;
         tile.Fall();
-        tile.Settled += Tile_Settled;
+        tile.SettledFromFall += Tile_Settled;
     }
 
     private void Tile_Settled(GameTile sender)
@@ -172,50 +172,5 @@ public class Gameboard : MonoBehaviour
             Top - TileSet.TileHeight * y - TileSet.TileHeight / 2, 0
             );
     }
-    
-
-    /*
-    private bool CheckForMatch(int x, int y)
-    {
-        // check vertical
-        GameTile currentTile = TileAt(x, y);
-        int verticalMatches = 0;
-        int checkY = y + 1;
-        int checkX = x;
-        while (checkY < TilesPerComlumn && TileAt(checkX, checkY) != null && TileAt(checkX, checkY).TileCategory == currentTile.TileCategory) // Check above
-        {
-            verticalMatches++;
-            checkY++;
-        }
-        checkY = y - 1;
-        while (checkY >= 0 && TileAt(checkX, checkY) != null && TileAt(checkX, checkY).TileCategory == currentTile.TileCategory) // Check below
-        {
-            verticalMatches++;
-            checkY--;
-        }
-        if (verticalMatches > 1)
-            return true;
-
-        int horizontalMatches = 0;
-        checkY = y;
-        checkX = x - 1;
-
-        while (checkX >= 0 && TileAt(checkX, checkY) != null && TileAt(checkX, checkY).TileCategory == currentTile.TileCategory) // Check left
-        {
-            horizontalMatches++;
-            checkX--;
-        }
-        checkX = x + 1;
-        while (checkX < TilesPerRow && TileAt(checkX, checkY) != null && TileAt(checkX, checkY).TileCategory == currentTile.TileCategory) // Check Right
-        {
-            horizontalMatches++;
-            checkX++;
-        }
-        if (horizontalMatches > 1)
-            return true;
-
-        return false;
-    }
-    */
 
 }
