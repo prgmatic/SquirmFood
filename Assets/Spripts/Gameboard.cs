@@ -9,6 +9,7 @@ public class Gameboard : MonoBehaviour
     public Color BackGroundColor1 = new Color(32f / 255, 30f / 255, 24f / 255);
     public Color BackGroundColor2 = new Color(63f / 255, 51f / 255, 47f / 255);
 
+
     public float Left { get { return transform.position.x - (float)TilesPerRow / 2f * TileSet.TileWidth; } }
     public float Right { get { return transform.position.x + (float)TilesPerRow / 2f * TileSet.TileWidth; } }
     public float Top { get { return transform.position.y + (float)TilesPerComlumn / 2f * TileSet.TileHeight; } }
@@ -46,7 +47,9 @@ public class Gameboard : MonoBehaviour
             y++;
         }
         tileTable[x, y] = tile;
-        tile.SetTarget(x, y);
+        tile.X = x;
+        tile.Y = y;
+        tile.Fall();
         tile.Settled += Tile_Settled;
     }
 
@@ -69,11 +72,52 @@ public class Gameboard : MonoBehaviour
     {
         return tileTable[x, y];   
     }
+    public void MoveTile(GameTile tile, int x, int y)
+    {
+        MoveTile(tile.X, tile.Y, x, y);
+    }
     public void MoveTile(int oldX, int oldY, int newX, int newY)
     {
-        tileTable[newX, newY] = tileTable[oldX, oldY];
-        tileTable[oldX, oldY] = null;
-        tileTable[newX, newY].SetTarget(newX, newY);
+        if (newX != oldX || newY != oldY)
+        {
+
+            tileTable[newX, newY] = tileTable[oldX, oldY];
+            tileTable[oldX, oldY] = null;
+            tileTable[newX, newY].X = newX;
+            tileTable[newX, newY].Y = newY;
+        }
+    }
+    private void ApplyGravityToColumn(int x)
+    {
+        int yPos = TilesPerComlumn - 1;
+        int nextFreeSpace = yPos;
+
+        while (yPos >= 0)
+        {
+            if (tileTable[x, yPos] != null)
+            {
+                MoveTile(x, yPos, x, nextFreeSpace);
+                tileTable[x, nextFreeSpace].Fall();
+                nextFreeSpace--;
+            }
+            yPos--;
+        }
+    }
+    public void SwapTiles(GameTile tile1, GameTile tile2)
+    {
+        int tile1X = tile1.X;
+        int tile1Y = tile1.Y;
+
+        tile1.X = tile2.X;
+        tile1.Y = tile2.Y;
+        tileTable[tile2.X, tile2.Y] = tile1;
+
+        tile2.X = tile1X;
+        tile2.Y = tile1Y;
+        tileTable[tile1X, tile1Y] = tile2;
+
+        tile1.UpdatePosition();
+        tile2.UpdatePosition();
     }
     public void DestroyTile(GameTile tile)
     {
@@ -84,22 +128,12 @@ public class Gameboard : MonoBehaviour
         if (!IsValidTileCoordinate(x, y)) return;
         if (tileTable[x, y] == null) return;
 
-        
         GameTile tile = tileTable[x, y];
         gameTiles.Remove(tile);
         tileTable[x, y] = null;
         Destroy(tile.gameObject);
 
-        int tileCheck = y - 1;
-        while(tileCheck >= 0)
-        {
-            if(tileTable[x, tileCheck] != null)
-            {
-                MoveTile(x, tileCheck, x, y);
-                y--;
-            }
-            tileCheck--;
-        }
+        ApplyGravityToColumn(x);
     }
 
     public bool IsValidTileCoordinate(int x, int y)
@@ -131,13 +165,14 @@ public class Gameboard : MonoBehaviour
             }
         }
     }
-
-    
-
-    private GameTile TileAt(int x, int y)
+    public Vector3 GridPositionToWorldPosition(int x, int y)
     {
-        return gameTiles[x + y * TilesPerRow];
+        return new Vector3(
+            Left + TileSet.TileWidth * x + TileSet.TileWidth / 2,
+            Top - TileSet.TileHeight * y - TileSet.TileHeight / 2, 0
+            );
     }
+    
 
     /*
     private bool CheckForMatch(int x, int y)

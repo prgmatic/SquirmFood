@@ -25,7 +25,9 @@ public class MatchThreeInput : MonoBehaviour
                 {
                     ruleset.SelectTile(x, y);
                 }
+                else ruleset.Deselect();
             }
+            else ruleset.Deselect();
         }
     }
 }

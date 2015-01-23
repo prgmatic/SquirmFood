@@ -11,19 +11,21 @@ public class GameTile : MonoBehaviour
     public bool FreeFall = true;
     public float Acceleration = 9.87f;
 
-    private int targetX = 0;
-    private int targetY = 0;
     private SpriteRenderer _renderer;
     private Gameboard gameboard = null;
     private Vector3 _velocity = Vector3.zero;
-    
+    private bool _moving = false;
 
     private static float MoveTime = .2f;
     [HideInInspector]
     public string Category = "";
 
-    public int X { get { return targetX; } }
-    public int Y { get { return targetY; } }
+    private int x = 0;
+    private int y = 0;
+
+    public int X { get { return x; } set { x = value; } }
+    public int Y { get { return y; } set { y = value; } }
+    public bool Moving { get { return _moving; } }
     public Color Color
     {
         get { return _renderer.color; }
@@ -50,17 +52,40 @@ public class GameTile : MonoBehaviour
     {
         _renderer.sprite = sprite;
     }
-    public void SetTarget(int x, int y)
+    public void Fall()
     {
-        targetX = x;
-        targetY = y;
         StopCoroutine("FallToTarget");
         StartCoroutine("FallToTarget");
+    }
+    public bool IsCardinalNeighbor(GameTile tile)
+    {
+        if( (tile.X == X - 1 && tile.Y == Y) ||
+            (tile.X == X + 1 && tile.Y == Y) ||
+            (tile.X == X && tile.Y == Y - 1) ||
+            (tile.X == X && tile.Y == Y + 1))
+        {
+            return true;
+        }
+        return false;
+    }
+    public void UpdatePosition(bool animate = true)
+    {
+        StopCoroutine("Move");
+        Vector3 targetPosition = gameboard.GridPositionToWorldPosition(X, Y);
+        if (animate)
+        {
+            StartCoroutine("Move", targetPosition);
+        }
+        else
+        {
+            this.transform.position = targetPosition;
+        }
     }
 
     IEnumerator FallToTarget()
     {
-        float yTarget = gameboard.Top - gameboard.TileSet.TileHeight * targetY - gameboard.TileSet.TileHeight / 2;
+        _moving = true;
+        float yTarget = gameboard.Top - gameboard.TileSet.TileHeight * Y - gameboard.TileSet.TileHeight / 2;
         bool reachedTarget = false;
         while(!reachedTarget)
         {
@@ -76,13 +101,13 @@ public class GameTile : MonoBehaviour
             }
             yield return null;
         }
+        _moving = false;
         if(Settled != null)
-        {
             Settled(this);
-        }
     }
     IEnumerator Move(Vector3 endPosition)
     {
+        _moving = true;
         float timer = 0f;
         Vector3 startPosition = this.transform.position;
 
@@ -92,5 +117,8 @@ public class GameTile : MonoBehaviour
             this.transform.position = Vector3.Lerp(startPosition, endPosition, timer * (1f / MoveTime));
             yield return null;
         }
+        _moving = false;
+        if (Settled != null)
+            Settled(this);
     }
 }
