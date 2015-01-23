@@ -93,6 +93,7 @@ public class MatchThreeRuleSet : RuleSet
 
     public override void OnTileSettled(GameTile tile)
     {
+        if (tile.Width > 1 || tile.Height > 1) return;
         GameTile[] matchGroup = CheckForMatch(tile);
         if(matchGroup != null)
         {
@@ -111,6 +112,8 @@ public class MatchThreeRuleSet : RuleSet
     {
         return CheckForMatch(tile, this._gameboard);
     }
+
+    
 
     public static GameTile[] CheckForMatch(GameTile tile, Gameboard gameboard)
     {

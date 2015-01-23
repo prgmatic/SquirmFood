@@ -8,9 +8,10 @@ public class GameTile : MonoBehaviour
     public delegate void GameTileEvent(GameTile sender);
     public event GameTileEvent SettledFromFall;
     public event GameTileEvent SettledFromMove;
-    public event GameTileEvent TileSwapped;
-
+    
+    [HideInInspector]
     public int Width = 1;
+    [HideInInspector]
     public int Height = 1;
     public bool FreeFall = true;
     public float Acceleration = 9.87f;
@@ -36,11 +37,80 @@ public class GameTile : MonoBehaviour
         set { _renderer.color = value; }
     }
 
+    public void SetPosition(int x, int y)
+    {
+        this.X = x;
+        this.Y = y;
+        Vector2 pos = gameboard.GridPositionToWorldPosition(x, y);
+        pos.x += (Width - 1) * gameboard.TileSet.TileWidth / 2;
+        pos.y -= (Height - 1) * gameboard.TileSet.TileHeight / 2;
+        this.transform.localPosition = pos;
+    }
 
     void Awake()
     {
         _renderer = GetComponent<SpriteRenderer>();
     }
+
+    void FixedUpdate()
+    {
+        float yPos = gameboard.TilesPerComlumn;
+        for(int column = 0; column < Width; column++)
+        {
+            
+            int y = Y + Height - 1;
+            while (y + 1 < gameboard.TilesPerComlumn && gameboard.GetTileAt(X + column, y + 1) == null)
+            {
+                y++;
+            }
+            if (y < yPos) yPos = y;
+        }
+        if(yPos > Y + Height - 1)
+        {
+            gameboard.MoveTile(this, GridSpacesOccupied(), GridSpacesAfterApplyingGravity());
+            Fall();
+        }
+    }
+
+    
+    public Point[] GridSpacesOccupied()
+    {
+        Point[] result = new Point[Width * Height];
+        for(int i = 0; i < result.Length; i++)
+        {
+            result[i] = new Point(X + i % Width, Y + i / Width);
+        }
+        return result;
+    }
+    
+    public Point[] GridSpacesAfterApplyingGravity()
+    {
+        int highestYPos = gameboard.TilesPerComlumn;
+
+        for(int column = 0; column < Width; column ++)
+        {
+            int y = Y + Height - 1;
+            while(y + 1 < gameboard.TilesPerComlumn && gameboard.GetTileAt(X + column, y + 1) == null )
+            {
+                y++;
+            }
+            if (y < highestYPos) highestYPos = y;
+        }
+
+        Point[] result = new Point[Width * Height];
+        for (int i = 0; i < result.Length; i++)
+        {
+            result[i] = new Point(X + i % Width, highestYPos - Height + 1 + i / Width);
+        }
+        return result;
+    }
+
+
+
+
+
+
+
     public void MoveTo(Vector3 endPosition, bool animate = true)
     {
         StartCoroutine("Move", endPosition);
@@ -89,7 +159,7 @@ public class GameTile : MonoBehaviour
     IEnumerator FallToTarget()
     {
         _moving = true;
-        float yTarget = gameboard.Top - gameboard.TileSet.TileHeight * Y - gameboard.TileSet.TileHeight / 2;
+        float yTarget = gameboard.Top - gameboard.TileSet.TileHeight * Y - gameboard.TileSet.TileHeight / 2 * Height;
         bool reachedTarget = false;
         while(!reachedTarget)
         {

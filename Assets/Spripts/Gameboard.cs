@@ -30,27 +30,29 @@ public class Gameboard : MonoBehaviour
 
     public void AddTile(GameTile tile, int x, int y)
     {
-        if (!IsValidTileCoordinate(x, y))
-            return;     // If the coordinates are not valid, do nothing
-        if (GetTileAt(x, y) != null)                  // If a tile is already in this space, destory the tile
+
+        for (int w = 0; w < tile.Width; w++) // If a tile is already in this space, destory the tile
         {
-            Destroy(tile.gameObject);
-            return;
-        }          
+            for (int h = 0; h < tile.Height; h++)
+            {
+                if (!IsValidTileCoordinate(x + w, y + h) || GetTileAt(x + w, y + h) != null)
+                {
+                    Destroy(tile.gameObject);
+                    return;
+                }
+            }
+        }        
         
         tile.transform.SetParent(this.transform);
-        tile.transform.localPosition = new Vector3(this.Left + TileSet.TileWidth * x + TileSet.TileWidth / 2, this.Top - TileSet.TileHeight * y - TileSet.TileHeight / 2);
+        tile.SetPosition(x, y);
         gameTiles.Add(tile);
-
-        while(y < TilesPerComlumn - 1 && GetTileAt(x, y + 1) == null)
-        {
-            y++;
-        }
-        tileTable[x, y] = tile;
-        tile.X = x;
-        tile.Y = y;
-        tile.Fall();
         tile.SettledFromFall += Tile_Settled;
+
+        Point[] gridSpaces = tile.GridSpacesOccupied();
+        foreach(var point in gridSpaces)
+        {
+            tileTable[point.x, point.y] = tile;
+        }
     }
 
     private void Tile_Settled(GameTile sender)
@@ -68,9 +70,38 @@ public class Gameboard : MonoBehaviour
         return IsValidTileCoordinate(x, y);
     }
 
+    public Point WorldPositionToGridPosition(Vector3 worldPosition)
+    {
+        int x = (int)((worldPosition.x - Left) / TileSet.TileWidth);
+        int y = -(int)((worldPosition.y - Top) / TileSet.TileHeight);
+        return new Point(x, y);
+    }
+
     public GameTile GetTileAt(int x, int y)
     {
-        return tileTable[x, y];   
+        try
+        {
+            return tileTable[x, y];
+        }
+        catch
+        {
+            
+            return null;
+        }
+    }
+
+    public void MoveTile(GameTile tile, Point[] oldSpaces, Point[] newSpace)
+    {
+        foreach(var point in oldSpaces)
+        {
+            tileTable[point.x, point.y] = null;
+        }
+        foreach (var point in newSpace)
+        {
+            tileTable[point.x, point.y] = tile;
+        }
+        tile.X = newSpace[0].x;
+        tile.Y = newSpace[0].y;
     }
     public void MoveTile(GameTile tile, int x, int y)
     {
@@ -87,22 +118,40 @@ public class Gameboard : MonoBehaviour
             tileTable[newX, newY].Y = newY;
         }
     }
+    /*
     private void ApplyGravityToColumn(int x)
     {
         int yPos = TilesPerComlumn - 1;
-        int nextFreeSpace = yPos;
 
         while (yPos >= 0)
         {
             if (tileTable[x, yPos] != null)
             {
-                MoveTile(x, yPos, x, nextFreeSpace);
-                tileTable[x, nextFreeSpace].Fall();
-                nextFreeSpace--;
+                GameTile tile = tileTable[x, yPos];
+                Point[] occupiedGridSpace = tile.GridSpacesOccupied();
+                foreach(var point in occupiedGridSpace)
+                {
+                    tileTable[point.x, point.y] = null;
+                }
+                Point[] newGridSpace = tile.GridSpacesAfterApplyingGravity();
+                foreach(var point in newGridSpace)
+                {
+                    tileTable[point.x, point.y] = tile;
+                }
+                tile.X = newGridSpace[0].x;
+                tile.Y = newGridSpace[0].y;
+                tile.Fall();
+                //MoveTile(x, yPos, x, nextFreeSpace);
+
+                
+
+                //tileTable[x, nextFreeSpace].Fall();
+                //nextFreeSpace--;
             }
             yPos--;
         }
     }
+    */
     public void SwapTiles(GameTile tile1, GameTile tile2)
     {
         int tile1X = tile1.X;
@@ -133,7 +182,7 @@ public class Gameboard : MonoBehaviour
         tileTable[x, y] = null;
         Destroy(tile.gameObject);
 
-        ApplyGravityToColumn(x);
+        //ApplyGravityToColumn(x);
     }
 
     public bool IsValidTileCoordinate(int x, int y)

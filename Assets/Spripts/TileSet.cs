@@ -38,6 +38,8 @@ public class TileSet : ScriptableObject {
 
         result.Category = tp.Category;
         result.gameObject.name = tp.Category;
+        result.Width = tp.Width;
+        result.Height = tp.Height;
         result.SetGameboard(this.GameboardReference);
         return result;
     }
@@ -52,6 +54,8 @@ public class TileSet : ScriptableObject {
 public class TileProperties
 {
     public string Category;
+    public int Width = 1;
+    public int Height = 1;
     public GameTile Prefab;
     public List<Sprite> Sprites;
 }
