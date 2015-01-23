@@ -26,6 +26,11 @@ public class MatchThreeRuleSet : RuleSet
     public void SelectTile(int x, int y)
     {
         GameTile newSelectedTile = _gameboard.GetTileAt(x, y);
+        if(newSelectedTile.Width > 1 || newSelectedTile.Height > 1)
+        {
+            Deselect();
+            return;
+        }
         if(SelectedTile != null)
         {
             if(SelectedTile.IsCardinalNeighbor(newSelectedTile))
