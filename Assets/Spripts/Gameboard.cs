@@ -11,6 +11,7 @@ public class Gameboard : MonoBehaviour
     #region Variables
     public int Columns = 8;
     public int Rows = 9;
+    public bool HopperMask = true;
     public Color BackGroundColor1 = new Color(32f / 255, 30f / 255, 24f / 255);
     public Color BackGroundColor2 = new Color(63f / 255, 51f / 255, 47f / 255);
 
@@ -28,6 +29,8 @@ public class Gameboard : MonoBehaviour
     public float Right { get { return transform.position.x + (float)Columns / 2f * tileSet.TileWidth; } }
     public float Top { get { return transform.position.y + (float)Rows / 2f * tileSet.TileHeight; } }
     public float Bottom { get { return transform.position.y - (float)Rows / 2f * tileSet.TileHeight; } }
+    public float Width { get { return Right - Left; } }
+    public float Height { get { return Top - Bottom; } }
     public Rectangle GridBounds { get { return new Rectangle(0, 0, Columns, Rows); } }
     public Rectangle GridBoundsWithHopper { get { return new Rectangle(0, -HopperSize, Columns, Rows + HopperSize); } }
 
@@ -43,11 +46,9 @@ public class Gameboard : MonoBehaviour
         tileSet.GameboardReference = this;
         CreateBackgroundTiles();
         tileTable = new GameTile[Columns, Rows + hopperSize];
+        if (HopperMask)
+            CreateHopperMask();
 
-        GameTile[,] test = new GameTile[4, 4];
-        var thing = test[1, 1];
-        //thing = GenerateTileFromTileProperties(Tiles[0]);
-        Debug.Log("hmmm");
     }
 
     private void FillTileTable()
@@ -90,16 +91,16 @@ public class Gameboard : MonoBehaviour
         }
     }
 
-    public void AddTile(int index, int x, int y)
+    public void AddTile(int index, int x, int y, bool applyGravity = true)
     {
         TileProperties tp = Tiles[index];
-        AddTile(tp, x, y);
+        AddTile(tp, x, y, applyGravity);
     }
-    public void AddTile(int x, int y)
+    public void AddTile(int x, int y, bool applyGravity = true)
     {
-        AddTile(Tiles[Random.Range(0, Tiles.Count)], x, y);
+        AddTile(Tiles[Random.Range(0, Tiles.Count)], x, y, applyGravity);
     }
-    public void AddTile(TileProperties tileProperties, int x, int y)
+    public void AddTile(TileProperties tileProperties, int x, int y, bool applyGravity = true)
     {
         if(!Tiles.Contains(tileProperties))
         {
@@ -133,7 +134,8 @@ public class Gameboard : MonoBehaviour
         newTile.GridPositionMoved += NewTile_GridPositionMoved;
         gameTiles.Add(newTile);
         AddTileToTileTable(newTile);
-        newTile.ApplyGravity();
+        if(applyGravity)
+            newTile.ApplyGravity();
     }
 
     private void NewTile_GridPositionMoved(GameTile sender, Rectangle oldGridBounds)
@@ -224,10 +226,7 @@ public class Gameboard : MonoBehaviour
     {
         RemoveBoundsFromTileTable(tile.GridBounds, tile);
 
-        for (int i = 0; i < tile.Width; i++)
-        {
-            ApplyGravitToColumn(tile.GridLeft + i);
-        }
+        ApplyGravity();
 
         if (TileDestroyed != null)
             TileDestroyed(tile);
@@ -240,13 +239,16 @@ public class Gameboard : MonoBehaviour
             DestroyTile(GetTileAt(x, y));
     }
 
-    private void ApplyGravitToColumn(int column)
+    private void ApplyGravity()
     {
-        for(int i = Rows - 1; i >= -HopperSize; i--)
+        for (int y = Rows - 1; y >= -HopperSize; y--)
         {
-            GameTile tile = GetTileAt(column, i);
-            if (tile != null)
-                tile.ApplyGravity();
+            for (int x = 0; x < Columns; x++)
+            {
+                GameTile tile = GetTileAt(x, y);
+                if (tile != null)
+                    tile.ApplyGravity();
+            }
         }
     }
 
@@ -274,5 +276,18 @@ public class Gameboard : MonoBehaviour
                 bgRenderer.color = (x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1) ? BackGroundColor1 : BackGroundColor2;
             }
         }
+    }
+
+    private void CreateHopperMask()
+    {
+        GameObject hopperMask = new GameObject();
+        hopperMask.name = "HopperMask";
+        hopperMask.transform.SetParent(this.transform);
+        SpriteRenderer sr = hopperMask.AddComponent<SpriteRenderer>();
+        sr.sprite = Utils.DummySprite;
+        sr.transform.localScale = new Vector3(Width * 100, Height * 100, 1);
+        sr.transform.position = new Vector3(this.transform.position.x, Top + sr.transform.localScale.y / 2 / 100, -0.1f);
+        sr.color = Camera.main.backgroundColor;
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b);
     }
 }

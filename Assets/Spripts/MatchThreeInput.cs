@@ -6,14 +6,67 @@ public class MatchThreeInput : MonoBehaviour
 {
     Gameboard gameboard;
     MatchThreeRuleSet ruleset;
+    Point? mouseDownTile = null;
+    private bool wasPreviouslySelected = false;
 
     void Awake()
     {
         gameboard = GetComponent<Gameboard>();
         ruleset = GetComponent<MatchThreeRuleSet>();
     }
-	void Update()
+    void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            wasPreviouslySelected = false;
+            Point gridPosition = gameboard.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            if (gameboard.IsValidTileCoordinate(gridPosition))
+            {
+                GameTile tile = gameboard.GetTileAt(gridPosition.x, gridPosition.y);
+                if (tile != null)
+                {
+                    //if(ruleset.SelectedTile == null)
+                    if (ruleset.SelectedTile != null && ruleset.SelectedTile.GridPosition == gridPosition)
+                        wasPreviouslySelected = true;
+                    mouseDownTile = gridPosition;
+                    ruleset.SelectTile(gridPosition.x, gridPosition.y);
+                }
+                else Deselect();
+            }
+            else Deselect();
+        }
+
+        if(mouseDownTile != null)
+        {
+            Point gridPosition = gameboard.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            if (mouseDownTile.Value != gridPosition)
+            {
+                if(gameboard.IsValidTileCoordinate(gridPosition))
+                {
+                    if (gridPosition.y < mouseDownTile.Value.y)
+                        ruleset.SelectTile(mouseDownTile.Value.x, mouseDownTile.Value.y - 1);
+                    else if (gridPosition.y > mouseDownTile.Value.y)
+                        ruleset.SelectTile(mouseDownTile.Value.x, mouseDownTile.Value.y + 1);
+                    else if (gridPosition.x < mouseDownTile.Value.x)
+                        ruleset.SelectTile(mouseDownTile.Value.x - 1, mouseDownTile.Value.y);
+                    else if (gridPosition.x > mouseDownTile.Value.x)
+                        ruleset.SelectTile(mouseDownTile.Value.x + 1, mouseDownTile.Value.y);
+
+                    mouseDownTile = null;
+                }
+                else
+                    Deselect();
+            }
+        }
+
+        if(Input.GetMouseButtonUp(0))
+        {
+            if (mouseDownTile != null && wasPreviouslySelected)
+                Deselect();
+            mouseDownTile = null;
+        }
+    }
+/*
         if (Input.GetMouseButtonDown(0))
         {
             Point gridPosition = gameboard.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
@@ -27,5 +80,12 @@ public class MatchThreeInput : MonoBehaviour
             }
             else ruleset.Deselect();
         }
+    }
+    */
+
+    private void Deselect()
+    {
+        ruleset.Deselect();
+        mouseDownTile = null;
     }
 }

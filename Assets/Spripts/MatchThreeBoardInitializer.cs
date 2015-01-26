@@ -40,7 +40,7 @@ public class MatchThreeBoardInitializer : MonoBehaviour
                 Rectangle bounds = new Rectangle(x, y, bodyPart.Width, bodyPart.Height);
                 if(gameboard.NumberOfTilesInBounds(bounds) == 0)
                 {
-                    gameboard.AddTile(bodyPart, x, y);
+                    gameboard.AddTile(bodyPart, x, y, false);
                     placed = true;
                     bodyPartsAdded++;
                 }
@@ -56,7 +56,7 @@ public class MatchThreeBoardInitializer : MonoBehaviour
                 int index = Random.Range(0, charms.Count);
                 while (MatchThreeRuleSet.IsMatchAt(charms[index].Category, x, y, gameboard))
                     index = Random.Range(0, charms.Count);
-                gameboard.AddTile(charms[index], x, y);
+                gameboard.AddTile(charms[index], x, y, false);
             }
         }
     }
