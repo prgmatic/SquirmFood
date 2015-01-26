@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Rectangle
+public struct Rectangle
 {
     public int x;
     public int y;
@@ -12,14 +12,6 @@ public class Rectangle
     public int Right { get { return x + width; } }
     public int Top { get { return y; } }
     public int Bottom { get { return y + height; } }
-
-    public Rectangle()
-    {
-        this.x = 0;
-        this.y = 0;
-        this.width = 0;
-        this.height = 0;
-    }
 
     public Rectangle(Rectangle source)
     {

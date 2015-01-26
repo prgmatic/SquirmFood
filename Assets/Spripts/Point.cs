@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Point {
+public struct Point {
     public int x;
     public int y;
 
@@ -13,5 +13,8 @@ public class Point {
         this.y = y;
     }
 
-    
+    public override string ToString()
+    {
+        return "X: " + x + "Y: " + y;
+    }
 }

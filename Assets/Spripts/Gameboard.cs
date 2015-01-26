@@ -35,16 +35,10 @@ public class Gameboard : MonoBehaviour
         CreateBackgroundTiles();
         ruleSets = GetComponents<RuleSet>();
         tileTable = new GameTile[Columns, Rows];
-
-
-        Rectangle rectA = new Rectangle(0, 0, 2, 2);
-        Rectangle rectB = new Rectangle(0, 3, 2, 2);
-        Debug.Log(rectA.Intersects(rectB).ToString());
-
     }
     void Update()
     {
-        FillTileTable();
+        //FillTileTable();
     }
 
     private void FillTileTable()
@@ -72,6 +66,16 @@ public class Gameboard : MonoBehaviour
             for(int y = 0; y < Rows; y++)
             {
                 tileTable[x, y] = null;
+            }
+        }
+    }
+    private void RemoveBoundsFromTileTable(Rectangle bounds)
+    {
+        for (int x = 0; x < bounds.width; x++)
+        {
+            for (int y = 0; y < bounds.height; y++)
+            {
+                tileTable[bounds.x + x, bounds.y + y] = null;
             }
         }
     }
@@ -113,10 +117,17 @@ public class Gameboard : MonoBehaviour
         newTile.WorldLeft = worldPosition.x;
         newTile.WorldTop = worldPosition.y;
         newTile.SettledFromFall += NewTile_SettledFromFall;
+        newTile.GridPositionMoved += NewTile_GridPositionMoved;
         gameTiles.Add(newTile);
         AddTileToTileTable(newTile);
+        newTile.ApplyGravity();
     }
 
+    private void NewTile_GridPositionMoved(GameTile sender, Rectangle oldGridBounds)
+    {
+        RemoveBoundsFromTileTable(oldGridBounds);
+        AddTileToTileTable(sender);
+    }
     private void NewTile_SettledFromFall(GameTile sender)
     {
         foreach(var ruleset in ruleSets)
@@ -129,7 +140,6 @@ public class Gameboard : MonoBehaviour
     {
         return tileTable[x, y];
     }
-
     public GameTile[] GetTilesInBounds(Rectangle bounds, GameTile exclusion = null)
     {
         List<GameTile> result = new List<GameTile>();
@@ -144,7 +154,6 @@ public class Gameboard : MonoBehaviour
         }
         return result.ToArray();
     }
-
     public short NumberOfTilesInBounds(Rectangle bounds, GameTile exclusion = null)
     {
         short result = 0;
@@ -199,6 +208,11 @@ public class Gameboard : MonoBehaviour
 
     public void DestroyTile(GameTile tile)
     {
+        RemoveBoundsFromTileTable(tile.GridBounds);
+        for(int i = 0; i < tile.Width; i++)
+        {
+            ApplyGravitToColumn(tile.GridLeft + i);
+        }
         gameTiles.Remove(tile);
         Destroy(tile.gameObject);
     }
@@ -208,6 +222,15 @@ public class Gameboard : MonoBehaviour
             DestroyTile(GetTileAt(x, y));
     }
 
+    private void ApplyGravitToColumn(int column)
+    {
+        for(int i = 0; i < Rows; i++)
+        {
+            GameTile tile = GetTileAt(column, Rows - i - 1);
+            if (tile != null)
+                tile.ApplyGravity();
+        }
+    }
 
     private void CreateBackgroundTiles()
     {

@@ -5,11 +5,13 @@ using System;
 [RequireComponent(typeof(SpriteRenderer))]
 public class GameTile : MonoBehaviour
 {
-    // Events
+    #region EventsHandlers
     public delegate void GameTileEvent(GameTile sender);
+    public delegate void GameTileGridMovedEvent(GameTile sender, Rectangle oldGridBounds);
     public event GameTileEvent SettledFromFall;
     public event GameTileEvent SettledFromMove;
-    public event GameTileEvent GridPositionMoved;
+    public event GameTileGridMovedEvent GridPositionMoved;
+    #endregion
 
     #region Variables
     private static float MoveTime = .2f;
@@ -64,23 +66,36 @@ public class GameTile : MonoBehaviour
     {
         _renderer = GetComponent<SpriteRenderer>();
     }
-    void Update()
-    {
-        ApplyGravity();
-    }
-    private void ApplyGravity()
+    public void ApplyGravity()
     {
         if (GridBottom < gameboard.Rows)
         {
             gravityBounds = new Rectangle(GridLeft, GridTop + 1, Width, Height);
-            if (gameboard.NumberOfTilesInBounds(gravityBounds, this) == 0)
+            while (gravityBounds.Bottom <= gameboard.Rows && gameboard.NumberOfTilesInBounds(gravityBounds, this) == 0)
             {
-                GridPosition.y++;
-                Fall();
+                gravityBounds.y++;
+            }
+            if (gravityBounds.y - 1 > GridTop)
+            {
+                Rectangle oldGridBounds = GridBounds;
+                _gridPosition.y = gravityBounds.y - 1;
+                if (GridPositionMoved != null)
+                    GridPositionMoved(this, oldGridBounds);
+                StopCoroutine("FallToTarget");
+                StartCoroutine("FallToTarget");
             }
         }
     }
-
+    public void Move(int x, int y)
+    {
+        Rectangle oldGridBounds = GridBounds;
+        _gridPosition.x = x;
+        _gridPosition.y = y;
+        if (GridPositionMoved != null)
+            GridPositionMoved(this, oldGridBounds);
+        StopCoroutine("TransitionToNewGridPosition");
+        StartCoroutine("TransitionToNewGridPosition");
+    }
 
     // Helper Methods
     public bool IsCardinalNeighbor(GameTile tile)
@@ -96,21 +111,6 @@ public class GameTile : MonoBehaviour
     public void SetGameboard(Gameboard gameboard)
     {
         this.gameboard = gameboard;
-    }
-
-    public void Move(int x, int y)
-    {
-        this.GridPosition.x = x;
-        this.GridPosition.y = y;
-        if (GridPositionMoved != null)
-            GridPositionMoved(this);
-        StopCoroutine("TransitionToNewGridPosition");
-        StartCoroutine("TransitionToNewGridPosition");
-    }
-    public void Fall()
-    {
-        StopCoroutine("FallToTarget");
-        StartCoroutine("FallToTarget");
     }
 
     // Coroutines
