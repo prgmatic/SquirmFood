@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 public class Gameboard : MonoBehaviour
 {
+    #region Events
+    public delegate void GridEvent(int x, int y);
+    public event GameTile.GameTileEvent TileSettled;
+    public event GameTile.GameTileEvent TileDestroyed;
+    #endregion
+    #region Variables
     public int Columns = 8;
     public int Rows = 9;
     public Color BackGroundColor1 = new Color(32f / 255, 30f / 255, 24f / 255);
@@ -10,35 +16,38 @@ public class Gameboard : MonoBehaviour
 
     [SerializeField]
     private TileSet tileSet;
-    private RuleSet[] ruleSets;
     private GameTile[,] tileTable;
+    private int hopperSize = 3;
 
     [HideInInspector]
     public List<GameTile> gameTiles = new List<GameTile>();
+    #endregion
 
-
+    #region Properties
     public float Left { get { return transform.position.x - (float)Columns / 2f * tileSet.TileWidth; } }
     public float Right { get { return transform.position.x + (float)Columns / 2f * tileSet.TileWidth; } }
     public float Top { get { return transform.position.y + (float)Rows / 2f * tileSet.TileHeight; } }
     public float Bottom { get { return transform.position.y - (float)Rows / 2f * tileSet.TileHeight; } }
     public Rectangle GridBounds { get { return new Rectangle(0, 0, Columns, Rows); } }
+    public Rectangle GridBoundsWithHopper { get { return new Rectangle(0, -HopperSize, Columns, Rows + HopperSize); } }
 
     public float TileWidth { get { return tileSet.TileWidth; } }
     public float TileHeight { get { return tileSet.TileHeight; } }
     public List<TileProperties> Tiles { get { return tileSet.Tiles; } }
-    
-    
+    public int HopperSize { get { return hopperSize; } }
+    #endregion
+
 
     void Awake()
     {
         tileSet.GameboardReference = this;
         CreateBackgroundTiles();
-        ruleSets = GetComponents<RuleSet>();
-        tileTable = new GameTile[Columns, Rows];
-    }
-    void Update()
-    {
-        //FillTileTable();
+        tileTable = new GameTile[Columns, Rows + hopperSize];
+
+        GameTile[,] test = new GameTile[4, 4];
+        var thing = test[1, 1];
+        //thing = GenerateTileFromTileProperties(Tiles[0]);
+        Debug.Log("hmmm");
     }
 
     private void FillTileTable()
@@ -55,7 +64,7 @@ public class Gameboard : MonoBehaviour
         {
             for (int y = 0; y < tile.Height; y++)
             {
-                tileTable[tile.GridLeft + x, tile.GridTop + y] = tile;
+                tileTable[tile.GridLeft + x, tile.GridTop + y + hopperSize] = tile;
             }
         }
     }
@@ -69,24 +78,28 @@ public class Gameboard : MonoBehaviour
             }
         }
     }
-    private void RemoveBoundsFromTileTable(Rectangle bounds)
+    private void RemoveBoundsFromTileTable(Rectangle bounds, GameTile thisTileOnly = null)
     {
         for (int x = 0; x < bounds.width; x++)
         {
             for (int y = 0; y < bounds.height; y++)
             {
-                tileTable[bounds.x + x, bounds.y + y] = null;
+                if(thisTileOnly == null || thisTileOnly == GetTileAt(bounds.x + x, bounds.y + y))
+                    tileTable[bounds.x + x, bounds.y + y + hopperSize] = null;
             }
         }
     }
 
-    public void AddTile(int index, int x, int y, bool spawnFromTop = false)
+    public void AddTile(int index, int x, int y)
     {
         TileProperties tp = Tiles[index];
-        AddTile(tp, x, y, spawnFromTop);
+        AddTile(tp, x, y);
     }
-
-    public void AddTile(TileProperties tileProperties, int x, int y, bool spawnFromTop = false)
+    public void AddTile(int x, int y)
+    {
+        AddTile(Tiles[Random.Range(0, Tiles.Count)], x, y);
+    }
+    public void AddTile(TileProperties tileProperties, int x, int y)
     {
         if(!Tiles.Contains(tileProperties))
         {
@@ -95,7 +108,7 @@ public class Gameboard : MonoBehaviour
         }
 
         Rectangle newTileBounds = new Rectangle(x, y, tileProperties.Width, tileProperties.Height);
-        if(!GridBounds.Contains(newTileBounds))
+        if(!GridBoundsWithHopper.Contains(newTileBounds))
         {
             Debug.Log("Tile out of bounds");
             return;
@@ -125,20 +138,18 @@ public class Gameboard : MonoBehaviour
 
     private void NewTile_GridPositionMoved(GameTile sender, Rectangle oldGridBounds)
     {
-        RemoveBoundsFromTileTable(oldGridBounds);
+        RemoveBoundsFromTileTable(oldGridBounds, sender);
         AddTileToTileTable(sender);
     }
     private void NewTile_SettledFromFall(GameTile sender)
     {
-        foreach(var ruleset in ruleSets)
-        {
-            ruleset.OnTileSettled(sender);
-        }
+        if (TileSettled != null)
+            TileSettled(sender);
     }
 
     public GameTile GetTileAt(int x, int y)
     {
-        return tileTable[x, y];
+        return tileTable[x, y + hopperSize];   
     }
     public GameTile[] GetTilesInBounds(Rectangle bounds, GameTile exclusion = null)
     {
@@ -147,7 +158,7 @@ public class Gameboard : MonoBehaviour
         {
             for (int y = 0; y < bounds.height; y++)
             {
-                GameTile tile = tileTable[bounds.x + x, bounds.y + y];
+                GameTile tile = GetTileAt(bounds.x + x, bounds.y + y);
                 if (tile != null && tile != exclusion)
                     result.Add(tile);
             }
@@ -161,7 +172,7 @@ public class Gameboard : MonoBehaviour
         {
             for (int y = 0; y < bounds.height; y++)
             {
-                GameTile tile = tileTable[bounds.x + x, bounds.y + y];
+                GameTile tile = GetTileAt(bounds.x + x, bounds.y + y); // tileTable[bounds.x + x, bounds.y + y + hopperSize];
                 if (tile != null && tile != exclusion)
                     result++;
             }
@@ -197,22 +208,29 @@ public class Gameboard : MonoBehaviour
             Left + tileSet.TileWidth * x,
             Top - tileSet.TileHeight * y, 0);
     }
-    public bool IsValidTileCoordinate(Point point)
+    public bool IsValidTileCoordinate(Point point, bool includeHopper = false)
     {
-        return IsValidTileCoordinate(point.x, point.y);
+        return IsValidTileCoordinate(point.x, point.y, includeHopper);
     }
-    public bool IsValidTileCoordinate(int x, int y)
+    public bool IsValidTileCoordinate(int x, int y, bool includeHopper = false)
     {
-        return x >= 0 && x < Columns && y >= 0 && y < Rows;
+        if (includeHopper)
+            return x >= 0 && x < Columns && y >= -hopperSize && y < Rows;
+        else
+            return x >= 0 && x < Columns && y >= 0 && y < Rows;
     }
 
     public void DestroyTile(GameTile tile)
     {
-        RemoveBoundsFromTileTable(tile.GridBounds);
-        for(int i = 0; i < tile.Width; i++)
+        RemoveBoundsFromTileTable(tile.GridBounds, tile);
+
+        for (int i = 0; i < tile.Width; i++)
         {
             ApplyGravitToColumn(tile.GridLeft + i);
         }
+
+        if (TileDestroyed != null)
+            TileDestroyed(tile);
         gameTiles.Remove(tile);
         Destroy(tile.gameObject);
     }
@@ -224,9 +242,9 @@ public class Gameboard : MonoBehaviour
 
     private void ApplyGravitToColumn(int column)
     {
-        for(int i = 0; i < Rows; i++)
+        for(int i = Rows - 1; i >= -HopperSize; i--)
         {
-            GameTile tile = GetTileAt(column, Rows - i - 1);
+            GameTile tile = GetTileAt(column, i);
             if (tile != null)
                 tile.ApplyGravity();
         }

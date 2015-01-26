@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Gameboard))]
-public class MatchThreeRuleSet : RuleSet
+public class MatchThreeRuleSet : MonoBehaviour
 {
     public Sprite TileSelectionSprite;
 
@@ -11,8 +11,7 @@ public class MatchThreeRuleSet : RuleSet
 
     private Gameboard _gameboard;
     private SpriteRenderer tileSelectRenderer;
-
-    void Awake()
+    void Start()
     {
         _gameboard = this.GetComponent<Gameboard>();
         GameObject tileSelectGO = new GameObject();
@@ -21,13 +20,14 @@ public class MatchThreeRuleSet : RuleSet
         tileSelectRenderer = tileSelectGO.AddComponent<SpriteRenderer>();
         tileSelectRenderer.sprite = TileSelectionSprite;
         tileSelectRenderer.enabled = false;
+
+        _gameboard.TileSettled += _gameboard_TileSettled;
     }
 
-    public override void OnTileSettled(GameTile tile)
+    private void _gameboard_TileSettled(GameTile sender)
     {
-        
-        if (tile.Width > 1 || tile.Height > 1) return;
-        GameTile[] matchGroup = GetMatches(tile);
+        if (sender.Width > 1 || sender.Height > 1) return;
+        GameTile[] matchGroup = GetMatches(sender);
         if (matchGroup != null)
         {
             foreach (var match in matchGroup)
