@@ -3,59 +3,121 @@ using System.Collections.Generic;
 
 public class Gameboard : MonoBehaviour
 {
-    public int TilesPerRow = 8;
-    public int TilesPerComlumn = 9;
-    public TileSet TileSet;
+    public int Columns = 8;
+    public int Rows = 9;
     public Color BackGroundColor1 = new Color(32f / 255, 30f / 255, 24f / 255);
     public Color BackGroundColor2 = new Color(63f / 255, 51f / 255, 47f / 255);
 
-
-    public float Left { get { return transform.position.x - (float)TilesPerRow / 2f * TileSet.TileWidth; } }
-    public float Right { get { return transform.position.x + (float)TilesPerRow / 2f * TileSet.TileWidth; } }
-    public float Top { get { return transform.position.y + (float)TilesPerComlumn / 2f * TileSet.TileHeight; } }
-    public float Bottom { get { return transform.position.y - (float)TilesPerComlumn / 2f * TileSet.TileHeight; } }
-
-    private GameTile[,] tileTable;
-    private List<GameTile> gameTiles = new List<GameTile>();
+    [SerializeField]
+    private TileSet tileSet;
     private RuleSet[] ruleSets;
+    private GameTile[,] tileTable;
+
+    [HideInInspector]
+    public List<GameTile> gameTiles = new List<GameTile>();
+
+
+    public float Left { get { return transform.position.x - (float)Columns / 2f * tileSet.TileWidth; } }
+    public float Right { get { return transform.position.x + (float)Columns / 2f * tileSet.TileWidth; } }
+    public float Top { get { return transform.position.y + (float)Rows / 2f * tileSet.TileHeight; } }
+    public float Bottom { get { return transform.position.y - (float)Rows / 2f * tileSet.TileHeight; } }
+    public Rectangle GridBounds { get { return new Rectangle(0, 0, Columns, Rows); } }
+
+    public float TileWidth { get { return tileSet.TileWidth; } }
+    public float TileHeight { get { return tileSet.TileHeight; } }
+    public List<TileProperties> Tiles { get { return tileSet.Tiles; } }
+    
     
 
     void Awake()
     {
-        tileTable = new GameTile[TilesPerRow, TilesPerComlumn];
-        TileSet.GameboardReference = this;
+        tileSet.GameboardReference = this;
         CreateBackgroundTiles();
         ruleSets = GetComponents<RuleSet>();
+        tileTable = new GameTile[Columns, Rows];
+
+
+        Rectangle rectA = new Rectangle(0, 0, 2, 2);
+        Rectangle rectB = new Rectangle(0, 3, 2, 2);
+        Debug.Log(rectA.Intersects(rectB).ToString());
+
+    }
+    void Update()
+    {
+        FillTileTable();
     }
 
-    public void AddTile(GameTile tile, int x, int y)
+    private void FillTileTable()
     {
-
-        for (int w = 0; w < tile.Width; w++) // If a tile is already in this space, destory the tile
+        BlackTileTable();
+        foreach (var tile in gameTiles)
         {
-            for (int h = 0; h < tile.Height; h++)
+            AddTileToTileTable(tile);
+        }
+    }
+    private void AddTileToTileTable(GameTile tile)
+    {
+        for (int x = 0; x < tile.Width; x++)
+        {
+            for (int y = 0; y < tile.Height; y++)
             {
-                if (!IsValidTileCoordinate(x + w, y + h) || GetTileAt(x + w, y + h) != null)
-                {
-                    Destroy(tile.gameObject);
-                    return;
-                }
+                tileTable[tile.GridLeft + x, tile.GridTop + y] = tile;
             }
-        }        
-        
-        tile.transform.SetParent(this.transform);
-        tile.SetPosition(x, y);
-        gameTiles.Add(tile);
-        tile.SettledFromFall += Tile_Settled;
-
-        Point[] gridSpaces = tile.GridSpacesOccupied();
-        foreach(var point in gridSpaces)
+        }
+    }
+    private void BlackTileTable()
+    {
+        for(int x = 0; x< Columns; x++)
         {
-            tileTable[point.x, point.y] = tile;
+            for(int y = 0; y < Rows; y++)
+            {
+                tileTable[x, y] = null;
+            }
         }
     }
 
-    private void Tile_Settled(GameTile sender)
+    public void AddTile(int index, int x, int y, bool spawnFromTop = false)
+    {
+        TileProperties tp = Tiles[index];
+        AddTile(tp, x, y, spawnFromTop);
+    }
+
+    public void AddTile(TileProperties tileProperties, int x, int y, bool spawnFromTop = false)
+    {
+        if(!Tiles.Contains(tileProperties))
+        {
+            Debug.Log("Tile must belong to set");
+            return;
+        }
+
+        Rectangle newTileBounds = new Rectangle(x, y, tileProperties.Width, tileProperties.Height);
+        if(!GridBounds.Contains(newTileBounds))
+        {
+            Debug.Log("Tile out of bounds");
+            return;
+        }
+        foreach(var tile in gameTiles)
+        {
+            if (tile.GridBounds.Intersects(newTileBounds))
+            {
+                Debug.Log("This tile intersects with another tile");
+                return;
+            }
+        }
+
+        GameTile newTile = GenerateTileFromTileProperties(tileProperties);
+        newTile.transform.SetParent(this.transform);
+
+        Vector3 worldPosition = GridPositionToWorldPosition(x, y);
+        newTile.GridPosition = new Point(x, y);
+        newTile.WorldLeft = worldPosition.x;
+        newTile.WorldTop = worldPosition.y;
+        newTile.SettledFromFall += NewTile_SettledFromFall;
+        gameTiles.Add(newTile);
+        AddTileToTileTable(newTile);
+    }
+
+    private void NewTile_SettledFromFall(GameTile sender)
     {
         foreach(var ruleset in ruleSets)
         {
@@ -63,163 +125,113 @@ public class Gameboard : MonoBehaviour
         }
     }
 
-    public bool WorldPositionToGridPosition(Vector3 worldPosition, out int x, out int y)
+    public GameTile GetTileAt(int x, int y)
     {
-        x = (int)((worldPosition.x - Left) / TileSet.TileWidth);
-        y = -(int)((worldPosition.y - Top) / TileSet.TileHeight);
-        return IsValidTileCoordinate(x, y);
+        return tileTable[x, y];
+    }
+
+    public GameTile[] GetTilesInBounds(Rectangle bounds, GameTile exclusion = null)
+    {
+        List<GameTile> result = new List<GameTile>();
+        for (int x = 0; x < bounds.width; x++)
+        {
+            for (int y = 0; y < bounds.height; y++)
+            {
+                GameTile tile = tileTable[bounds.x + x, bounds.y + y];
+                if (tile != null && tile != exclusion)
+                    result.Add(tile);
+            }
+        }
+        return result.ToArray();
+    }
+
+    public short NumberOfTilesInBounds(Rectangle bounds, GameTile exclusion = null)
+    {
+        short result = 0;
+        for (int x = 0; x < bounds.width; x++)
+        {
+            for (int y = 0; y < bounds.height; y++)
+            {
+                GameTile tile = tileTable[bounds.x + x, bounds.y + y];
+                if (tile != null && tile != exclusion)
+                    result++;
+            }
+        }
+        return result;
+    }
+
+    private GameTile GenerateTileFromTileProperties(TileProperties tileProperties)
+    {
+        GameTile prefab = tileSet.DefaultPrefab;
+        if (tileProperties.Prefab != null)
+            prefab = tileProperties.Prefab;
+        GameTile result = (GameTile)Instantiate(prefab);
+
+        result.Category = tileProperties.Category;
+        result.gameObject.name = tileProperties.Category;
+        result.Width = tileProperties.Width;
+        result.Height = tileProperties.Height;
+        result.Sprite = tileProperties.Sprites[Random.Range(0, tileProperties.Sprites.Count)];
+        result.SetGameboard(this);
+        return result;
     }
 
     public Point WorldPositionToGridPosition(Vector3 worldPosition)
     {
-        int x = (int)((worldPosition.x - Left) / TileSet.TileWidth);
-        int y = -(int)((worldPosition.y - Top) / TileSet.TileHeight);
+        int x = (int)((worldPosition.x - Left) / tileSet.TileWidth);
+        int y = -(int)((worldPosition.y - Top) / tileSet.TileHeight);
         return new Point(x, y);
     }
-
-    public GameTile GetTileAt(int x, int y)
+    public Vector3 GridPositionToWorldPosition(int x, int y)
     {
-        try
-        {
-            return tileTable[x, y];
-        }
-        catch
-        {
-            
-            return null;
-        }
+        return new Vector3(
+            Left + tileSet.TileWidth * x,
+            Top - tileSet.TileHeight * y, 0);
+    }
+    public bool IsValidTileCoordinate(Point point)
+    {
+        return IsValidTileCoordinate(point.x, point.y);
+    }
+    public bool IsValidTileCoordinate(int x, int y)
+    {
+        return x >= 0 && x < Columns && y >= 0 && y < Rows;
     }
 
-    public void MoveTile(GameTile tile, Point[] oldSpaces, Point[] newSpace)
-    {
-        foreach(var point in oldSpaces)
-        {
-            tileTable[point.x, point.y] = null;
-        }
-        foreach (var point in newSpace)
-        {
-            tileTable[point.x, point.y] = tile;
-        }
-        tile.X = newSpace[0].x;
-        tile.Y = newSpace[0].y;
-    }
-    public void MoveTile(GameTile tile, int x, int y)
-    {
-        MoveTile(tile.X, tile.Y, x, y);
-    }
-    public void MoveTile(int oldX, int oldY, int newX, int newY)
-    {
-        if (newX != oldX || newY != oldY)
-        {
-
-            tileTable[newX, newY] = tileTable[oldX, oldY];
-            tileTable[oldX, oldY] = null;
-            tileTable[newX, newY].X = newX;
-            tileTable[newX, newY].Y = newY;
-        }
-    }
-    /*
-    private void ApplyGravityToColumn(int x)
-    {
-        int yPos = TilesPerComlumn - 1;
-
-        while (yPos >= 0)
-        {
-            if (tileTable[x, yPos] != null)
-            {
-                GameTile tile = tileTable[x, yPos];
-                Point[] occupiedGridSpace = tile.GridSpacesOccupied();
-                foreach(var point in occupiedGridSpace)
-                {
-                    tileTable[point.x, point.y] = null;
-                }
-                Point[] newGridSpace = tile.GridSpacesAfterApplyingGravity();
-                foreach(var point in newGridSpace)
-                {
-                    tileTable[point.x, point.y] = tile;
-                }
-                tile.X = newGridSpace[0].x;
-                tile.Y = newGridSpace[0].y;
-                tile.Fall();
-                //MoveTile(x, yPos, x, nextFreeSpace);
-
-                
-
-                //tileTable[x, nextFreeSpace].Fall();
-                //nextFreeSpace--;
-            }
-            yPos--;
-        }
-    }
-    */
-    public void SwapTiles(GameTile tile1, GameTile tile2)
-    {
-        int tile1X = tile1.X;
-        int tile1Y = tile1.Y;
-
-        tile1.X = tile2.X;
-        tile1.Y = tile2.Y;
-        tileTable[tile2.X, tile2.Y] = tile1;
-
-        tile2.X = tile1X;
-        tile2.Y = tile1Y;
-        tileTable[tile1X, tile1Y] = tile2;
-
-        tile1.UpdatePosition();
-        tile2.UpdatePosition();
-    }
     public void DestroyTile(GameTile tile)
     {
-        DestroyTileAt(tile.X, tile.Y);
+        gameTiles.Remove(tile);
+        Destroy(tile.gameObject);
     }
     public void DestroyTileAt(int x, int y)
     {
-        if (!IsValidTileCoordinate(x, y)) return;
-        if (tileTable[x, y] == null) return;
-
-        GameTile tile = tileTable[x, y];
-        gameTiles.Remove(tile);
-        tileTable[x, y] = null;
-        Destroy(tile.gameObject);
-
-        //ApplyGravityToColumn(x);
+        if(GetTileAt(x, y) != null)
+            DestroyTile(GetTileAt(x, y));
     }
 
-    public bool IsValidTileCoordinate(int x, int y)
-    {
-        return x >= 0 && x < TilesPerRow && y >= 0 && y < TilesPerComlumn;
-    }
 
     private void CreateBackgroundTiles()
     {
         GameObject backgroundTiles = new GameObject();
         backgroundTiles.name = "BackgroundTiles";
         backgroundTiles.transform.SetParent(this.transform);
+        backgroundTiles.transform.localPosition = new Vector3(0, 0, 0.1f);
 
-        for(int y = 0; y < TilesPerComlumn; y++)
+        for(int y = 0; y < Rows; y++)
         {
-            for(int x = 0; x < TilesPerRow; x++)
+            for(int x = 0; x < Columns; x++)
             {
                 GameObject backgroundTile = new GameObject();
                 backgroundTile.name = "BackgroundTile";
                 backgroundTile.transform.SetParent(backgroundTiles.transform);
                 SpriteRenderer bgRenderer = backgroundTile.AddComponent<SpriteRenderer>();
                 bgRenderer.sprite = Utils.DummySprite;
-                bgRenderer.transform.localScale = new Vector3(TileSet.TileWidth * 100, TileSet.TileHeight * 100, 1);
-                bgRenderer.transform.position = new Vector3(
-                    Left + x * TileSet.TileWidth + TileSet.TileWidth / 2,
-                    Top - y * TileSet.TileHeight - TileSet.TileHeight / 2
+                bgRenderer.transform.localScale = new Vector3(tileSet.TileWidth * 100, tileSet.TileHeight * 100, 1);
+                bgRenderer.transform.localPosition = new Vector3(
+                    Left + x * tileSet.TileWidth + tileSet.TileWidth / 2,
+                    Top - y * tileSet.TileHeight - tileSet.TileHeight / 2
                     );
                 bgRenderer.color = (x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1) ? BackGroundColor1 : BackGroundColor2;
             }
         }
     }
-    public Vector3 GridPositionToWorldPosition(int x, int y)
-    {
-        return new Vector3(
-            Left + TileSet.TileWidth * x + TileSet.TileWidth / 2,
-            Top - TileSet.TileHeight * y - TileSet.TileHeight / 2, 0
-            );
-    }
-
 }

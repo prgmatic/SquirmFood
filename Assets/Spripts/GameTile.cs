@@ -5,185 +5,145 @@ using System;
 [RequireComponent(typeof(SpriteRenderer))]
 public class GameTile : MonoBehaviour
 {
+    // Events
     public delegate void GameTileEvent(GameTile sender);
     public event GameTileEvent SettledFromFall;
     public event GameTileEvent SettledFromMove;
-    
-    [HideInInspector]
-    public int Width = 1;
-    [HideInInspector]
-    public int Height = 1;
+    public event GameTileEvent GridPositionMoved;
+
+    #region Variables
+    private static float MoveTime = .2f;
+
     public bool FreeFall = true;
     public float Acceleration = 9.87f;
+    [HideInInspector]
+    public string Category = "";
 
     private SpriteRenderer _renderer;
     private Gameboard gameboard = null;
     private Vector3 _velocity = Vector3.zero;
     private bool _moving = false;
+    private Point _size = new Point(1, 1);
+    private Point _gridPosition = Point.zero;
+    private Rectangle gravityBounds;
+    #endregion
 
-    private static float MoveTime = .2f;
-    [HideInInspector]
-    public string Category = "";
+    #region Properties
+    public Vector3 WorldPosition { get { return this.transform.position; } set { this.transform.position = value; } }
 
-    private int x = 0;
-    private int y = 0;
+    public int Width { get { return _size.x; } set { _size.x = value; } }
+    public int Height { get { return _size.y; } set { _size.y = value; } }
+    public Point Size { get { return _size; } set { _size = value; } }
 
-    public int X { get { return x; } set { x = value; } }
-    public int Y { get { return y; } set { y = value; } }
+    public int GridLeft { get { return _gridPosition.x; } }
+    public int GridRight { get { return _gridPosition.x + Width; } }
+    public int GridTop { get { return _gridPosition.y; } }
+    public int GridBottom { get { return _gridPosition.y + Height ; } }
+    public Point GridPosition { get { return _gridPosition; } set { _gridPosition = value; } }
+
+    public float WorldLeft
+    {
+        get { return WorldPosition.x - gameboard.TileWidth / 2 * Width; }
+        set { WorldPosition = new Vector3(value + gameboard.TileWidth / 2 * Width, WorldPosition.y, WorldPosition.z); }
+    }
+    public float WorldRight { get { return WorldPosition.x + gameboard.TileWidth / 2 * Width; } }
+    public float WorldTop
+    {
+        get { return WorldPosition.y + gameboard.TileHeight / 2 * Height; }
+        set { WorldPosition = new Vector3(WorldPosition.x, value - gameboard.TileHeight / 2 * Height, WorldPosition.z); }
+    }
+    public float WorldBottom { get { return WorldPosition.y - gameboard.TileHeight / 2 * Height; } }
+
+    public Rectangle GridBounds { get { return new Rectangle(GridLeft, GridTop, Width, Height);} }
+
     public bool Moving { get { return _moving; } }
-    public Color Color
-    {
-        get { return _renderer.color; }
-        set { _renderer.color = value; }
-    }
-
-    public void SetPosition(int x, int y)
-    {
-        this.X = x;
-        this.Y = y;
-        Vector2 pos = gameboard.GridPositionToWorldPosition(x, y);
-        pos.x += (Width - 1) * gameboard.TileSet.TileWidth / 2;
-        pos.y -= (Height - 1) * gameboard.TileSet.TileHeight / 2;
-        this.transform.localPosition = pos;
-    }
+    public Sprite Sprite { get { return _renderer.sprite; } set { _renderer.sprite = value; } }
+    #endregion
 
     void Awake()
     {
         _renderer = GetComponent<SpriteRenderer>();
     }
-
-    void FixedUpdate()
+    void Update()
     {
-        float yPos = gameboard.TilesPerComlumn;
-        for(int column = 0; column < Width; column++)
+        ApplyGravity();
+    }
+    private void ApplyGravity()
+    {
+        if (GridBottom < gameboard.Rows)
         {
-            
-            int y = Y + Height - 1;
-            while (y + 1 < gameboard.TilesPerComlumn && gameboard.GetTileAt(X + column, y + 1) == null)
+            gravityBounds = new Rectangle(GridLeft, GridTop + 1, Width, Height);
+            if (gameboard.NumberOfTilesInBounds(gravityBounds, this) == 0)
             {
-                y++;
+                GridPosition.y++;
+                Fall();
             }
-            if (y < yPos) yPos = y;
-        }
-        if(yPos > Y + Height - 1)
-        {
-            gameboard.MoveTile(this, GridSpacesOccupied(), GridSpacesAfterApplyingGravity());
-            Fall();
         }
     }
 
-    
-    public Point[] GridSpacesOccupied()
+
+    // Helper Methods
+    public bool IsCardinalNeighbor(GameTile tile)
     {
-        Point[] result = new Point[Width * Height];
-        for(int i = 0; i < result.Length; i++)
-        {
-            result[i] = new Point(X + i % Width, Y + i / Width);
-        }
-        return result;
+        bool linedUpHorizontally = (tile.GridTop >= GridTop && tile.GridTop < GridBottom) || (tile.GridBottom < GridTop && tile.GridBottom >= GridBottom);
+        bool linedUpVertically = (tile.GridLeft >= GridLeft && tile.GridLeft < GridRight) || (tile.GridRight < GridLeft && tile.GridRight >= GridRight);
+
+        bool touchingHorizontally = linedUpHorizontally && (GridLeft == tile.GridRight || GridRight == tile.GridLeft);
+        bool touchingVertically = linedUpVertically && (GridTop == tile.GridBottom || GridBottom == tile.GridTop);
+
+        return touchingHorizontally || touchingVertically;
     }
-    
-    public Point[] GridSpacesAfterApplyingGravity()
-    {
-        int highestYPos = gameboard.TilesPerComlumn;
-
-        for(int column = 0; column < Width; column ++)
-        {
-            int y = Y + Height - 1;
-            while(y + 1 < gameboard.TilesPerComlumn && gameboard.GetTileAt(X + column, y + 1) == null )
-            {
-                y++;
-            }
-            if (y < highestYPos) highestYPos = y;
-        }
-
-        Point[] result = new Point[Width * Height];
-        for (int i = 0; i < result.Length; i++)
-        {
-            result[i] = new Point(X + i % Width, highestYPos - Height + 1 + i / Width);
-        }
-        return result;
-    }
-
-
-
-
-
-
-
-    public void MoveTo(Vector3 endPosition, bool animate = true)
-    {
-        StartCoroutine("Move", endPosition);
-    }
-
-    
-
     public void SetGameboard(Gameboard gameboard)
     {
         this.gameboard = gameboard;
     }
-    public void SetSprite(Sprite sprite)
+
+    public void Move(int x, int y)
     {
-        _renderer.sprite = sprite;
+        this.GridPosition.x = x;
+        this.GridPosition.y = y;
+        if (GridPositionMoved != null)
+            GridPositionMoved(this);
+        StopCoroutine("TransitionToNewGridPosition");
+        StartCoroutine("TransitionToNewGridPosition");
     }
     public void Fall()
     {
         StopCoroutine("FallToTarget");
         StartCoroutine("FallToTarget");
     }
-    public bool IsCardinalNeighbor(GameTile tile)
-    {
-        if( (tile.X == X - 1 && tile.Y == Y) ||
-            (tile.X == X + 1 && tile.Y == Y) ||
-            (tile.X == X && tile.Y == Y - 1) ||
-            (tile.X == X && tile.Y == Y + 1))
-        {
-            return true;
-        }
-        return false;
-    }
-    public void UpdatePosition(bool animate = true)
-    {
-        StopCoroutine("Move");
-        Vector3 targetPosition = gameboard.GridPositionToWorldPosition(X, Y);
-        if (animate)
-        {
-            StartCoroutine("Move", targetPosition);
-        }
-        else
-        {
-            this.transform.position = targetPosition;
-        }
-    }
 
+    // Coroutines
     IEnumerator FallToTarget()
     {
         _moving = true;
-        float yTarget = gameboard.Top - gameboard.TileSet.TileHeight * Y - gameboard.TileSet.TileHeight / 2 * Height;
+        float yTarget = gameboard.GridPositionToWorldPosition(GridLeft, GridTop).y;
         bool reachedTarget = false;
         while(!reachedTarget)
         {
-            _velocity.y -= Acceleration * Time.deltaTime;
-            this.transform.position += _velocity;
-            if(this.transform.position.y <= yTarget)
+            float deltaTime = Time.deltaTime;
+            _velocity.y -= Acceleration * Time.deltaTime * 60;
+            WorldTop += _velocity.y * Time.deltaTime;
+            if(WorldTop <= yTarget)
             {
                 _velocity.y = 0;
-                Vector3 pos = this.transform.position;
-                pos.y = yTarget;
-                this.transform.position = pos;
+                WorldTop = yTarget;
                 reachedTarget = true;
             }
-            yield return null;
+            yield return 0;
         }
         _moving = false;
         if(SettledFromFall != null)
             SettledFromFall(this);
     }
-    IEnumerator Move(Vector3 endPosition)
+    IEnumerator TransitionToNewGridPosition()
     {
         _moving = true;
         float timer = 0f;
         Vector3 startPosition = this.transform.position;
+        Vector3 endPosition = gameboard.GridPositionToWorldPosition(GridPosition.x, GridPosition.y);
+        endPosition.x += gameboard.TileWidth / 2 * Width;
+        endPosition.y -= gameboard.TileHeight / 2 * Height;
 
         while (timer < MoveTime)
         {

@@ -5,46 +5,37 @@ using System.Collections;
 public class DebugTileSpawner : MonoBehaviour
 {
     private Gameboard gameboard;
+    private string[] numberStrings;
 
     void Awake()
     {
         gameboard = this.GetComponent<Gameboard>();
+        numberStrings = new string[10];
+        for(int i = 0; i < 10; i++)
+        {
+            numberStrings[i] = i.ToString();
+        }
     }
-
     void Update()
     {
         if(Input.GetMouseButtonDown(1))
         {
-            int x;
-            int y;
-            if (gameboard.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition), out x, out y))
-            {
-                if(gameboard.GetTileAt(x, y) != null)
-                {
-                    gameboard.DestroyTileAt(x, y);
-                }
-            }
+            Point point = gameboard.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            gameboard.DestroyTileAt(point.x, point.y);
         }
-
         for(int i = 0; i < 10; i++)
         {
-            if(Input.GetKeyDown(i.ToString()))
+            if(Input.GetKeyDown(numberStrings[i]))
             {
                 int index = i - 1;
                 if (i == 0) index = 9;
 
-                if(index < gameboard.TileSet.Tiles.Count)
+                if(index < gameboard.Tiles.Count)
                 {
-                    int x;
-                    int y;
-
-                    if(gameboard.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition), out x, out y))
-                    {
-                        gameboard.TileSet.CreateTile(index, x, y);
-                    }
+                    Point point = gameboard.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                    gameboard.AddTile(index, point.x, point.y);
                 }
             }
         }
     }
-	
 }

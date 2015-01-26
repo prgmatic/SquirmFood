@@ -23,6 +23,25 @@ public class MatchThreeRuleSet : RuleSet
         tileSelectRenderer.enabled = false;
     }
 
+    public override void OnTileSettled(GameTile tile)
+    {
+        
+        if (tile.Width > 1 || tile.Height > 1) return;
+        GameTile[] matchGroup = GetMatches(tile);
+        if (matchGroup != null)
+        {
+            foreach (var match in matchGroup)
+            {
+                if (match.Moving)
+                    return;
+            }
+            foreach (var match in matchGroup)
+            {
+                _gameboard.DestroyTile(match);
+            }
+        }
+    }
+
     public void SelectTile(int x, int y)
     {
         GameTile newSelectedTile = _gameboard.GetTileAt(x, y);
@@ -36,7 +55,6 @@ public class MatchThreeRuleSet : RuleSet
             if(SelectedTile.IsCardinalNeighbor(newSelectedTile))
             {
                 StartCoroutine(SwapTiles(SelectedTile, newSelectedTile));
-                SwapTiles(SelectedTile, newSelectedTile);
                 Deselect();
             }
             else
@@ -49,20 +67,38 @@ public class MatchThreeRuleSet : RuleSet
             SetSelectedTile(newSelectedTile);
         }
     }
+    public void SetSelectedTile(GameTile tile)
+    {
+        SelectedTile = tile;
+        tileSelectRenderer.enabled = true;
+        tileSelectRenderer.transform.position = tile.WorldPosition;
+    }
+    public void Deselect()
+    {
+        SelectedTile = null;
+        tileSelectRenderer.enabled = false;
+    }
 
+    private void SwapTilesPositions(GameTile tile1, GameTile tile2)
+    {
+        int tile1X = tile1.GridPosition.x;
+        int tile1Y = tile1.GridPosition.y;
+
+        tile1.Move(tile2.GridPosition.x, tile2.GridPosition.y);
+        tile2.Move(tile1X, tile1Y);
+    }
     System.Collections.IEnumerator SwapTiles(GameTile tile1, GameTile tile2)
     {
-        _gameboard.SwapTiles(tile1, tile2);
+        SwapTilesPositions(tile1, tile2);
         while(tile1.Moving || tile2.Moving)
         {
             yield return null;
         }
-        var tile1Matches = CheckForMatch(tile1);
-        var tile2Matches = CheckForMatch(tile2);
-        if(tile1Matches == null && CheckForMatch(tile2) == null)
+        var tile1Matches = GetMatches(tile1);
+        var tile2Matches = GetMatches(tile2);
+        if(tile1Matches == null && tile2Matches == null)
         {
-            Debug.Log("No match");
-            _gameboard.SwapTiles(tile1, tile2);
+            SwapTilesPositions(tile1, tile2);
         }
         if(tile1Matches != null)
         {
@@ -77,62 +113,23 @@ public class MatchThreeRuleSet : RuleSet
 
     }
 
-    public bool IsSwapValid(GameTile tile1, GameTile tile2)
+    public GameTile[] GetMatches(GameTile tile)
     {
-        if (!tile1.IsCardinalNeighbor(tile2)) return false;
-        return CheckForMatch(tile1.Category, tile2.X, tile2.Y) || CheckForMatch(tile2.Category, tile1.X, tile1.Y);
+        return GetMatches(tile, this._gameboard);
     }
-    public void Deselect()
-    {
-        SelectedTile = null;
-        tileSelectRenderer.enabled = false;
-    }
-    public void SetSelectedTile(GameTile tile)
-    {
-        SelectedTile = tile;
-        tileSelectRenderer.enabled = true;
-        tileSelectRenderer.transform.position = new Vector3(
-            _gameboard.Left + tile.X * _gameboard.TileSet.TileWidth + _gameboard.TileSet.TileWidth / 2,
-            _gameboard.Top - tile.Y * _gameboard.TileSet.TileHeight - _gameboard.TileSet.TileHeight / 2);
-    }
-
-    public override void OnTileSettled(GameTile tile)
-    {
-        if (tile.Width > 1 || tile.Height > 1) return;
-        GameTile[] matchGroup = CheckForMatch(tile);
-        if(matchGroup != null)
-        {
-            foreach(var match in matchGroup)
-            {
-                if (match.Moving)
-                    return;
-            }
-            foreach(var match in matchGroup)
-            {
-                _gameboard.DestroyTile(match);
-            }
-        }
-    }
-    public GameTile[] CheckForMatch(GameTile tile)
-    {
-        return CheckForMatch(tile, this._gameboard);
-    }
-
-    
-
-    public static GameTile[] CheckForMatch(GameTile tile, Gameboard gameboard)
+    public static GameTile[] GetMatches(GameTile tile, Gameboard gameboard)
     {
 
         // check vertical
         List<GameTile> verticalMatches = new List<GameTile>();
-        int checkY = tile.Y + 1;
-        int checkX = tile.X;
-        while (checkY < gameboard.TilesPerComlumn && gameboard.GetTileAt(checkX, checkY) != null && gameboard.GetTileAt(checkX, checkY).Category == tile.Category) // Check above
+        int checkY = tile.GridTop + 1;
+        int checkX = tile.GridLeft;
+        while (checkY < gameboard.Rows && gameboard.GetTileAt(checkX, checkY) != null && gameboard.GetTileAt(checkX, checkY).Category == tile.Category) // Check above
         {
             verticalMatches.Add(gameboard.GetTileAt(checkX, checkY));
             checkY++;
         }
-        checkY = tile.Y - 1;
+        checkY = tile.GridTop - 1;
         while (checkY >= 0 && gameboard.GetTileAt(checkX, checkY) != null && gameboard.GetTileAt(checkX, checkY).Category == tile.Category) // Check below
         {
             verticalMatches.Add(gameboard.GetTileAt(checkX, checkY));
@@ -141,16 +138,16 @@ public class MatchThreeRuleSet : RuleSet
 
         //check horizontal
         List<GameTile> horizontalMatches = new List<GameTile>();
-        checkY = tile.Y;
-        checkX = tile.X - 1;
+        checkY = tile.GridTop;
+        checkX = tile.GridLeft - 1;
 
         while (checkX >= 0 && gameboard.GetTileAt(checkX, checkY) != null && gameboard.GetTileAt(checkX, checkY).Category == tile.Category) // Check left
         {
             horizontalMatches.Add(gameboard.GetTileAt(checkX, checkY));
             checkX--;
         }
-        checkX = tile.X + 1;
-        while (checkX < gameboard.TilesPerRow && gameboard.GetTileAt(checkX, checkY) != null && gameboard.GetTileAt(checkX, checkY).Category == tile.Category) // Check Right
+        checkX = tile.GridLeft + 1;
+        while (checkX < gameboard.Columns && gameboard.GetTileAt(checkX, checkY) != null && gameboard.GetTileAt(checkX, checkY).Category == tile.Category) // Check Right
         {
             horizontalMatches.Add(gameboard.GetTileAt(checkX, checkY));
             checkX++;
@@ -176,17 +173,17 @@ public class MatchThreeRuleSet : RuleSet
         else
             return null;
     }
-    private bool CheckForMatch(string category, int x, int y)
+    private bool IsMatchAt(string category, int x, int y)
     {
-        return CheckForMatch(category, x, y, this._gameboard);
+        return IsMatchAt(category, x, y, this._gameboard);
     }
-    public static bool CheckForMatch(string category, int x, int y, Gameboard gameboard)
+    public static bool IsMatchAt(string category, int x, int y, Gameboard gameboard)
     {
         // check vertical
         int verticalMatches = 0;
         int checkY = y + 1;
         int checkX = x;
-        while (checkY < gameboard.TilesPerComlumn && gameboard.GetTileAt(checkX, checkY) != null && gameboard.GetTileAt(checkX, checkY).Category == category) // Check above
+        while (checkY < gameboard.Rows && gameboard.GetTileAt(checkX, checkY) != null && gameboard.GetTileAt(checkX, checkY).Category == category) // Check above
         {
             verticalMatches++;
             checkY++;
@@ -210,7 +207,7 @@ public class MatchThreeRuleSet : RuleSet
             checkX--;
         }
         checkX = x + 1;
-        while (checkX < gameboard.TilesPerRow && gameboard.GetTileAt(checkX, checkY) != null && gameboard.GetTileAt(checkX, checkY).Category == category) // Check Right
+        while (checkX < gameboard.Columns && gameboard.GetTileAt(checkX, checkY) != null && gameboard.GetTileAt(checkX, checkY).Category == category) // Check Right
         {
             horizontalMatches++;
             checkX++;

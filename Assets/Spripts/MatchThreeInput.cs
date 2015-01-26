@@ -12,18 +12,16 @@ public class MatchThreeInput : MonoBehaviour
         gameboard = GetComponent<Gameboard>();
         ruleset = GetComponent<MatchThreeRuleSet>();
     }
-
 	void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            int x;
-            int y;
-            if (gameboard.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition), out x, out y))
+            Point gridPosition = gameboard.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            if (gameboard.IsValidTileCoordinate(gridPosition))
             {
-                if (gameboard.GetTileAt(x, y) != null)
+                if (gameboard.GetTileAt(gridPosition.x, gridPosition.y) != null)
                 {
-                    ruleset.SelectTile(x, y);
+                    ruleset.SelectTile(gridPosition.x, gridPosition.y);
                 }
                 else ruleset.Deselect();
             }
