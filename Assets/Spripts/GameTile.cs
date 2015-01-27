@@ -75,10 +75,25 @@ public class GameTile : MonoBehaviour
             {
                 gravityBounds.y++;
             }
+
+            
+            
+            
+
             if (gravityBounds.y - 1 > GridTop)
             {
                 Rectangle oldGridBounds = GridBounds;
                 _gridPosition.y = gravityBounds.y - 1;
+                if (GridPositionMoved != null)
+                    GridPositionMoved(this, oldGridBounds);
+                StopCoroutine("FallToTarget");
+                StartCoroutine("FallToTarget");
+            }
+
+            if (GridBottom == gameboard.Rows && (Width > 1 || Height > 1))
+            {
+                Rectangle oldGridBounds = GridBounds;
+                _gridPosition.y = gameboard.Rows + 10;
                 if (GridPositionMoved != null)
                     GridPositionMoved(this, oldGridBounds);
                 StopCoroutine("FallToTarget");

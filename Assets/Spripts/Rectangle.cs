@@ -39,6 +39,6 @@ public struct Rectangle
     public bool Contains(Rectangle rectB)
     {
         return Left <= rectB.Left && Right >= rectB.Right &&
-               Top <= rectB.Top && Bottom >= Bottom;
+               Top <= rectB.Top && Bottom >= rectB.Bottom;
     }
 }

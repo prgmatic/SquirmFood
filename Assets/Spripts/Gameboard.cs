@@ -141,17 +141,34 @@ public class Gameboard : MonoBehaviour
     private void NewTile_GridPositionMoved(GameTile sender, Rectangle oldGridBounds)
     {
         RemoveBoundsFromTileTable(oldGridBounds, sender);
-        AddTileToTileTable(sender);
+        if(GridBoundsWithHopper.Contains(sender.GridBounds))
+            AddTileToTileTable(sender);
     }
     private void NewTile_SettledFromFall(GameTile sender)
     {
+        
+        if(sender.GridTop > Rows)
+        {
+            DestroyTile(sender);
+            return;
+        }
+        
         if (TileSettled != null)
             TileSettled(sender);
     }
 
     public GameTile GetTileAt(int x, int y)
     {
-        return tileTable[x, y + hopperSize];   
+        try
+        {
+            return tileTable[x, y + hopperSize];
+
+        }
+        catch (System.Exception ex)
+        {
+            Debug.Log(ex);
+            return null;
+        }
     }
     public GameTile[] GetTilesInBounds(Rectangle bounds, GameTile exclusion = null)
     {
@@ -222,21 +239,33 @@ public class Gameboard : MonoBehaviour
             return x >= 0 && x < Columns && y >= 0 && y < Rows;
     }
 
-    public void DestroyTile(GameTile tile)
+    public void DestroyTile(GameTile tile, bool triggerEvent = true)
     {
-        RemoveBoundsFromTileTable(tile.GridBounds, tile);
+        if(GridBoundsWithHopper.Contains(tile.GridBounds))
+            RemoveBoundsFromTileTable(tile.GridBounds, tile);
 
         ApplyGravity();
 
-        if (TileDestroyed != null)
+        if (triggerEvent && TileDestroyed != null)
             TileDestroyed(tile);
         gameTiles.Remove(tile);
         Destroy(tile.gameObject);
     }
-    public void DestroyTileAt(int x, int y)
+    public void DestroyTileAt(int x, int y, bool triggerEvent = true)
     {
+        if(!IsValidTileCoordinate(x, y, true)) return;
         if(GetTileAt(x, y) != null)
-            DestroyTile(GetTileAt(x, y));
+            DestroyTile(GetTileAt(x, y), triggerEvent);
+    }
+    public void DestroyTilesInBounds(Rectangle bounds, bool triggerEvent = true)
+    {
+        for(int y = 0; y < bounds.height; y++)
+        {
+            for(int x = 0; x < bounds.width; x++)
+            {
+                DestroyTileAt(bounds.x + x, bounds.y + y, triggerEvent);
+            }
+        }
     }
 
     private void ApplyGravity()
@@ -250,6 +279,10 @@ public class Gameboard : MonoBehaviour
                     tile.ApplyGravity();
             }
         }
+    }
+    public void MakeTileFallThroughMap(GameTile tile)
+    {
+        
     }
 
     private void CreateBackgroundTiles()
@@ -277,7 +310,6 @@ public class Gameboard : MonoBehaviour
             }
         }
     }
-
     private void CreateHopperMask()
     {
         GameObject hopperMask = new GameObject();
@@ -289,5 +321,10 @@ public class Gameboard : MonoBehaviour
         sr.transform.position = new Vector3(this.transform.position.x, Top + sr.transform.localScale.y / 2 / 100, -0.1f);
         sr.color = Camera.main.backgroundColor;
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b);
+    }
+
+    public int GetTileIndexFromTileSetFromWeightValues()
+    {
+        return tileSet.GetTIleIndexFromWeightedValues();
     }
 }

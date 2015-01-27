@@ -21,8 +21,38 @@ public class MatchThreeBoardInitializer : MonoBehaviour
                 charms.Add(tp);
         }
 
-        AddBodyParts();
-        AddCharms();
+        SpawnTiles();
+        //AddBodyParts();
+        //AddCharms();
+    }
+
+    private void SpawnTiles()
+    {
+        Rectangle bodyPartRect = gameboard.GridBoundsWithHopper;
+        bodyPartRect.height--;
+        for (int y = -gameboard.HopperSize; y < gameboard.Rows; y++)
+        {
+            for (int x = 0; x < gameboard.Columns; x++)
+            {
+                if (gameboard.GetTileAt(x, y) != null) continue;
+                int index = gameboard.GetTileIndexFromTileSetFromWeightValues();
+                int timeRerolled = 0;
+                
+
+                while ((gameboard.Tiles[index].Width > 1 || gameboard.Tiles[index].Height > 1) && !bodyPartRect.Contains(gameboard.Tiles[index].Bounds(x, y)) ||
+                    MatchThreeRuleSet.IsMatchAt(gameboard.Tiles[index].Category, x, y, gameboard))
+                {
+                    index = gameboard.GetTileIndexFromTileSetFromWeightValues();
+                    timeRerolled++;
+                    if (timeRerolled > 25)
+                    {
+                        Debug.Log("Tile initializer rolled to many times");
+                        break;
+                    }
+                }
+                gameboard.AddTile(index, x, y, false);
+            }
+        }
     }
 
     private void AddBodyParts()
