@@ -9,6 +9,7 @@ using Rotorz.ReorderableList;
 [CanEditMultipleObjects]
 public class ActiveRecipesEditor : Editor
 {
+    const int spacing = 3;
     SerializedProperty _recipesProperty;
 
     void OnEnable()
@@ -19,44 +20,18 @@ public class ActiveRecipesEditor : Editor
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-        EditorGUILayout.IntField(1);
-        //base.OnInspectorGUI();
         ReorderableListGUI.Title("Recipes");
-        
-        ReorderableListGUI.ListField(((ActiveRecipes)target).Recipes, PendingItemDrawer, EditorGUIUtility.singleLineHeight * 2  + 10);
-
+        ReorderableListGUI.ListField(((ActiveRecipes)target).Recipes, RecipeActionDrawer, EditorGUIUtility.singleLineHeight * 2  + spacing * 3);
         serializedObject.ApplyModifiedProperties();
     }
 
-    private ActiveRecipes.RecipeInActionOut PendingItemDrawer(Rect position, ActiveRecipes.RecipeInActionOut itemValue)
+    private ActiveRecipes.RecipeInActionOut RecipeActionDrawer(Rect position, ActiveRecipes.RecipeInActionOut itemValue)
     {
-        // Text fields do not like null values!
-        float labelWidth = 60;
-        float width = position.width;
-
-        position.y += 5;
+        position.y += spacing;
         position.height = EditorGUIUtility.singleLineHeight;
-        position.width = labelWidth;
-        GUI.Label(position, "Recipe");
-        position.x += labelWidth;
-        position.width = width - labelWidth;
-        itemValue.Recipe = (Recipe)EditorGUI.ObjectField(position, itemValue.Recipe, typeof(Recipe));
-        position.x -= labelWidth;
-        position.y += EditorGUIUtility.singleLineHeight;
-        position.width = labelWidth;
-        GUI.Label(position, "Action");
-        position.x += labelWidth;
-        position.width = width - labelWidth;
-        itemValue.Action = (GameAction)EditorGUI.ObjectField(position, itemValue.Action, typeof(GameAction));
-
-        //position.width -= 50;
-        //EditorGUI.TextField(position, "hello");
-
-        //position.x = position.xMax + 5;
-        //position.width = 45;
-        //if (GUI.Button(position, "Info"))
-        //{
-        //}
+        itemValue.Recipe = (Recipe)EditorGUI.ObjectField(position, "Recipe", itemValue.Recipe, typeof(Recipe));
+        position.y += EditorGUIUtility.singleLineHeight + spacing;
+        itemValue.Action = (GameAction)EditorGUI.ObjectField(position, "Action", itemValue.Action, typeof(GameAction));
 
         return itemValue;
     }

@@ -585,10 +585,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d3a77f94b49b2c47b16c536ac555d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tokensToSpawn:
-  - {fileID: 11400000, guid: 00b50683004051d48b57008452c10aea, type: 2}
-  - {fileID: 11400000, guid: b854f37504d8e024cb884016f180248a, type: 2}
-  - {fileID: 11400000, guid: 567402cd69e98134da6255d8cc34e02b, type: 2}
+  TokensToSpawn:
+  - Token: {fileID: 11400000, guid: b854f37504d8e024cb884016f180248a, type: 2}
+    SpawnWeight: 5
+  - Token: {fileID: 11400000, guid: 47997df0bb442f74891bd82c4281a228, type: 2}
+    SpawnWeight: 50
 --- !u!1 &1508223361
 GameObject:
   m_ObjectHideFlags: 0
