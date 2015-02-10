@@ -1,0 +1,49 @@
+﻿using UnityEngine;
+using System.Collections.Generic;
+
+[RequireComponent(typeof(Gameboard))]
+public class DebugTileSpawner : MonoBehaviour
+{
+    private string[] numberStrings;
+
+    public List<Token> TokensToSpawn;
+
+    void Awake()
+    {
+        numberStrings = new string[10];
+        for(int i = 0; i < 10; i++)
+        {
+            numberStrings[i] = i.ToString();
+        }
+    }
+    void Update()
+    {
+        if(Input.GetMouseButtonDown(1))
+        {
+            Point point = Gameboard.Instance.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            Gameboard.Instance.DestroyTileAt(point.x, point.y);
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            if (Input.GetKeyDown(numberStrings[i]))
+            {
+                int index = i - 1;
+                if (i == 0) index = 9;
+
+                if (index < TokensToSpawn.Count)
+                {
+                    Token token = TokensToSpawn[index];
+                    Point point = Gameboard.Instance.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                    if (Gameboard.Instance.NumberOfTilesInBounds(token.GetBounds(point.x, point.y)) == 0)
+                        Gameboard.Instance.AddTileFromToken(token, point.x, point.y);
+                }
+            }
+        }
+    }
+
+    void OnGUI()
+    {
+        GUILayout.Label(Utils.CursorGridPosotion.ToString());
+        //Debug.Log(Utils.CursorGridPosotion.ToString());
+    }
+}

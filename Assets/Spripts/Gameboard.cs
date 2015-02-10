@@ -15,57 +15,58 @@ public class Gameboard : MonoBehaviour
     public Color BackGroundColor1 = new Color(32f / 255, 30f / 255, 24f / 255);
     public Color BackGroundColor2 = new Color(63f / 255, 51f / 255, 47f / 255);
 
-    [SerializeField]
-    private TileSet tileSet;
-    private GameTile[,] tileTable;
-    private int hopperSize = 3;
+    private GameTile[,] _tileTable;
+    private int _hopperSize = 3;
+    private static Gameboard _instance;
 
     [HideInInspector]
     public List<GameTile> gameTiles = new List<GameTile>();
     #endregion
 
     #region Properties
-    public float Left { get { return transform.position.x - (float)Columns / 2f * tileSet.TileWidth; } }
-    public float Right { get { return transform.position.x + (float)Columns / 2f * tileSet.TileWidth; } }
-    public float Top { get { return transform.position.y + (float)Rows / 2f * tileSet.TileHeight; } }
-    public float Bottom { get { return transform.position.y - (float)Rows / 2f * tileSet.TileHeight; } }
+    public static Gameboard Instance { get { return _instance; } }
+    public float Left { get { return transform.position.x - (float)Columns / 2f; } }
+    public float Right { get { return transform.position.x + (float)Columns / 2f; } }
+    public float Top { get { return transform.position.y + (float)Rows / 2f; } }
+    public float Bottom { get { return transform.position.y - (float)Rows / 2f; } }
     public float Width { get { return Right - Left; } }
     public float Height { get { return Top - Bottom; } }
     public Rectangle GridBounds { get { return new Rectangle(0, 0, Columns, Rows); } }
     public Rectangle GridBoundsWithHopper { get { return new Rectangle(0, -HopperSize, Columns, Rows + HopperSize); } }
 
-    public float TileWidth { get { return tileSet.TileWidth; } }
-    public float TileHeight { get { return tileSet.TileHeight; } }
-    public List<TileProperties> Tiles { get { return tileSet.Tiles; } }
-    public int HopperSize { get { return hopperSize; } }
+    public int HopperSize { get { return _hopperSize; } }
     #endregion
 
 
     void Awake()
     {
-        tileSet.GameboardReference = this;
+        if(_instance == null)
+        {
+            _instance = this;
+            Init();
+        }
+        else if(this != Instance)
+        {
+            Destroy(this.gameObject);
+        }
+
+    }
+    private void Init()
+    {
         CreateBackgroundTiles();
-        tileTable = new GameTile[Columns, Rows + hopperSize];
+        _tileTable = new GameTile[Columns, Rows + _hopperSize];
         if (HopperMask)
             CreateHopperMask();
 
     }
-
-    private void FillTileTable()
-    {
-        BlackTileTable();
-        foreach (var tile in gameTiles)
-        {
-            AddTileToTileTable(tile);
-        }
-    }
+    
     private void AddTileToTileTable(GameTile tile)
     {
         for (int x = 0; x < tile.Width; x++)
         {
             for (int y = 0; y < tile.Height; y++)
             {
-                tileTable[tile.GridLeft + x, tile.GridTop + y + hopperSize] = tile;
+                _tileTable[tile.GridLeft + x, tile.GridTop + y + _hopperSize] = tile;
             }
         }
     }
@@ -75,7 +76,7 @@ public class Gameboard : MonoBehaviour
         {
             for(int y = 0; y < Rows; y++)
             {
-                tileTable[x, y] = null;
+                _tileTable[x, y] = null;
             }
         }
     }
@@ -85,46 +86,34 @@ public class Gameboard : MonoBehaviour
         {
             for (int y = 0; y < bounds.height; y++)
             {
+                if (!IsValidTileCoordinate(bounds.x + x, bounds.y + y, true)) continue;
                 if(thisTileOnly == null || thisTileOnly == GetTileAt(bounds.x + x, bounds.y + y))
-                    tileTable[bounds.x + x, bounds.y + y + hopperSize] = null;
+                    _tileTable[bounds.x + x, bounds.y + y + _hopperSize] = null;
             }
         }
     }
 
-    public void AddTile(int index, int x, int y, bool applyGravity = true)
+    public GameTile AddTileFromToken(Token token, Point point, bool applyGravity = true, bool ignoreChecks = false)
     {
-        TileProperties tp = Tiles[index];
-        AddTile(tp, x, y, applyGravity);
+        return AddTileFromToken(token, point.x, point.y, applyGravity, ignoreChecks);
     }
-    public void AddTile(int x, int y, bool applyGravity = true)
+    public GameTile AddTileFromToken(Token token, int x, int y, bool applyGravity = true, bool ignoreChecks = false)
     {
-        AddTile(Tiles[Random.Range(0, Tiles.Count)], x, y, applyGravity);
-    }
-    public void AddTile(TileProperties tileProperties, int x, int y, bool applyGravity = true)
-    {
-        if(!Tiles.Contains(tileProperties))
+        Rectangle newTileBounds = new Rectangle(x, y, token.Width, token.Height);
+        if (!ignoreChecks)
         {
-            Debug.Log("Tile must belong to set");
-            return;
-        }
-
-        Rectangle newTileBounds = new Rectangle(x, y, tileProperties.Width, tileProperties.Height);
-        if(!GridBoundsWithHopper.Contains(newTileBounds))
-        {
-            Debug.Log("Tile out of bounds");
-            return;
-        }
-        foreach(var tile in gameTiles)
-        {
-            if (tile.GridBounds.Intersects(newTileBounds))
+            if (!GridBoundsWithHopper.Contains(newTileBounds))
+            {
+                Debug.Log("Tile out of bounds");
+                return null;
+            }
+            if (NumberOfTilesInBounds(newTileBounds) > 0)
             {
                 Debug.Log("This tile intersects with another tile");
-                return;
+                return null;
             }
         }
-
-        GameTile newTile = GenerateTileFromTileProperties(tileProperties);
-        newTile.transform.SetParent(this.transform);
+        GameTile newTile = GenerateTileFromColoredToken(token);
 
         Vector3 worldPosition = GridPositionToWorldPosition(x, y);
         newTile.GridPosition = new Point(x, y);
@@ -133,9 +122,19 @@ public class Gameboard : MonoBehaviour
         newTile.SettledFromFall += NewTile_SettledFromFall;
         newTile.GridPositionMoved += NewTile_GridPositionMoved;
         gameTiles.Add(newTile);
-        AddTileToTileTable(newTile);
-        if(applyGravity)
+        if(GridBoundsWithHopper.Contains(newTileBounds))
+            AddTileToTileTable(newTile);
+        if (applyGravity)
             newTile.ApplyGravity();
+        return newTile;
+    }
+    private GameTile GenerateTileFromColoredToken(Token token)
+    {
+        GameObject go = new GameObject();
+        go.transform.transform.SetParent(this.transform);
+        GameTile result = go.AddComponent<GameTile>();
+        result.TokenProperties = token;
+        return result;
     }
 
     private void NewTile_GridPositionMoved(GameTile sender, Rectangle oldGridBounds)
@@ -161,7 +160,7 @@ public class Gameboard : MonoBehaviour
     {
         try
         {
-            return tileTable[x, y + hopperSize];
+            return _tileTable[x, y + _hopperSize];
 
         }
         catch (System.Exception ex)
@@ -199,33 +198,24 @@ public class Gameboard : MonoBehaviour
         return result;
     }
 
-    private GameTile GenerateTileFromTileProperties(TileProperties tileProperties)
-    {
-        GameTile prefab = tileSet.DefaultPrefab;
-        if (tileProperties.Prefab != null)
-            prefab = tileProperties.Prefab;
-        GameTile result = (GameTile)Instantiate(prefab);
-
-        result.Category = tileProperties.Category;
-        result.gameObject.name = tileProperties.Category;
-        result.Width = tileProperties.Width;
-        result.Height = tileProperties.Height;
-        result.Sprite = tileProperties.Sprites[Random.Range(0, tileProperties.Sprites.Count)];
-        result.SetGameboard(this);
-        return result;
-    }
-
     public Point WorldPositionToGridPosition(Vector3 worldPosition)
     {
-        int x = (int)((worldPosition.x - Left) / tileSet.TileWidth);
-        int y = -(int)((worldPosition.y - Top) / tileSet.TileHeight);
+        float fx = worldPosition.x - Left;
+        float fy = worldPosition.y - Top;
+
+        if (fx < 0) fx -= 1;
+        if (fy > 0) fy += 1;
+
+        int x = (int)fx;
+        int y = -(int)fy;
+        
         return new Point(x, y);
     }
     public Vector3 GridPositionToWorldPosition(int x, int y)
     {
         return new Vector3(
-            Left + tileSet.TileWidth * x,
-            Top - tileSet.TileHeight * y, 0);
+            Left + x,
+            Top - y, 0);
     }
     public bool IsValidTileCoordinate(Point point, bool includeHopper = false)
     {
@@ -234,7 +224,7 @@ public class Gameboard : MonoBehaviour
     public bool IsValidTileCoordinate(int x, int y, bool includeHopper = false)
     {
         if (includeHopper)
-            return x >= 0 && x < Columns && y >= -hopperSize && y < Rows;
+            return x >= 0 && x < Columns && y >= -_hopperSize && y < Rows;
         else
             return x >= 0 && x < Columns && y >= 0 && y < Rows;
     }
@@ -280,10 +270,6 @@ public class Gameboard : MonoBehaviour
             }
         }
     }
-    public void MakeTileFallThroughMap(GameTile tile)
-    {
-        
-    }
 
     private void CreateBackgroundTiles()
     {
@@ -301,10 +287,10 @@ public class Gameboard : MonoBehaviour
                 backgroundTile.transform.SetParent(backgroundTiles.transform);
                 SpriteRenderer bgRenderer = backgroundTile.AddComponent<SpriteRenderer>();
                 bgRenderer.sprite = Utils.DummySprite;
-                bgRenderer.transform.localScale = new Vector3(tileSet.TileWidth * 100, tileSet.TileHeight * 100, 1);
+                //bgRenderer.transform.localScale = new Vector3(tileSet.TileWidth * 100, tileSet.TileHeight * 100, 1);
                 bgRenderer.transform.localPosition = new Vector3(
-                    Left + x * tileSet.TileWidth + tileSet.TileWidth / 2,
-                    Top - y * tileSet.TileHeight - tileSet.TileHeight / 2
+                    Left + x + 0.5f,
+                    Top - y - 0.5f
                     );
                 bgRenderer.color = (x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1) ? BackGroundColor1 : BackGroundColor2;
             }
@@ -323,8 +309,5 @@ public class Gameboard : MonoBehaviour
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b);
     }
 
-    public int GetTileIndexFromTileSetFromWeightValues()
-    {
-        return tileSet.GetTIleIndexFromWeightedValues();
-    }
+    
 }
