@@ -229,12 +229,13 @@ public class Gameboard : MonoBehaviour
             return x >= 0 && x < Columns && y >= 0 && y < Rows;
     }
 
-    public void DestroyTile(GameTile tile, bool triggerEvent = true)
+    public void DestroyTile(GameTile tile, bool triggerEvent = true, bool applyGravity = true)
     {
         if(GridBoundsWithHopper.Contains(tile.GridBounds))
             RemoveBoundsFromTileTable(tile.GridBounds, tile);
 
-        ApplyGravity();
+        if(applyGravity)
+            ApplyGravity();
 
         if (triggerEvent && TileDestroyed != null)
             TileDestroyed(tile);
@@ -258,7 +259,7 @@ public class Gameboard : MonoBehaviour
         }
     }
 
-    private void ApplyGravity()
+    public void ApplyGravity()
     {
         for (int y = Rows - 1; y >= -HopperSize; y--)
         {
