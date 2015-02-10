@@ -211,6 +211,8 @@ MonoBehaviour:
     Action: {fileID: 11400000, guid: cac422f5a88ce2d469fc7c643d2ef3b4, type: 2}
   - Recipe: {fileID: 11400000, guid: 5a990f415cc8cb746a90fd392a315c54, type: 2}
     Action: {fileID: 0}
+  - Recipe: {fileID: 11400000, guid: e2f76ba7fd941414a91d61846ec849ce, type: 2}
+    Action: {fileID: 11400000, guid: faf750c92cf16f243a30c4644734a49f, type: 2}
 --- !u!4 &795697341
 Transform:
   m_ObjectHideFlags: 0

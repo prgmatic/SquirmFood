@@ -12,14 +12,14 @@ public class Recipe : ScriptableObject
 
         for(int i = 0; i < Ingerdiants.Count; i++)
         {
-            if(Ingerdiants[i].name != tokens[tokens.Count - Ingerdiants.Count + i].name)
+            if(Ingerdiants[i] != null && Ingerdiants[i].name != tokens[tokens.Count - Ingerdiants.Count + i].name)
             {
                 break;
             }
         }
         for(int i = Ingerdiants.Count - 1; i >= 0; i--)
         {
-            if(Ingerdiants[i].name != tokens[tokens.Count - 1 - i].name)
+            if(Ingerdiants[i] != null && Ingerdiants[i].name != tokens[tokens.Count - 1 - i].name)
             {
                 return false;
             }
