@@ -44,7 +44,6 @@ public class Worm : MonoBehaviour
 
     public void Move(int x, int y)
     {
-        GameTile tileToDestory = null;   
         if (Gameboard.Instance.IsValidTileCoordinate(x, y, true))
         {
             GameTile tile = Gameboard.Instance.GetTileAt(x, y);
@@ -52,20 +51,20 @@ public class Worm : MonoBehaviour
             {
                 if(tile.IsEdible && !IsStomachFull)
                 {
-                    tileToDestory = tile;
-                    EatToken(tile.TokenProperties);
+                    //tileToDestory = tile;
+                    EatToken(tile);
                 }
                 else if (!tile.IsWorm || !CanMoveOverSelf) return;
             }
         }
-
+        if (Sections.Count == 0) return; // Worm has died
         try
         {
-            Point asdf = Tail.GridPosition;
+            Point testPoint = Tail.GridPosition;
         }
         catch(System.Exception ex)
         {
-            Debug.Log("ex");
+            Debug.Log(ex);
         }
 
         Point previousTailPosition = Tail.GridPosition;
@@ -82,15 +81,16 @@ public class Worm : MonoBehaviour
         {
             Sections.Add(Gameboard.Instance.AddTileFromToken(SectionToken, previousTailPosition, false, true));
         }
-        if (tileToDestory != null)
-            Gameboard.Instance.DestroyTile(tileToDestory);
+        Gameboard.Instance.ApplyGravity();
+
     }
 
-    public void EatToken(Token token)
+    public void EatToken(GameTile tile)
     {
-        Stomach.Add(token);
+        Stomach.Add(tile.TokenProperties);
         int matchingTokens = ActiveRecipes.Instance.CheckForMatches(this);
         RemoveFromEndOfStomach(matchingTokens);
+        Gameboard.Instance.DestroyTile(tile, true, false);
         if(IsStomachFull && DieWhenStomachFull)
         {
             Kill();
@@ -107,11 +107,19 @@ public class Worm : MonoBehaviour
     public void Kill()
     {
         WormStomach.Instance.SetWorm(null);
+        while(Sections.Count > 0)
+        {
+            Gameboard.Instance.DestroyTile(Sections[Sections.Count - 1]);
+            Sections.RemoveAt(Sections.Count - 1);
+        }
+        /*
         List<GameTile> sections = this.Sections;
         foreach(var section in sections)
         {
-            Gameboard.Instance.DestroyTile(section);
+            Gameboard.Instance.DestroyTile(section, false, false);
         }
+        */
+        Gameboard.Instance.ApplyGravity();
     }
 }
 
