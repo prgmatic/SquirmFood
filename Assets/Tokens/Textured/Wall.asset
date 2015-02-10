@@ -9,14 +9,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 600a4ed6aa45419449d0dda543157294, type: 3}
-  m_Name: Fuel05_Uranium
+  m_Name: Wall
   m_EditorClassIdentifier: 
   Fuel: 0
   IsNuisance: 0
-  IsEdible: 1
-  CanFall: 1
+  IsEdible: 0
+  CanFall: 0
   IsWorm: 0
   Width: 1
   Height: 1
-  Color: {r: .525444508, g: .95588237, b: .175713673, a: 1}
+  Color: {r: .191176474, g: .191176474, b: .191176474, a: 1}
   Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}

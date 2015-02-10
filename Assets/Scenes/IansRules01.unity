@@ -213,6 +213,16 @@ MonoBehaviour:
     Action: {fileID: 11400000, guid: 1bc6180cbff2c0c489abb6f16e12012c, type: 2}
   - Recipe: {fileID: 11400000, guid: bd138b06327126a4aa2723cb0df01922, type: 2}
     Action: {fileID: 11400000, guid: 604aff65622d5864fb3bf8895ed1c13a, type: 2}
+  - Recipe: {fileID: 11400000, guid: fb502ec56576f4346b470362a6bd9f54, type: 2}
+    Action: {fileID: 11400000, guid: fa9649b9c188c7841af0360eb957fca3, type: 2}
+  - Recipe: {fileID: 11400000, guid: 7a48bf2309795af409040a3b25a65b87, type: 2}
+    Action: {fileID: 11400000, guid: 85c055f647c716b48a00f8bbde87cb96, type: 2}
+  - Recipe: {fileID: 11400000, guid: 65e894ee00e4a8848b74fe5220c5715a, type: 2}
+    Action: {fileID: 11400000, guid: 242da9a2c8966a348be0f8a7242682a5, type: 2}
+  - Recipe: {fileID: 11400000, guid: 4b9a663f3deda1d4d96968b39ec48ae8, type: 2}
+    Action: {fileID: 11400000, guid: 242da9a2c8966a348be0f8a7242682a5, type: 2}
+  - Recipe: {fileID: 11400000, guid: 12799fb46be612d4cbe7e65c4fdcaa8e, type: 2}
+    Action: {fileID: 11400000, guid: 238959ebcbfec524ba04c49db12d92b6, type: 2}
 --- !u!4 &795697341
 Transform:
   m_ObjectHideFlags: 0
@@ -555,9 +565,9 @@ MonoBehaviour:
   WormHeadToken: {fileID: 11400000, guid: f9ccf81679801c442a0e3cae2fd198db, type: 2}
   WormBodyToken: {fileID: 11400000, guid: 90c4e4b7f265de1428c56e018259cd6c, type: 2}
   WormProperties:
-    Length: 4
-    StomachSize: 7
-    CanMoveOverSelf: 1
+    Length: 3
+    StomachSize: 3
+    CanMoveOverSelf: 0
     DieWhenStomachFull: 1
 --- !u!114 &1455866810
 MonoBehaviour:
@@ -585,8 +595,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d3a77f94b49b2c47b16c536ac555d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tokensToSpawn:
-  - {fileID: 11400000, guid: 00b50683004051d48b57008452c10aea, type: 2}
+  TokensToSpawn:
+  - Token: {fileID: 11400000, guid: 00b50683004051d48b57008452c10aea, type: 2}
+    SpawnWeight: 100
+  - Token: {fileID: 11400000, guid: 73388f1a7e9c0b3418844c45b0b8bc3a, type: 2}
+    SpawnWeight: 33
 --- !u!1 &1508223361
 GameObject:
   m_ObjectHideFlags: 0
