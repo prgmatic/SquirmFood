@@ -242,19 +242,19 @@ public class Gameboard : MonoBehaviour
         gameTiles.Remove(tile);
         Destroy(tile.gameObject);
     }
-    public void DestroyTileAt(int x, int y, bool triggerEvent = true)
+    public void DestroyTileAt(int x, int y, bool triggerEvent = true, bool applyGravity = true)
     {
         if(!IsValidTileCoordinate(x, y, true)) return;
         if(GetTileAt(x, y) != null)
-            DestroyTile(GetTileAt(x, y), triggerEvent);
+            DestroyTile(GetTileAt(x, y), triggerEvent, applyGravity);
     }
-    public void DestroyTilesInBounds(Rectangle bounds, bool triggerEvent = true)
+    public void DestroyTilesInBounds(Rectangle bounds, bool triggerEvent = true, bool applyGravity = true)
     {
         for(int y = 0; y < bounds.height; y++)
         {
             for(int x = 0; x < bounds.width; x++)
             {
-                DestroyTileAt(bounds.x + x, bounds.y + y, triggerEvent);
+                DestroyTileAt(bounds.x + x, bounds.y + y, triggerEvent, applyGravity);
             }
         }
     }

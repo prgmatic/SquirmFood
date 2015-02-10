@@ -34,8 +34,8 @@ public class DebugTileSpawner : MonoBehaviour
                 {
                     Token token = TokensToSpawn[index];
                     Point point = Gameboard.Instance.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-                    if (Gameboard.Instance.NumberOfTilesInBounds(token.GetBounds(point.x, point.y)) == 0)
-                        Gameboard.Instance.AddTileFromToken(token, point.x, point.y);
+                    Gameboard.Instance.DestroyTilesInBounds(token.GetBounds(point.x, point.y), false, false);
+                    Gameboard.Instance.AddTileFromToken(token, point.x, point.y);
                 }
             }
         }
