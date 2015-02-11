@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Resources:
   - Type: 0
-    Value: 10
+    Value: 0
   IsNuisance: 0
   IsEdible: 1
   CanFall: 1

@@ -499,6 +499,7 @@ GameObject:
   - 114: {fileID: 1455866809}
   - 114: {fileID: 1455866810}
   - 114: {fileID: 1455866811}
+  - 114: {fileID: 1455866812}
   m_Layer: 0
   m_Name: Gameboard
   m_TagString: Untagged
@@ -602,7 +603,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TokensToSpawn:
   - Token: {fileID: 11400000, guid: 47997df0bb442f74891bd82c4281a228, type: 2}
-    SpawnWeight: 50
+    SpawnWeight: 100
+  - Token: {fileID: 11400000, guid: 73388f1a7e9c0b3418844c45b0b8bc3a, type: 2}
+    SpawnWeight: 33
+--- !u!114 &1455866812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1455866805}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6978170297f6389458347743035dd82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BoardLayout: {fileID: 0}
 --- !u!1 &1508223361
 GameObject:
   m_ObjectHideFlags: 0

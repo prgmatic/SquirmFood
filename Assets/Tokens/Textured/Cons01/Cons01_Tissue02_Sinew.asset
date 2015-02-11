@@ -11,7 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 600a4ed6aa45419449d0dda543157294, type: 3}
   m_Name: Cons01_Tissue02_Sinew
   m_EditorClassIdentifier: 
-  Fuel: 0
+  Resources:
+  - Type: 1
+    Value: 10
   IsNuisance: 0
   IsEdible: 1
   CanFall: 1

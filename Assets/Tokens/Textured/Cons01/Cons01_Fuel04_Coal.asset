@@ -11,10 +11,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 600a4ed6aa45419449d0dda543157294, type: 3}
   m_Name: Cons01_Fuel04_Coal
   m_EditorClassIdentifier: 
-  Fuel: 0
+  Resources:
+  - Type: 0
+    Value: 50
   IsNuisance: 0
   IsEdible: 1
-  CanFall: 1
+  CanFall: 0
   IsWorm: 0
   Width: 1
   Height: 1
