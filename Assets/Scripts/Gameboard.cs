@@ -260,6 +260,13 @@ public class Gameboard : MonoBehaviour
             }
         }
     }
+    public void Clear()
+    {
+        while(gameTiles.Count > 0)
+        {
+            DestroyTile(gameTiles[0]);
+        }
+    }
 
     public void ApplyGravity()
     {

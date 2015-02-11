@@ -7,6 +7,7 @@ public class BoardInitalizer : MonoBehaviour
 
     void Start()
     {
+        Gameboard.Instance.Clear();
         FillGameboard();
     }
 

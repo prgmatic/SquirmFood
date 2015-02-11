@@ -57,8 +57,8 @@ public class CreateToken : MonoBehaviour
         CreateDirectory(DefaultRecipesFolder);
         AssetDatabase.CreateAsset(recipe, DefaultRecipesFolder + @"\NewRecipe.asset");
         AssetDatabase.Refresh();
-
     }
+    
 
     private static void CreateDirectory(string directoryName)
     {

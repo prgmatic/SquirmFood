@@ -491,6 +491,7 @@ GameObject:
   - 114: {fileID: 1455866811}
   - 114: {fileID: 1455866812}
   - 114: {fileID: 1455866813}
+  - 114: {fileID: 1455866815}
   m_Layer: 0
   m_Name: Gameboard
   m_TagString: Untagged
@@ -587,14 +588,14 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1455866805}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d3a77f94b49b2c47b16c536ac555d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TokensToSpawn:
   - Token: {fileID: 11400000, guid: b854f37504d8e024cb884016f180248a, type: 2}
-    SpawnWeight: 5
+    SpawnWeight: 0
   - Token: {fileID: 11400000, guid: 47997df0bb442f74891bd82c4281a228, type: 2}
     SpawnWeight: 50
 --- !u!114 &1455866812
@@ -619,6 +620,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fd9d20f99b716a41bc3595e51b83bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1455866815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1455866805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6978170297f6389458347743035dd82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BoardLayout: {fileID: 11400000, guid: 1e3fcc1bf83e80c419c8cdbd5c1634c7, type: 2}
 --- !u!1 &1508223361
 GameObject:
   m_ObjectHideFlags: 0
