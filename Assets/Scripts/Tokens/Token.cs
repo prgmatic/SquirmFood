@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Token : ScriptableObject 
 {
-    public float Fuel = 0f;
+    public List<Resource> Resources = new List<Resource>();
     public bool IsNuisance = false;
     public bool IsEdible = true;
     public bool CanFall = true;
