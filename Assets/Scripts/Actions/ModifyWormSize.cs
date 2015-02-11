@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IncreaseWormSize : GameAction 
+public class ModifyWormSize : GameAction 
 {
-    public int IncreaseBy = 1;
+    public int ModifyBy = 1;
 
     public override void Execute(Worm worm)
     {
-        worm.Length += IncreaseBy;
+        worm.Length += ModifyBy;
     }
 }

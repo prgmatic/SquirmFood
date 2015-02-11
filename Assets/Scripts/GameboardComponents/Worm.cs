@@ -55,6 +55,8 @@ public class Worm : MonoBehaviour
         {
             Kill();
         }
+        while(Sections.Count > Length)
+            RemoveTail();
     }
 
     
@@ -99,6 +101,8 @@ public class Worm : MonoBehaviour
         {
             Sections.Add(Gameboard.Instance.AddTileFromToken(SectionToken, previousTailPosition, false, true));
         }
+        
+
         if(MovesBeforeDeath > 0 && _movesTaken >= MovesBeforeDeath)
         {
             Kill();
@@ -106,6 +110,13 @@ public class Worm : MonoBehaviour
 
         Gameboard.Instance.ApplyGravity();
 
+    }
+
+    private void RemoveTail()
+    {
+        GameTile tail = Tail;
+        Sections.Remove(Tail);
+        Gameboard.Instance.DestroyTile(tail);
     }
 
     public void EatToken(GameTile tile)

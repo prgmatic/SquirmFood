@@ -26,22 +26,31 @@ public class CreateToken : MonoBehaviour
         Debug.Log("Creating new textured token.");
     }
 
-    [MenuItem("Monster Mashup/Create Action/Increase Worm Size")]
-    static void CreateIncreaseWormSizeAction()
+    [MenuItem("Monster Mashup/Create Action/Modify Worm Size")]
+    static void CreateModifyWormSizeAction()
     {
-        IncreaseWormSize action = ScriptableObject.CreateInstance<IncreaseWormSize>();
+        ModifyWormSize action = ScriptableObject.CreateInstance<ModifyWormSize>();
         CreateDirectory(DefaultGameActionsFolder);
-        AssetDatabase.CreateAsset(action, DefaultGameActionsFolder + @"\IncreaseWormSize.asset");
+        AssetDatabase.CreateAsset(action, DefaultGameActionsFolder + @"\ModifyWormSize.asset");
         AssetDatabase.Refresh();
     }
-    [MenuItem("Monster Mashup/Create Action/Increase Worm Stomach Size")]
-    static void CreateIncreaseWormStomachSizeAction()
+    [MenuItem("Monster Mashup/Create Action/Modify Worm Size And Drop Token")]
+    static void CreateModifyWormSizeAndDropTokenAction()
     {
-        IncreaseWormStomachSize action = ScriptableObject.CreateInstance<IncreaseWormStomachSize>();
+        ModifyWormSizeAndDropToken action = ScriptableObject.CreateInstance<ModifyWormSizeAndDropToken>();
         CreateDirectory(DefaultGameActionsFolder);
-        AssetDatabase.CreateAsset(action, DefaultGameActionsFolder + @"\IncreaseWormStomachSize.asset");
+        AssetDatabase.CreateAsset(action, DefaultGameActionsFolder + @"\ModifyWormSizeAndDropToken.asset");
         AssetDatabase.Refresh();
     }
+    [MenuItem("Monster Mashup/Create Action/Modify Worm Stomach Size")]
+    static void CreateModifyWormStomachSizeAction()
+    {
+        ModifyWormStomachSize action = ScriptableObject.CreateInstance<ModifyWormStomachSize>();
+        CreateDirectory(DefaultGameActionsFolder);
+        AssetDatabase.CreateAsset(action, DefaultGameActionsFolder + @"\ModifyWormStomachSize.asset");
+        AssetDatabase.Refresh();
+    }
+
     [MenuItem("Monster Mashup/Create Action/Drop Token")]
     static void CreateDropTokenAction()
     {
