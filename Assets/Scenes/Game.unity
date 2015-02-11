@@ -213,6 +213,8 @@ MonoBehaviour:
     Action: {fileID: 0}
   - Recipe: {fileID: 11400000, guid: e2f76ba7fd941414a91d61846ec849ce, type: 2}
     Action: {fileID: 11400000, guid: faf750c92cf16f243a30c4644734a49f, type: 2}
+  - Recipe: {fileID: 11400000, guid: 6cec2c4fe137f5940807bd70a22d07d0, type: 2}
+    Action: {fileID: 0}
 --- !u!4 &795697341
 Transform:
   m_ObjectHideFlags: 0
@@ -487,6 +489,7 @@ GameObject:
   - 114: {fileID: 1455866809}
   - 114: {fileID: 1455866810}
   - 114: {fileID: 1455866811}
+  - 114: {fileID: 1455866812}
   m_Layer: 0
   m_Name: Gameboard
   m_TagString: Untagged
@@ -557,8 +560,11 @@ MonoBehaviour:
   WormProperties:
     Length: 4
     StomachSize: 7
-    CanMoveOverSelf: 1
+    MovesBeforeDeath: 5
+    CanMoveOverSelf: 0
     DieWhenStomachFull: 1
+    OnlyMoveOnEat: 0
+    DisplayMovesTaken: 1
 --- !u!114 &1455866810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -590,6 +596,17 @@ MonoBehaviour:
     SpawnWeight: 5
   - Token: {fileID: 11400000, guid: 47997df0bb442f74891bd82c4281a228, type: 2}
     SpawnWeight: 50
+--- !u!114 &1455866812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1455866805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db9a941ba9e4f54eba2c5566b1661a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1508223361
 GameObject:
   m_ObjectHideFlags: 0

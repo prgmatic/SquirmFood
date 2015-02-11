@@ -94,6 +94,7 @@ public class GameTile : MonoBehaviour
     public void ApplyGravity()
     {
         if (!CanFall) return;
+        if (!Gameboard.Instance.GridBoundsWithHopper.Contains(this.GridBounds)) return;
         if (GridBottom < Gameboard.Instance.Rows)
         {
             gravityBounds = new Rectangle(GridLeft, GridTop + 1, Width, Height);

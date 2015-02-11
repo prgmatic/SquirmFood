@@ -165,7 +165,7 @@ public class Gameboard : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            Debug.Log(ex);
+            Debug.LogError(ex);
             return null;
         }
     }

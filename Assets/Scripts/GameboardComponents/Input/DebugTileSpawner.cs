@@ -40,10 +40,4 @@ public class DebugTileSpawner : MonoBehaviour
             }
         }
     }
-
-    void OnGUI()
-    {
-        GUILayout.Label(Utils.CursorGridPosotion.ToString());
-        //Debug.Log(Utils.CursorGridPosotion.ToString());
-    }
 }

@@ -6,8 +6,11 @@ public class Worm : MonoBehaviour
 {
     public int StomachSize = 7;
     public int Length = 4;
+    public int MovesBeforeDeath;
     public bool CanMoveOverSelf;
     public bool DieWhenStomachFull;
+    public bool OnlyMoveOnEat;
+    public bool DisplayMovesTaken;
     [HideInInspector]
     public List<GameTile> Sections = new List<GameTile>();
     [HideInInspector]
@@ -15,7 +18,7 @@ public class Worm : MonoBehaviour
     [HideInInspector]
     public List<Token> Stomach = new List<Token>();
 
-    
+    private int _movesTaken = 0;
 
     public GameTile Head { get { return Sections[0]; } }
     public GameTile Tail { get { return Sections[Sections.Count - 1]; } }
@@ -24,6 +27,15 @@ public class Worm : MonoBehaviour
     void Awake()
     {
         Sections.Add(GetComponent<GameTile>());
+        DebugHUD.MessagesCleared += DebugHUD_MessagesCleared;
+    }
+
+    private void DebugHUD_MessagesCleared(object sender, System.EventArgs e)
+    {
+        if (DisplayMovesTaken)
+        {
+            DebugHUD.Add("Moves Taken: " + _movesTaken);
+        }
     }
 
     public void SetProperties(WormProperties properties)
@@ -32,6 +44,9 @@ public class Worm : MonoBehaviour
         this.StomachSize = properties.StomachSize;
         this.CanMoveOverSelf = properties.CanMoveOverSelf;
         this.DieWhenStomachFull = properties.DieWhenStomachFull;
+        this.OnlyMoveOnEat = properties.OnlyMoveOnEat;
+        this.DisplayMovesTaken = properties.DisplayMovesTaken;
+        this.MovesBeforeDeath = properties.MovesBeforeDeath;
     }
 
     void Update()
@@ -42,20 +57,23 @@ public class Worm : MonoBehaviour
         }
     }
 
+    
+
     public void Move(int x, int y)
     {
         if (Gameboard.Instance.IsValidTileCoordinate(x, y, true))
         {
             GameTile tile = Gameboard.Instance.GetTileAt(x, y);
-            if(tile != null)
+            if (tile != null)
             {
-                if(tile.IsEdible && !IsStomachFull)
+                if (tile.IsEdible && !IsStomachFull)
                 {
                     //tileToDestory = tile;
                     EatToken(tile);
                 }
                 else if (!tile.IsWorm || !CanMoveOverSelf) return;
             }
+            else if (OnlyMoveOnEat) return;
         }
         if (Sections.Count == 0) return; // Worm has died
         try
@@ -66,7 +84,7 @@ public class Worm : MonoBehaviour
         {
             Debug.Log(ex);
         }
-
+        _movesTaken++;
         Point previousTailPosition = Tail.GridPosition;
 
         Point prevPos = Head.GridPosition;
@@ -81,6 +99,11 @@ public class Worm : MonoBehaviour
         {
             Sections.Add(Gameboard.Instance.AddTileFromToken(SectionToken, previousTailPosition, false, true));
         }
+        if(MovesBeforeDeath > 0 && _movesTaken >= MovesBeforeDeath)
+        {
+            Kill();
+        }
+
         Gameboard.Instance.ApplyGravity();
 
     }
@@ -106,6 +129,7 @@ public class Worm : MonoBehaviour
 
     public void Kill()
     {
+        DebugHUD.MessagesCleared -= DebugHUD_MessagesCleared;
         WormStomach.Instance.SetWorm(null);
         while(Sections.Count > 0)
         {
@@ -128,6 +152,9 @@ public class WormProperties
 {
     public int Length = 4;
     public int StomachSize = 7;
+    public int MovesBeforeDeath = 0;
     public bool CanMoveOverSelf = true;
     public bool DieWhenStomachFull = true;
+    public bool OnlyMoveOnEat = false;
+    public bool DisplayMovesTaken = true;
 }
