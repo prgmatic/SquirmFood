@@ -67,7 +67,7 @@ public class Gameboard : MonoBehaviour
         {
             for (int y = 0; y < tile.Height; y++)
             {
-                if (GetTileAt(tile.GridLeft + x, tile.GridTop + y) != null && tile.IsWorm) continue;
+                if (GetTileAt(tile.GridLeft + x, tile.GridTop + y) != null && !GetTileAt(tile.GridLeft + x, tile.GridTop + y).IsWorm && tile.IsWorm) continue;
                 _tileTable[tile.GridLeft + x, tile.GridTop + y + _hopperSize] = tile;
             }
         }

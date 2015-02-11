@@ -206,7 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Recipes:
   - Recipe: {fileID: 11400000, guid: c68ae3328d762e74c8d4484fcd9e7e89, type: 2}
-    Action: {fileID: 11400000, guid: 91067cfd75414724787dc79c24efd853, type: 2}
+    Action: {fileID: 11400000, guid: 6e167d2264ce08e4392529ff83ad8b85, type: 2}
   - Recipe: {fileID: 11400000, guid: 9961d38bf3d48fe4ba8710201bc795e5, type: 2}
     Action: {fileID: 11400000, guid: cac422f5a88ce2d469fc7c643d2ef3b4, type: 2}
   - Recipe: {fileID: 11400000, guid: 5a990f415cc8cb746a90fd392a315c54, type: 2}
@@ -542,10 +542,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TokensToSpawn:
-  - {fileID: 11400000, guid: b854f37504d8e024cb884016f180248a, type: 2}
   - {fileID: 11400000, guid: 00b50683004051d48b57008452c10aea, type: 2}
-  - {fileID: 11400000, guid: 567402cd69e98134da6255d8cc34e02b, type: 2}
-  - {fileID: 11400000, guid: 437a0a8335defd24ab92b010a793d3c9, type: 2}
+  - {fileID: 11400000, guid: 47997df0bb442f74891bd82c4281a228, type: 2}
+  - {fileID: 11400000, guid: 49c579fe6ecea894ab16f67560769fd0, type: 2}
+  - {fileID: 11400000, guid: c19a9fb37fc0c654196202e3639becce, type: 2}
 --- !u!114 &1455866809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -560,11 +560,11 @@ MonoBehaviour:
   WormHeadToken: {fileID: 11400000, guid: f9ccf81679801c442a0e3cae2fd198db, type: 2}
   WormBodyToken: {fileID: 11400000, guid: 90c4e4b7f265de1428c56e018259cd6c, type: 2}
   WormProperties:
-    Length: 4
-    StomachSize: 7
-    MovesBeforeDeath: 5
-    CanMoveOverSelf: 0
-    DieWhenStomachFull: 1
+    Length: 3
+    StomachSize: 3
+    MovesBeforeDeath: 0
+    CanMoveOverSelf: 1
+    DieWhenStomachFull: 0
     OnlyMoveOnEat: 0
     DisplayMovesTaken: 1
 --- !u!114 &1455866810
@@ -626,12 +626,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1455866805}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6978170297f6389458347743035dd82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoardLayout: {fileID: 11400000, guid: 1e3fcc1bf83e80c419c8cdbd5c1634c7, type: 2}
+  BoardLayout: {fileID: 0}
 --- !u!1 &1508223361
 GameObject:
   m_ObjectHideFlags: 0

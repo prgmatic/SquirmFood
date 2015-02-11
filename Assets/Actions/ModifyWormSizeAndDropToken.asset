@@ -13,4 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModifyBy: 1
   Where: 0
-  TokenToDrop: {fileID: 0}
+  TokenToDrop: {fileID: 11400000, guid: b854f37504d8e024cb884016f180248a, type: 2}
