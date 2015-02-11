@@ -8,6 +8,7 @@ public class Gameboard : MonoBehaviour
     public event GameTile.GameTileEvent TileSettled;
     public event GameTile.GameTileEvent TileDestroyed;
     #endregion
+
     #region Variables
     public int Columns = 8;
     public int Rows = 9;
@@ -66,6 +67,7 @@ public class Gameboard : MonoBehaviour
         {
             for (int y = 0; y < tile.Height; y++)
             {
+                if (GetTileAt(tile.GridLeft + x, tile.GridTop + y) != null && tile.IsWorm) continue;
                 _tileTable[tile.GridLeft + x, tile.GridTop + y + _hopperSize] = tile;
             }
         }
