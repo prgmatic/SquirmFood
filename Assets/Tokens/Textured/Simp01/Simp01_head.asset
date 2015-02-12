@@ -9,16 +9,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 600a4ed6aa45419449d0dda543157294, type: 3}
-  m_Name: Cons01_Fuel04_Coal
+  m_Name: Simp01_head
   m_EditorClassIdentifier: 
-  Resources:
-  - Type: 0
-    Value: 50
+  Resources: []
   IsNuisance: 0
-  IsEdible: 1
+  IsEdible: 0
   CanFall: 1
   IsWorm: 0
-  Width: 1
-  Height: 1
-  Color: {r: .0642301068, g: .183584854, b: .242647052, a: 1}
+  Width: 2
+  Height: 2
+  Color: {r: .611539543, g: .808823526, b: .42225346, a: 1}
   Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}

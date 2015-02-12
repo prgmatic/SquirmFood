@@ -74,6 +74,108 @@ NavMeshSettings:
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
   m_NavMesh: {fileID: 0}
+--- !u!1 &1647536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 1647537}
+  - 222: {fileID: 1647539}
+  - 114: {fileID: 1647538}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1647537
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1647536}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 987035734}
+  m_RootOrder: 1
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 114, y: -328}
+  m_SizeDelta: {x: 200, y: 300}
+  m_Pivot: {x: .5, y: .5}
+--- !u!114 &1647538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1647536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: .972413778, b: 0, a: 1}
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 9
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Simplest Ruleset 01
+
+    with 2 Segment Worm
+
+
+    Elements
+
+    + Board: 6x6
+
+    + Worm: exactly 1 worm with 2 segments
+
+    + Monster: exactly 1 body part
+
+    + Tokens: any number of a single type of token
+
+
+    Rules
+
+    + Worm can move into space with token to "eat" it
+
+    + Worm can move into space with worm segment
+
+    + Tokens don''t fall
+
+    + Unsupported body parts do fall
+
+
+    Objective
+
+    + Get the body part to the bottom of the screen
+
+
+    Notes
+
+    + I think the only benefit is adding 1-token "nubs" to puzzle layouts
+
+    + At best this has an obfuscating effect from what I can see'
+--- !u!222 &1647539
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1647536}
 --- !u!1 &204995687
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,22 +307,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Recipes:
-  - Recipe: {fileID: 11400000, guid: 5a990f415cc8cb746a90fd392a315c54, type: 2}
-    Action: {fileID: 11400000, guid: f0d515743bb8b674893943b2206f99a4, type: 2}
-  - Recipe: {fileID: 11400000, guid: 31a9ea2021477ce4d8235babc062b75b, type: 2}
-    Action: {fileID: 11400000, guid: 7e03ceeda04d8d84da6d0a808e358da5, type: 2}
-  - Recipe: {fileID: 11400000, guid: 09eced1f9409ae8499c326dd69a4de2f, type: 2}
-    Action: {fileID: 11400000, guid: 1bc6180cbff2c0c489abb6f16e12012c, type: 2}
-  - Recipe: {fileID: 11400000, guid: bd138b06327126a4aa2723cb0df01922, type: 2}
-    Action: {fileID: 11400000, guid: 604aff65622d5864fb3bf8895ed1c13a, type: 2}
-  - Recipe: {fileID: 11400000, guid: fb502ec56576f4346b470362a6bd9f54, type: 2}
-    Action: {fileID: 11400000, guid: fa9649b9c188c7841af0360eb957fca3, type: 2}
-  - Recipe: {fileID: 11400000, guid: 7a48bf2309795af409040a3b25a65b87, type: 2}
-    Action: {fileID: 11400000, guid: 85c055f647c716b48a00f8bbde87cb96, type: 2}
-  - Recipe: {fileID: 11400000, guid: 7f435982644b79d48a9c9e78e5c3d549, type: 2}
-    Action: {fileID: 11400000, guid: 033346a3cd3205d43958f4712136e666, type: 2}
-  - Recipe: {fileID: 11400000, guid: b3c889246ab7460468c7ba6e90e9c0ee, type: 2}
-    Action: {fileID: 11400000, guid: 132c46b1dcad67840a1524f9d2bf49e6, type: 2}
+  - Recipe: {fileID: 11400000, guid: 3e17cb0047675254db04268386f1db1c, type: 2}
+    Action: {fileID: 0}
 --- !u!4 &795697341
 Transform:
   m_ObjectHideFlags: 0
@@ -262,6 +350,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1140067039}
+  - {fileID: 1647537}
   m_Father: {fileID: 204995688}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
@@ -517,8 +606,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e756ac6399e0cab48aaee7e6ba8ef34b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Columns: 8
-  Rows: 9
+  Columns: 6
+  Rows: 6
   HopperMask: 0
   BackGroundColor1: {r: .125490203, g: .117647059, b: .0941176489, a: 1}
   BackGroundColor2: {r: .247058824, g: .200000003, b: .184313729, a: 1}
@@ -548,10 +637,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TokensToSpawn:
-  - {fileID: 11400000, guid: 1683b5ec0ee66c3459d777e8c6dc9934, type: 2}
-  - {fileID: 11400000, guid: 47997df0bb442f74891bd82c4281a228, type: 2}
-  - {fileID: 11400000, guid: 73388f1a7e9c0b3418844c45b0b8bc3a, type: 2}
-  - {fileID: 11400000, guid: 437a0a8335defd24ab92b010a793d3c9, type: 2}
+  - {fileID: 11400000, guid: 206f6ffdecc789b478bfe6564fc911f4, type: 2}
+  - {fileID: 11400000, guid: a6e2429ea77778b4aaa071add988b1d9, type: 2}
+  - {fileID: 11400000, guid: bc5cae9dc70179e4c98acf4a032169e0, type: 2}
 --- !u!114 &1455866809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,8 +654,8 @@ MonoBehaviour:
   WormHeadToken: {fileID: 11400000, guid: f9ccf81679801c442a0e3cae2fd198db, type: 2}
   WormBodyToken: {fileID: 11400000, guid: 90c4e4b7f265de1428c56e018259cd6c, type: 2}
   WormProperties:
-    Length: 4
-    StomachSize: 6
+    Length: 2
+    StomachSize: 1
     MovesBeforeDeath: 0
     CanMoveOverSelf: 1
     DieWhenStomachFull: 0
@@ -599,11 +687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d3a77f94b49b2c47b16c536ac555d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TokensToSpawn:
-  - Token: {fileID: 11400000, guid: 47997df0bb442f74891bd82c4281a228, type: 2}
-    SpawnWeight: 100
-  - Token: {fileID: 11400000, guid: 73388f1a7e9c0b3418844c45b0b8bc3a, type: 2}
-    SpawnWeight: 33
+  TokensToSpawn: []
 --- !u!114 &1455866812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -615,7 +699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6978170297f6389458347743035dd82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoardLayout: {fileID: 0}
+  BoardLayout: {fileID: 11400000, guid: 08fb2c0b1fe77c94a9b096ced2f3a0c8, type: 2}
 --- !u!114 &1455866813
 MonoBehaviour:
   m_ObjectHideFlags: 0
