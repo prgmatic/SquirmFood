@@ -8,8 +8,9 @@ public class BoardLayoutExporter
     [MenuItem("Monster Mashup/Export Board Layout", false, 1)]
     private static void CreateBoardLayout()
     {
-        var savePath = EditorUtility.SaveFilePanel("Export Board Layout", "Assets", "Layout", "asset");
-
+        string startingDir = "Assets";
+        if (Directory.Exists(startingDir + "/BoardLayouts")) startingDir += "/BoardLayouts";
+        var savePath = EditorUtility.SaveFilePanel("Export Board Layout", startingDir, "Layout", "asset");
         if (savePath.ToLower().StartsWith(Application.dataPath.ToLower()))
         {
             savePath = savePath.Substring(Application.dataPath.Length, savePath.Length - Application.dataPath.Length);
@@ -35,7 +36,7 @@ public class BoardLayoutExporter
         BoardLayout layout = ScriptableObject.CreateInstance<BoardLayout>();
         foreach (var tile in Gameboard.Instance.gameTiles)
         {
-            if (!tile.IsWorm)
+            if (!tile.IsWorm || tile.GetComponent<Worm>() != null)
             {
                 try
                 {

@@ -30,5 +30,17 @@ public static class Utils
     {
         return sprite.bounds.size.y;
     }
-	
+
+    public static float Vector2Angle(Vector2 from, Vector2 to)
+    {
+        float deltaY = to.y - from.y;
+        float deltaX = to.x - from.x;
+        return Mathf.Atan2(deltaY, deltaX) * 180 / Mathf.PI;
+    }
+
+    public static Quaternion QuaternionLookAt(Vector2 from, Vector2 to)
+    {
+        float angle = Vector2Angle(from, to);
+        return Quaternion.Euler(0, 0, angle);
+    }
 }

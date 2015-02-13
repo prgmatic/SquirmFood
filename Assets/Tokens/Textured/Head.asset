@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Name: Head
   m_EditorClassIdentifier: 
   Resources:
-  - Type: 0
-    Value: 10
+  - Type: 2
+    Value: 1
   IsNuisance: 0
   IsEdible: 0
   CanFall: 1

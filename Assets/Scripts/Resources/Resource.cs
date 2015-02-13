@@ -17,6 +17,7 @@ public class Resource
     public enum ResourceType
     {
         Fuel,
-        Tissue
+        Tissue,
+        BodyParts
     }
 }

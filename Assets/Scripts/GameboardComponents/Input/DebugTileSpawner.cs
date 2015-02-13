@@ -18,6 +18,7 @@ public class DebugTileSpawner : MonoBehaviour
     }
     void Update()
     {
+        if (!Gameboard.Instance.AcceptingInput) return;
         if(Input.GetMouseButtonDown(1))
         {
             Point point = Gameboard.Instance.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));

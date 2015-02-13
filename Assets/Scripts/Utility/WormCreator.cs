@@ -10,6 +10,7 @@ public static class WormCreator
 
 	public static Worm CreateWorm(Token headToken, Token bodyToken, int x, int y, WormProperties properties)
     {
+        Gameboard.Instance.DestroyTileAt(x, y, false, false);
         var head = Gameboard.Instance.AddTileFromToken(headToken, x, y, false, true);
         if (head == null) return null;
         Worm worm = head.gameObject.AddComponent<Worm>();

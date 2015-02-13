@@ -11,6 +11,7 @@ public class MoveWormInput : MonoBehaviour
 
 	void Update()
     {
+        if (!Gameboard.Instance.AcceptingInput) return;
         if (Input.GetKeyDown(Up)) Move(0, -1);
         if (Input.GetKeyDown(Down)) Move(0, 1);
         if (Input.GetKeyDown(Left)) Move(-1, 0);

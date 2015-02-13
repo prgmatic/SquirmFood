@@ -14,6 +14,11 @@ public struct Point {
         this.y = y;
     }
 
+    public Vector2 ToVector2()
+    {
+        return new Vector2(x, y);
+    }
+
     public override bool Equals(System.Object obj)
     {
         // If parameter is null return false.

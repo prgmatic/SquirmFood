@@ -1,0 +1,63 @@
+﻿using UnityEngine;
+using System.Collections.Generic;
+
+public class VictoryLossConditions : MonoBehaviour 
+{
+    public static VictoryLossConditions Instance { get { return _instance; } }
+    private static VictoryLossConditions _instance;
+
+    private bool CheckEnabled = false;
+
+    public List<GameCondition> VictoryConditions = new List<GameCondition>();
+    public List<GameCondition> LossConditions = new List<GameCondition>();
+
+    void Awake()
+    {
+        if (_instance == null)
+            _instance = this;
+        else if (this != _instance)
+            Destroy(this.gameObject);
+        this.CheckEnabled = false;
+    }
+
+    void Update()
+    {
+        if (CheckEnabled && Gameboard.Instance.GameState == Gameboard.GameStateType.InProgress)
+        {
+            CheckForVictory();
+            CheckForLoss();
+        }
+    }
+
+    private void CheckForVictory()
+    {
+        foreach(var condition in VictoryConditions)
+        {
+            if(condition.ConditionMet())
+            {
+                Gameboard.Instance.GameOver("You Win");
+            }
+        }
+    }
+
+    private void CheckForLoss()
+    {
+        foreach (var condition in LossConditions)
+        {
+            if (condition.ConditionMet())
+            {
+                Gameboard.Instance.GameOver("Game Over");
+            }
+        }
+    }
+
+    public void Enable()
+    {
+        CheckEnabled = true;
+    }
+
+    public void Disable()
+    {
+        CheckEnabled = false;
+    }
+}

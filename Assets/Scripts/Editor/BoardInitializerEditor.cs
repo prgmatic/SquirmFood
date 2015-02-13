@@ -18,7 +18,7 @@ public class BoardInitializerEditor : Editor
     {
         serializedObject.Update();
         ReorderableListGUI.Title("Tokens To Spawn");
-        ReorderableListGUI.ListField(((BoardInitalizer)target).TokensToSpawn, TokenSpawnDrawer, EditorGUIUtility.singleLineHeight * 2 + spacing + 3);
+        ReorderableListGUI.ListField(((BoardInitalizer)target).TokensToSpawn, TokenSpawnDrawer, EditorGUIUtility.singleLineHeight + spacing * 2);
         serializedObject.ApplyModifiedProperties();
     }
 
@@ -26,9 +26,12 @@ public class BoardInitializerEditor : Editor
     {
         position.y += spacing;
         position.height = EditorGUIUtility.singleLineHeight;
-        itemValue.Token = (Token)EditorGUI.ObjectField(position, "Token", itemValue.Token, typeof(Token));
-        position.y += EditorGUIUtility.singleLineHeight + spacing;
-        itemValue.SpawnWeight = EditorGUI.IntSlider(position, "Spawn Weight", itemValue.SpawnWeight, 0, 100);
+        position.width = position.width / 2 - 3;
+        itemValue.SpawnWeight = EditorGUI.IntSlider(position, itemValue.SpawnWeight, 0, 100);
+        //position.y += EditorGUIUtility.singleLineHeight + spacing;
+        position.width += 3;
+        position.x += position.width;
+        itemValue.Token = (Token)EditorGUI.ObjectField(position, itemValue.Token, typeof(Token));
         return itemValue;
     }
 }

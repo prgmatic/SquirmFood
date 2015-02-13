@@ -23,6 +23,7 @@ public class Worm : MonoBehaviour
     public GameTile Head { get { return Sections[0]; } }
     public GameTile Tail { get { return Sections[Sections.Count - 1]; } }
     public bool IsStomachFull { get { return Stomach.Count >= StomachSize; } }
+    public int MovesTaken { get { return _movesTaken; } }
 
     void Awake()
     {

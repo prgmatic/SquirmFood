@@ -6,7 +6,12 @@ public class Gameboard : MonoBehaviour
     #region Events
     public delegate void GridEvent(int x, int y);
     public event GameTile.GameTileEvent TileSettled;
+    public event GameTile.GameTileEvent TileAdded;
     public event GameTile.GameTileEvent TileDestroyed;
+    public delegate void GameStateEvent();
+    public event GameStateEvent GameStarted;
+    public event GameStateEvent GameEnded;
+
     #endregion
 
     #region Variables
@@ -19,6 +24,7 @@ public class Gameboard : MonoBehaviour
     private GameTile[,] _tileTable;
     private int _hopperSize = 3;
     private static Gameboard _instance;
+    public GameStateType GameState = GameStateType.GameOver;
 
     [HideInInspector]
     public List<GameTile> gameTiles = new List<GameTile>();
@@ -34,10 +40,10 @@ public class Gameboard : MonoBehaviour
     public float Height { get { return Top - Bottom; } }
     public Rectangle GridBounds { get { return new Rectangle(0, 0, Columns, Rows); } }
     public Rectangle GridBoundsWithHopper { get { return new Rectangle(0, -HopperSize, Columns, Rows + HopperSize); } }
-
     public int HopperSize { get { return _hopperSize; } }
+    public bool AcceptingInput { get { return GameState == GameStateType.InProgress; } }
     #endregion
-
+    
 
     void Awake()
     {
@@ -60,7 +66,40 @@ public class Gameboard : MonoBehaviour
             CreateHopperMask();
 
     }
-    
+
+    void Start()
+    {
+        StartGame();
+    }
+
+    public void GameOver(string GameOverMessage)
+    {
+        GameState = GameStateType.GameOver;
+        UIGlobals.Instance.gameOverPanel.Show(GameOverMessage);
+        if (GameEnded != null)
+            GameEnded();
+        VictoryLossConditions.Instance.Disable();
+    }
+
+    public void StartGame()
+    {
+        
+        Clear();
+        GameState = GameStateType.InProgress;
+        UIGlobals.Instance.gameOverPanel.Hide();
+        if (GameStarted != null)
+            GameStarted();
+        ResourcePool.Instance.UpdateResourceCount();
+        VictoryLossConditions.Instance.Enable();
+    }
+
+    public void ContinueGame()
+    {
+        GameState = GameStateType.InProgress;
+        UIGlobals.Instance.gameOverPanel.Hide();
+        VictoryLossConditions.Instance.Disable();
+    }
+
     private void AddTileToTileTable(GameTile tile)
     {
         for (int x = 0; x < tile.Width; x++)
@@ -128,6 +167,8 @@ public class Gameboard : MonoBehaviour
             AddTileToTileTable(newTile);
         if (applyGravity)
             newTile.ApplyGravity();
+        if (TileAdded != null)
+            TileAdded(newTile);
         return newTile;
     }
     private GameTile GenerateTileFromColoredToken(Token token)
@@ -178,9 +219,12 @@ public class Gameboard : MonoBehaviour
         {
             for (int y = 0; y < bounds.height; y++)
             {
-                GameTile tile = GetTileAt(bounds.x + x, bounds.y + y);
-                if (tile != null && tile != exclusion)
-                    result.Add(tile);
+                if (IsValidTileCoordinate(bounds.x + x, bounds.y + y))
+                {
+                    GameTile tile = GetTileAt(bounds.x + x, bounds.y + y);
+                    if (tile != null && tile != exclusion)
+                        result.Add(tile);
+                }
             }
         }
         return result.ToArray();
@@ -198,6 +242,19 @@ public class Gameboard : MonoBehaviour
             }
         }
         return result;
+    }
+    public GameTile[] GetCardinalNeighbors(GameTile tile)
+    {
+        List<GameTile> result = new List<GameTile>();
+        Rectangle bounds = new Rectangle(tile.GridRight, tile.GridTop, 1, tile.Height);
+        result.AddRange(GetTilesInBounds(bounds));
+        bounds.x = tile.GridLeft - 1;
+        result.AddRange(GetTilesInBounds(bounds));
+        bounds = new Rectangle(tile.GridLeft, tile.GridTop - 1, tile.Width, 1);
+        result.AddRange(GetTilesInBounds(bounds));
+        bounds.y = tile.GridBottom;
+        result.AddRange(GetTilesInBounds(bounds));
+        return result.ToArray();
     }
 
     public Point WorldPositionToGridPosition(Vector3 worldPosition)
@@ -238,10 +295,10 @@ public class Gameboard : MonoBehaviour
 
         if(applyGravity)
             ApplyGravity();
+        gameTiles.Remove(tile);
 
         if (triggerEvent && TileDestroyed != null)
             TileDestroyed(tile);
-        gameTiles.Remove(tile);
         Destroy(tile.gameObject);
     }
     public void DestroyTileAt(int x, int y, bool triggerEvent = true, bool applyGravity = true)
@@ -320,4 +377,9 @@ public class Gameboard : MonoBehaviour
     }
 
     
+    public enum GameStateType
+    {
+        InProgress,
+        GameOver
+    }
 }

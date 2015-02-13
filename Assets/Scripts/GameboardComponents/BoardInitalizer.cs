@@ -5,14 +5,26 @@ public class BoardInitalizer : MonoBehaviour
 {
     public List<TokenWithWeight> TokensToSpawn;
 
-    void Start()
+    void Awake()
     {
+        Gameboard.Instance.GameStarted += Instance_GameStarted;
+    }
+
+    private void Instance_GameStarted()
+    {
+        if (!enabled) return;
         Gameboard.Instance.Clear();
         FillGameboard();
     }
 
+    void Start()
+    {
+
+    }
+
     private void FillGameboard()
     {
+        if (TokensToSpawn.Count == 0) return;
         if (CheckIfTokensToSpawnAreNull()) return;
         for(int y = 0; y < Gameboard.Instance.Rows; y++)
         {

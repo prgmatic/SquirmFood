@@ -7,7 +7,9 @@ public class CreateToken : MonoBehaviour
 {
     const string DefaultGameActionsFolder = @"Assets\Actions";
     const string DefaultRecipesFolder = @"Assets\Recipes";
+    const string DefaultConditionsFolder = @"Assets\Conditions";
 
+    #region CreateToken
     [MenuItem("Monster Mashup/Create Token/Colored")]
     static void CreateColoredToken()
     {
@@ -25,21 +27,15 @@ public class CreateToken : MonoBehaviour
         AssetDatabase.Refresh();
         Debug.Log("Creating new textured token.");
     }
+    #endregion
 
+    #region CreateAction
     [MenuItem("Monster Mashup/Create Action/Modify Worm Size")]
     static void CreateModifyWormSizeAction()
     {
         ModifyWormSize action = ScriptableObject.CreateInstance<ModifyWormSize>();
         CreateDirectory(DefaultGameActionsFolder);
         AssetDatabase.CreateAsset(action, DefaultGameActionsFolder + @"\ModifyWormSize.asset");
-        AssetDatabase.Refresh();
-    }
-    [MenuItem("Monster Mashup/Create Action/Modify Worm Size And Drop Token")]
-    static void CreateModifyWormSizeAndDropTokenAction()
-    {
-        ModifyWormSizeAndDropToken action = ScriptableObject.CreateInstance<ModifyWormSizeAndDropToken>();
-        CreateDirectory(DefaultGameActionsFolder);
-        AssetDatabase.CreateAsset(action, DefaultGameActionsFolder + @"\ModifyWormSizeAndDropToken.asset");
         AssetDatabase.Refresh();
     }
     [MenuItem("Monster Mashup/Create Action/Modify Worm Stomach Size")]
@@ -59,6 +55,17 @@ public class CreateToken : MonoBehaviour
         AssetDatabase.CreateAsset(action, DefaultGameActionsFolder + @"\DropToken.asset");
         AssetDatabase.Refresh();
     }
+    [MenuItem("Monster Mashup/Create Action/Multi Action")]
+    static void CreateMultiAction()
+    {
+        MultiAction action = ScriptableObject.CreateInstance<MultiAction>();
+        CreateDirectory(DefaultGameActionsFolder);
+        AssetDatabase.CreateAsset(action, DefaultGameActionsFolder + @"\MultiAction.asset");
+        AssetDatabase.Refresh();
+    }
+    #endregion
+
+    #region CreateRecipe
     [MenuItem("Monster Mashup/Create Recipe")]
     static void CreateRecipe()
     {
@@ -67,7 +74,37 @@ public class CreateToken : MonoBehaviour
         AssetDatabase.CreateAsset(recipe, DefaultRecipesFolder + @"\NewRecipe.asset");
         AssetDatabase.Refresh();
     }
-    
+    #endregion
+
+    #region CreateCondition
+    [MenuItem("Monster Mashup/Create Condition/Moves Taken")]
+    static void CreateMovesTakenCondition()
+    {
+        MovesTakenCondition condition = ScriptableObject.CreateInstance<MovesTakenCondition>();
+        CreateDirectory(DefaultConditionsFolder);
+        AssetDatabase.CreateAsset(condition, DefaultConditionsFolder + @"\MovesTaken.asset");
+        AssetDatabase.Refresh();
+    }
+    [MenuItem("Monster Mashup/Create Condition/Resource")]
+    static void CreateResourceCondition()
+    {
+        ResourceCondition condition = ScriptableObject.CreateInstance<ResourceCondition>();
+        CreateDirectory(DefaultConditionsFolder);
+        AssetDatabase.CreateAsset(condition, DefaultConditionsFolder + @"\ResourceCondition.asset");
+        AssetDatabase.Refresh();
+    }
+    [MenuItem("Monster Mashup/Create Condition/Multi Condition")]
+    static void CreateMultiCondition()
+    {
+        MultiCondition condition = ScriptableObject.CreateInstance<MultiCondition>();
+        CreateDirectory(DefaultConditionsFolder);
+        AssetDatabase.CreateAsset(condition, DefaultConditionsFolder + @"\MultiCondition.asset");
+        AssetDatabase.Refresh();
+    }
+    #endregion
+
+
+
 
     private static void CreateDirectory(string directoryName)
     {
