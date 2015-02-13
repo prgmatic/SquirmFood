@@ -85,6 +85,7 @@ public class GameTile : MonoBehaviour
     public bool CanFall { get { return TokenProperties.CanFall; } }
     public bool IsEdible { get { return TokenProperties.IsEdible; } }
     public bool IsWorm { get { return TokenProperties.IsWorm; } }
+    public bool Pushable { get { return TokenProperties.Pushable; } }
     #endregion
 
     void Awake()
@@ -139,6 +140,36 @@ public class GameTile : MonoBehaviour
         {
             this.WorldPosition = Gameboard.Instance.GridPositionToWorldPosition(GridPosition.x, GridPosition.y);
         }
+    }
+
+    public bool Push(Direction direction)
+    {
+        Rectangle newBounds = GridBounds;
+        switch(direction)
+        {
+            case Direction.Left:
+                newBounds.x -= 1;
+                break;
+            case Direction.Right:
+                newBounds.x += 1;
+                break;
+            case Direction.Up:
+                newBounds.y -= 1;
+                break;
+            case Direction.Down:
+                newBounds.y += 1;
+                break;
+        }
+        if (Gameboard.Instance.GridBounds.Contains(newBounds))
+        {
+            if (Gameboard.Instance.NumberOfTilesInBounds(newBounds, this) == 0)
+            {
+                Move(newBounds.x, newBounds.y);
+                return true;
+            }
+        }
+        return false;
+
     }
 
     // Helper Methods

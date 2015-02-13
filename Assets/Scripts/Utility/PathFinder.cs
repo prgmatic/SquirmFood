@@ -154,11 +154,5 @@ public class PathFinder : MonoBehaviour
         }
     }
 
-    public enum Direction
-    {
-        Up,
-        Down,
-        Left,
-        Right
-    }
+    
 }

@@ -37,5 +37,6 @@ public class BoardLayoutImporter : MonoBehaviour
                 Gameboard.Instance.AddTileFromToken(token.Token, token.Position, false, true);
         }
         Gameboard.Instance.ApplyGravity();
+        
     }
 }

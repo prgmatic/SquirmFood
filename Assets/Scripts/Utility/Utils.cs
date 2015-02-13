@@ -43,4 +43,14 @@ public static class Utils
         float angle = Vector2Angle(from, to);
         return Quaternion.Euler(0, 0, angle);
     }
+
+    
+}
+
+public enum Direction
+{
+    Up,
+    Down,
+    Left,
+    Right
 }

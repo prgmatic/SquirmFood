@@ -455,8 +455,6 @@ MonoBehaviour:
     Action: {fileID: 11400000, guid: faf750c92cf16f243a30c4644734a49f, type: 2}
   - Recipe: {fileID: 11400000, guid: 6cec2c4fe137f5940807bd70a22d07d0, type: 2}
     Action: {fileID: 0}
-  - Recipe: {fileID: 11400000, guid: eff2e238c93f87742850cf2078023d4d, type: 2}
-    Action: {fileID: 11400000, guid: 91067cfd75414724787dc79c24efd853, type: 2}
 --- !u!4 &795697341
 Transform:
   m_ObjectHideFlags: 0
@@ -1132,6 +1130,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 437a0a8335defd24ab92b010a793d3c9, type: 2}
   - {fileID: 11400000, guid: 7a86c793c68bf8b4b9b727028f7c0bc6, type: 2}
   - {fileID: 11400000, guid: cbe0a7cb74e2fdf43a38b28b578c78fb, type: 2}
+  - {fileID: 11400000, guid: 497c3540c32fefc4dbfc1432e3ff7add, type: 2}
+  - {fileID: 11400000, guid: 2fd24fc2c0766464d86c022a1e9ebcd1, type: 2}
 --- !u!114 &1455866809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1151,7 +1151,7 @@ MonoBehaviour:
     MovesBeforeDeath: 0
     CanMoveOverSelf: 0
     DieWhenStomachFull: 0
-    OnlyMoveOnEat: 1
+    OnlyMoveOnEat: 0
     DisplayMovesTaken: 1
   SpawnAtStart: 0
   SpawnPosition:
@@ -1225,7 +1225,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1455866805}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6978170297f6389458347743035dd82f, type: 3}
   m_Name: 

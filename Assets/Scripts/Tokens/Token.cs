@@ -6,6 +6,7 @@ public class Token : ScriptableObject
     public List<Resource> Resources = new List<Resource>();
     public bool IsNuisance = false;
     public bool IsEdible = true;
+    public bool Pushable = false;
     public bool CanFall = true;
     public bool IsWorm = false;
     public int Width = 1;
