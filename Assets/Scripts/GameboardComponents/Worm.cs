@@ -20,6 +20,8 @@ public class Worm : MonoBehaviour
 
     private int _movesTaken = 0;
 
+    public Point MovingTo = Point.zero;
+
     public GameTile Head { get { return Sections[0]; } }
     public GameTile Tail { get { return Sections[Sections.Count - 1]; } }
     public bool IsStomachFull { get { return Stomach.Count >= StomachSize; } }
@@ -72,6 +74,7 @@ public class Worm : MonoBehaviour
                 if (tile.IsEdible && !IsStomachFull)
                 {
                     //tileToDestory = tile;
+                    MovingTo = new Point(x, y);
                     EatToken(tile);
                 }
                 else if (!tile.IsWorm || !CanMoveOverSelf) return;

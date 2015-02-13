@@ -7,7 +7,8 @@ public class DropToken : GameAction
     public enum LocationToDropToken
     {
         WormTail,
-        WormHead
+        WormHead,
+        MovingTo
     }
 
     public LocationToDropToken Where;
@@ -23,6 +24,9 @@ public class DropToken : GameAction
                 break;
             case LocationToDropToken.WormHead:
                 pos = worm.Head.GridPosition;
+                break;
+            case LocationToDropToken.MovingTo:
+                pos = worm.MovingTo;
                 break;
         }
         Gameboard.Instance.AddTileFromToken(TokenToDrop, pos, true, true);

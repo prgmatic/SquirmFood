@@ -455,6 +455,8 @@ MonoBehaviour:
     Action: {fileID: 11400000, guid: faf750c92cf16f243a30c4644734a49f, type: 2}
   - Recipe: {fileID: 11400000, guid: 6cec2c4fe137f5940807bd70a22d07d0, type: 2}
     Action: {fileID: 0}
+  - Recipe: {fileID: 11400000, guid: eff2e238c93f87742850cf2078023d4d, type: 2}
+    Action: {fileID: 11400000, guid: 91067cfd75414724787dc79c24efd853, type: 2}
 --- !u!4 &795697341
 Transform:
   m_ObjectHideFlags: 0
@@ -1223,7 +1225,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1455866805}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6978170297f6389458347743035dd82f, type: 3}
   m_Name: 

@@ -8,8 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1ec184d7159ad749aeb6d2cc9f6b93f, type: 3}
-  m_Name: DropCrystal
+  m_Script: {fileID: 11500000, guid: 87bf6dff34f1abe48a1cda6faa1c9fb4, type: 3}
+  m_Name: Any
   m_EditorClassIdentifier: 
-  Where: 2
-  TokenToDrop: {fileID: 11400000, guid: b854f37504d8e024cb884016f180248a, type: 2}
+  MatchAnyOrder: 0
+  Ingerdiants:
+  - {fileID: 0}
