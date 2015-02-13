@@ -3,7 +3,7 @@ using UnityEditor;
 using System.IO;
 using System.Collections.Generic;
 
-public class BoardLayoutExporter
+public class BoardLayoutExporterEditor
 {
     private static bool CanExport { get { return Application.isPlaying && Gameboard.Instance != null; } }
     private static List<BoardLayout.TokenAtPoint> quickSaveTokens = new List<BoardLayout.TokenAtPoint>();
@@ -18,7 +18,7 @@ public class BoardLayoutExporter
         {
             savePath = savePath.Substring(Application.dataPath.Length, savePath.Length - Application.dataPath.Length);
             savePath = @"Assets" + savePath;
-            AssetDatabase.CreateAsset(GenerateLayout(), savePath);
+            AssetDatabase.CreateAsset(BoardLayoutExporter.GenerateLayout(), savePath);
             AssetDatabase.Refresh();
             Debug.Log("Layout Saved");
         }
@@ -37,7 +37,7 @@ public class BoardLayoutExporter
     [MenuItem("Monster Mashup/Quick Export _&s", false, 1)]
     public static void QuickExport()
     {
-        quickSaveTokens = GetTokensOnBoard();
+        quickSaveTokens = BoardLayoutExporter.GetTokensOnBoard();
         Debug.Log("Layout Quick Export");
     }
     [MenuItem("Monster Mashup/Quick Export _&s", true)]
@@ -48,7 +48,7 @@ public class BoardLayoutExporter
     [MenuItem("Monster Mashup/Quick Import _&a", false, 1)]
     public static void QuickImport()
     {
-        ImportBoardLayout(quickSaveTokens);
+        BoardLayoutImporter.ImportBoardLayout(quickSaveTokens);
         Debug.Log("Layout Quick Import");
     }
     [MenuItem("Monster Mashup/Quick Import _&a", true)]
@@ -59,41 +59,5 @@ public class BoardLayoutExporter
 
 
 
-    public static List<BoardLayout.TokenAtPoint> GetTokensOnBoard()
-    {
-        List<BoardLayout.TokenAtPoint> result = new List<BoardLayout.TokenAtPoint>();
-        foreach (var tile in Gameboard.Instance.gameTiles)
-        {
-            if (!tile.IsWorm || tile.GetComponent<Worm>() != null)
-            {
-                result.Add(new BoardLayout.TokenAtPoint(tile.TokenProperties, tile.GridPosition));
-            }
-        }
-        return result;
-    }
-
-    private static BoardLayout GenerateLayout()
-    {
-        BoardLayout layout = ScriptableObject.CreateInstance<BoardLayout>();
-        layout.Tokens = GetTokensOnBoard();
-        return layout;
-    }
-
-    public static void ImportBoardLayout(List<BoardLayout.TokenAtPoint> tokens)
-    {
-        WormSpawnerInput wormSpawner = Gameboard.Instance.GetComponent<WormSpawnerInput>();
-
-        Gameboard.Instance.Clear();
-        foreach (var token in tokens)
-        {
-            if (token.Token.IsWorm)
-            {
-                if (wormSpawner != null)
-                    wormSpawner.CreateWorm(token.Position);
-            }
-            else
-                Gameboard.Instance.AddTileFromToken(token.Token, token.Position, false, true);
-        }
-        Gameboard.Instance.ApplyGravity();
-    }
+    
 }

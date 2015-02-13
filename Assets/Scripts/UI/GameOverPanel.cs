@@ -5,6 +5,7 @@ using System.Collections;
 public class GameOverPanel : MonoBehaviour 
 {
     public Text GameOverText;
+    public Button NextLevelButton;
 
     public void Hide()
     {
@@ -15,6 +16,13 @@ public class GameOverPanel : MonoBehaviour
     {
         this.gameObject.SetActive(true);
         this.GameOverText.text = gameOverMsg;
+
+        BoardLayoutSet bls = Gameboard.Instance.GetComponent<BoardLayoutSet>();
+        if (bls != null && bls.enabled)
+        {
+            NextLevelButton.gameObject.SetActive(true);
+        }
+        else NextLevelButton.gameObject.SetActive(false);
     }
 
     

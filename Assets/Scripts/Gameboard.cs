@@ -80,7 +80,6 @@ public class Gameboard : MonoBehaviour
             GameEnded();
         VictoryLossConditions.Instance.Disable();
     }
-
     public void StartGame()
     {
         
@@ -92,12 +91,20 @@ public class Gameboard : MonoBehaviour
         ResourcePool.Instance.UpdateResourceCount();
         VictoryLossConditions.Instance.Enable();
     }
-
     public void ContinueGame()
     {
         GameState = GameStateType.InProgress;
         UIGlobals.Instance.gameOverPanel.Hide();
         VictoryLossConditions.Instance.Disable();
+    }
+    public void NextLevel()
+    {
+        BoardLayoutSet bls = GetComponent<BoardLayoutSet>();
+        if(bls != null)
+        {
+            bls.NextLevel();
+        }
+        StartGame();
     }
 
     private void AddTileToTileTable(GameTile tile)
