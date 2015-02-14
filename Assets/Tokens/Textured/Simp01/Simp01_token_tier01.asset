@@ -9,11 +9,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 600a4ed6aa45419449d0dda543157294, type: 3}
-  m_Name: Simp01_token
+  m_Name: Simp01_token_tier01
   m_EditorClassIdentifier: 
   Resources: []
   IsNuisance: 0
   IsEdible: 1
+  Pushable: 0
   CanFall: 0
   IsWorm: 0
   Width: 1
