@@ -77,17 +77,29 @@ public class Worm : MonoBehaviour
                     MovingTo = new Point(x, y);
                     EatToken(tile);
                 }
-                else if(tile.Pushable)
+                else if (tile.Pushable)
                 {
                     Direction direction = Direction.Right;
                     if (x < Head.GridPosition.x) direction = Direction.Left;
                     else if (y > Head.GridPosition.y) direction = Direction.Down;
                     else if (y < Head.GridPosition.y) direction = Direction.Up;
-                    if (!tile.Push(direction)) return;
+                    if (!tile.Push(direction))
+                    {
+                        Debug.Log("not moved");
+                        return;
+                    }
                 }
-                else if (!tile.IsWorm || !CanMoveOverSelf) return;
+                else if (!tile.IsWorm || !CanMoveOverSelf)
+                {
+                    Debug.Log("not moved");
+                    return;
+                }
             }
-            else if (OnlyMoveOnEat) return;
+            else if (OnlyMoveOnEat)
+            {
+                Debug.Log("not moved");
+                return;
+            }
         }
         if (Sections.Count == 0) return; // Worm has died
         try

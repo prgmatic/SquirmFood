@@ -66,7 +66,6 @@ public class Gameboard : MonoBehaviour
             CreateHopperMask();
 
     }
-
     void Start()
     {
         StartGame();
@@ -383,7 +382,6 @@ public class Gameboard : MonoBehaviour
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b);
     }
 
-    
     public enum GameStateType
     {
         InProgress,

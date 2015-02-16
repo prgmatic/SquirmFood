@@ -8,15 +8,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 600a4ed6aa45419449d0dda543157294, type: 3}
-  m_Name: TexturedToken
+  m_Script: {fileID: 927472823, guid: 20c2a163775f09b4cafa29b19d0c9204, type: 3}
+  m_Name: 42" FullHD TV
   m_EditorClassIdentifier: 
-  Resources: []
-  IsNuisance: 0
-  IsEdible: 1
-  CanFall: 1
-  IsWorm: 0
-  Width: 1
-  Height: 1
-  Color: {r: 1, g: 1, b: 1, a: 1}
-  Sprite: {fileID: 0}
+  name: FullHD TV 42
+  dpi: 52

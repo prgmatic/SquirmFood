@@ -23,21 +23,5 @@ public class BoardLayoutExporter
         return layout;
     }
 
-    public static void ImportBoardLayout(List<BoardLayout.TokenAtPoint> tokens)
-    {
-        WormSpawnerInput wormSpawner = Gameboard.Instance.GetComponent<WormSpawnerInput>();
-
-        Gameboard.Instance.Clear();
-        foreach (var token in tokens)
-        {
-            if (token.Token.IsWorm)
-            {
-                if (wormSpawner != null)
-                    wormSpawner.CreateWorm(token.Position);
-            }
-            else
-                Gameboard.Instance.AddTileFromToken(token.Token, token.Position, false, true);
-        }
-        Gameboard.Instance.ApplyGravity();
-    }
+   
 }
