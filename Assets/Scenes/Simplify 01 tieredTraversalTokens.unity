@@ -133,12 +133,13 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Simplest Ruleset 01\n+ Rank Token on Eat allowing it to be traversed exactly
-    one more time\n\nElements\n+ Board: 6x6\n+ Worm: exactly 1 worm with 1 segment\n+
-    Monster: exactly 1 body part\n+ Tokens: any number of\n   - Tier 01 tokens which
-    become tier 02 when eaten\n   - Tier 02 tokens which vanish when eaten\n\nRules\n+
-    Worm moves into space with token only\n+ Tokens don't fall\n+ Unsupported body
-    parts do fall\n\nObjective\n+ Get the body part to the bottom of the screen"
+  m_Text: "Simplest Ruleset 01\n+ 2 ranks of tokens, one ranking to the other on eat
+    and the second vanishing on eat\n\nElements\n+ Board: 6x6\n+ Worm: exactly 1 worm
+    with 1 segment\n+ Monster: exactly 1 body part\n+ Tokens: any number of\n   -
+    Tier 01 tokens which become tier 02 when eaten\n   - Tier 02 tokens which vanish
+    when eaten\n\nRules\n+ Worm moves into space with token only\n+ Tokens don't fall\n+
+    Unsupported body parts do fall\n\nObjective\n+ Get the body part to the bottom
+    of the screen"
 --- !u!222 &1647539
 CanvasRenderer:
   m_ObjectHideFlags: 0
