@@ -16,7 +16,7 @@ public class GameTile : MonoBehaviour
     #region Variables
     private static float MoveTime = .2f;
 
-    public float Acceleration = 9.87f;
+    public float Acceleration = 3f;
     [HideInInspector]
     public string Category = "";
 
@@ -94,7 +94,7 @@ public class GameTile : MonoBehaviour
     }
     public void ApplyGravity()
     {
-        if (!CanFall) return;
+        if (!CanFall || _moving) return;
         if (!Gameboard.Instance.GridBoundsWithHopper.Contains(this.GridBounds)) return;
         if (GridBottom < Gameboard.Instance.Rows)
         {
@@ -225,5 +225,7 @@ public class GameTile : MonoBehaviour
         _moving = false;
         if (SettledFromMove != null)
             SettledFromMove(this);
+        if (Pushable)
+            ApplyGravity();
     }
 }
