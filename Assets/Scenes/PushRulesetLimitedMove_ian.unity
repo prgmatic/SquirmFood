@@ -1687,14 +1687,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6978170297f6389458347743035dd82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoardLayout: {fileID: 11400000, guid: 1176a9f91864e7d4383294523ddd96e2, type: 2}
+  BoardLayout: {fileID: 11400000, guid: 3f28959c3c3e8c441b19f8795219cf63, type: 2}
 --- !u!114 &1455866816
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1455866805}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49a77b700caec4e438e517dbb23eb28f, type: 3}
   m_Name: 
