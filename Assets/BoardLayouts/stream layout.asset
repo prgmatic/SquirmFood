@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5151ec5ac43c75d4bbaddaf076e10e5e, type: 3}
   m_Name: stream layout
   m_EditorClassIdentifier: 
+  GUID: 42e0d9c72d7b43241a82b3189cb7d0cb
   Tokens:
   - Token: {fileID: 11400000, guid: 1683b5ec0ee66c3459d777e8c6dc9934, type: 2}
     Position:

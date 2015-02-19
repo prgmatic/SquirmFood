@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5151ec5ac43c75d4bbaddaf076e10e5e, type: 3}
   m_Name: simp01-tiered_clusterManagementD
   m_EditorClassIdentifier: 
+  GUID: 68d805ce1fff618429aa7130fe0392e6
   Tokens:
   - Token: {fileID: 11400000, guid: 20742bb7a563b494fbe6af001c588eea, type: 2}
     Position:

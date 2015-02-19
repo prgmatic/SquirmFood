@@ -22,7 +22,7 @@ public class VictoryLossConditions : MonoBehaviour
 
     void Update()
     {
-        if (CheckEnabled && Gameboard.Instance.GameState == Gameboard.GameStateType.InProgress)
+        if (CheckEnabled && (Gameboard.Instance.GameState == Gameboard.GameStateType.InProgress || Gameboard.Instance.GameState == Gameboard.GameStateType.ViewingPlayback))
         {
             CheckForVictory();
             CheckForLoss();
@@ -35,7 +35,10 @@ public class VictoryLossConditions : MonoBehaviour
         {
             if(condition.ConditionMet())
             {
-                Gameboard.Instance.GameOver("You Win");
+                if(Gameboard.Instance.GameState == Gameboard.GameStateType.InProgress)
+                    Gameboard.Instance.GameOver("You Win");
+                if (Gameboard.Instance.GameState == Gameboard.GameStateType.ViewingPlayback)
+                    Gameboard.Instance.StartGame();
             }
         }
     }

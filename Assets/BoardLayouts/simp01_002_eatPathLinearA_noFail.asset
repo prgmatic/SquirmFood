@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5151ec5ac43c75d4bbaddaf076e10e5e, type: 3}
   m_Name: simp01_002_eatPathLinearA_noFail
   m_EditorClassIdentifier: 
+  GUID: 07cc6ec5b921fe54b92d807e11d286fd
   Tokens:
   - Token: {fileID: 11400000, guid: a6e2429ea77778b4aaa071add988b1d9, type: 2}
     Position:

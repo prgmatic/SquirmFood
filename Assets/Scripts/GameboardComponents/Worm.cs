@@ -30,7 +30,7 @@ public class Worm : MonoBehaviour
     void Awake()
     {
         Sections.Add(GetComponent<GameTile>());
-        DebugHUD.MessagesCleared += DebugHUD_MessagesCleared;
+        //DebugHUD.MessagesCleared += DebugHUD_MessagesCleared;
     }
 
     private void DebugHUD_MessagesCleared(object sender, System.EventArgs e)
@@ -64,7 +64,7 @@ public class Worm : MonoBehaviour
 
     
 
-    public void Move(int x, int y)
+    public bool Move(int x, int y)
     {
         if (Gameboard.Instance.IsValidTileCoordinate(x, y, true))
         {
@@ -79,29 +79,27 @@ public class Worm : MonoBehaviour
                 }
                 else if (tile.Pushable)
                 {
+                    if (tile.Moving) return false;
                     Direction direction = Direction.Right;
                     if (x < Head.GridPosition.x) direction = Direction.Left;
                     else if (y > Head.GridPosition.y) direction = Direction.Down;
                     else if (y < Head.GridPosition.y) direction = Direction.Up;
                     if (!tile.Push(direction))
                     {
-                        Debug.Log("not moved");
-                        return;
+                        return false;
                     }
                 }
                 else if (!tile.IsWorm || !CanMoveOverSelf)
                 {
-                    Debug.Log("not moved");
-                    return;
+                    return false;
                 }
             }
             else if (OnlyMoveOnEat)
             {
-                Debug.Log("not moved");
-                return;
+                return false;
             }
         }
-        if (Sections.Count == 0) return; // Worm has died
+        if (Sections.Count == 0) return false; // Worm has died
         try
         {
             Point testPoint = Tail.GridPosition;
@@ -133,6 +131,7 @@ public class Worm : MonoBehaviour
         }
 
         Gameboard.Instance.ApplyGravity();
+        return true;
 
     }
 

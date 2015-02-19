@@ -23,7 +23,7 @@ public class ResourcePool : MonoBehaviour
             _resources.Add(new Resource(resourceType));
         }
         DebugHUD.MessagesCleared += DebugHUD_MessagesCleared;
-        Gameboard.Instance.GameStarted += Instance_GameStarted;
+        Gameboard.Instance.GameboardReset += Instance_GameStarted;
     }
 
     private void Instance_GameStarted()

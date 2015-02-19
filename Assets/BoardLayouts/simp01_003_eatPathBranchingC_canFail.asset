@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5151ec5ac43c75d4bbaddaf076e10e5e, type: 3}
   m_Name: simp01_003_eatPathBranchingC_canFail
   m_EditorClassIdentifier: 
+  GUID: 13914a6ef86083d44a4e8ba6dc14a66d
   Tokens:
   - Token: {fileID: 11400000, guid: 206f6ffdecc789b478bfe6564fc911f4, type: 2}
     Position:

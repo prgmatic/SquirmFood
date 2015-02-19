@@ -8,7 +8,7 @@ public class BoardLayoutImporter : MonoBehaviour
 
     void Awake()
     {
-        Gameboard.Instance.GameStarted += Instance_GameStarted;
+        Gameboard.Instance.GameboardReset += Instance_GameStarted;
     }
 
     private void Instance_GameStarted()

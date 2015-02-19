@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5151ec5ac43c75d4bbaddaf076e10e5e, type: 3}
   m_Name: simp01-spitting_quadTourTooEasy
   m_EditorClassIdentifier: 
+  GUID: df41e9b6cd4a2e147a112de3d115ad01
   Tokens:
   - Token: {fileID: 11400000, guid: cb0ea04b9d625fb4cbf26c25d93cb67a, type: 2}
     Position:

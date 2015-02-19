@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5151ec5ac43c75d4bbaddaf076e10e5e, type: 3}
   m_Name: PushLimitedMove01
   m_EditorClassIdentifier: 
+  GUID: 3826283f4f39cc4459784109292e0e7e
   Tokens:
   - Token: {fileID: 11400000, guid: 497c3540c32fefc4dbfc1432e3ff7add, type: 2}
     Position:

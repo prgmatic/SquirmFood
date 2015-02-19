@@ -25,5 +25,24 @@ public class GameOverPanel : MonoBehaviour
         else NextLevelButton.gameObject.SetActive(false);
     }
 
+    public void StartGame()
+    {
+        Gameboard.Instance.StartGame();
+    }
+
+    public void ContinueGame()
+    {
+        Gameboard.Instance.ContinueGame();
+    }
+
+    public void NextLevel()
+    {
+        Gameboard.Instance.NextLevel();
+    }
+    public void LogPlaythrough()
+    {
+        Hide();
+        UIGlobals.Instance.LogPlayThroughPanel.Show();
+    }
     
 }

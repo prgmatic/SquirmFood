@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5151ec5ac43c75d4bbaddaf076e10e5e, type: 3}
   m_Name: simp01-2SegWorm_001_nub+linearA
   m_EditorClassIdentifier: 
+  GUID: a8e018d86e4200d4099eac0fafd3197c
   Tokens:
   - Token: {fileID: 11400000, guid: 206f6ffdecc789b478bfe6564fc911f4, type: 2}
     Position:

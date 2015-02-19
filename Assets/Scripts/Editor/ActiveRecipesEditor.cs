@@ -35,11 +35,6 @@ public class ActiveRecipesEditor : Editor
 
         return itemValue;
     }
-
-    private void DrawEmpty()
-    {
-        GUILayout.Label("No items in list.", EditorStyles.miniLabel);
-    }
 }
 
 

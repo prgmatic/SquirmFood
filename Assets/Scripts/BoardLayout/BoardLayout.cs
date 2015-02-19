@@ -3,8 +3,11 @@ using System.Collections.Generic;
 
 public class BoardLayout : ScriptableObject 
 {
+    public string GUID = "";
     [HideInInspector]
     public List<TokenAtPoint> Tokens = new List<TokenAtPoint>();
+    [System.NonSerialized]
+    public List<Playthrough> Playthroughs = new List<Playthrough>();
 
     [System.Serializable]
     public class TokenAtPoint

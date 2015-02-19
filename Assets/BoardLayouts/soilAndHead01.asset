@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5151ec5ac43c75d4bbaddaf076e10e5e, type: 3}
   m_Name: soilAndHead01
   m_EditorClassIdentifier: 
+  GUID: 9f891c7df3ab5c54daa23c479741e860
   Tokens:
   - Token: {fileID: 11400000, guid: 47997df0bb442f74891bd82c4281a228, type: 2}
     Position:

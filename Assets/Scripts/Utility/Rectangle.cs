@@ -12,6 +12,8 @@ public struct Rectangle
     public int Right { get { return x + width; } }
     public int Top { get { return y; } }
     public int Bottom { get { return y + height; } }
+    public Point Position { get { return new Point(x, y); } set { x = value.x; y = value.y; } }
+    public Point Size { get { return new Point(width, height); } set { width = value.x; height = value.y; } }
 
     public Rectangle(Rectangle source)
     {

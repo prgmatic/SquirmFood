@@ -8,10 +8,15 @@ public class Gameboard : MonoBehaviour
     public event GameTile.GameTileEvent TileSettled;
     public event GameTile.GameTileEvent TileAdded;
     public event GameTile.GameTileEvent TileDestroyed;
+    public event GameTile.GameTileGridMovedEvent TileMoved;
     public delegate void GameStateEvent();
+    public event GameStateEvent GameboardReset;
     public event GameStateEvent GameStarted;
     public event GameStateEvent GameEnded;
-
+    public event GameStateEvent GameRetry;
+    public delegate void DirectionEvent(Direction direction);
+    public event DirectionEvent WormMoveInputRecieved;
+    public GameStateType GameState = GameStateType.GameOver;
     #endregion
 
     #region Variables
@@ -24,7 +29,14 @@ public class Gameboard : MonoBehaviour
     private GameTile[,] _tileTable;
     private int _hopperSize = 3;
     private static Gameboard _instance;
-    public GameStateType GameState = GameStateType.GameOver;
+    private float _gameDuration = 0f;
+    private float _prevGameDuration = 0f;
+    private int _totalMoves = 0;
+    private int _movesThisTry = 0;
+    private int _retries = 0;
+    private bool _steppedPlayback = false;
+    private static Playthrough _staticPlaybackData = null;
+    private Playthrough _playbackData = null;
 
     [HideInInspector]
     public List<GameTile> gameTiles = new List<GameTile>();
@@ -42,6 +54,10 @@ public class Gameboard : MonoBehaviour
     public Rectangle GridBoundsWithHopper { get { return new Rectangle(0, -HopperSize, Columns, Rows + HopperSize); } }
     public int HopperSize { get { return _hopperSize; } }
     public bool AcceptingInput { get { return GameState == GameStateType.InProgress; } }
+    public float GameDuration { get { return _gameDuration; } }
+    public int TotalMoves { get { return _totalMoves; } }
+    public int MovesThisTry { get { return _movesThisTry; } }
+    public int Retries { get { return _retries; } }
     #endregion
     
 
@@ -56,7 +72,6 @@ public class Gameboard : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-
     }
     private void Init()
     {
@@ -68,32 +83,59 @@ public class Gameboard : MonoBehaviour
     }
     void Start()
     {
+        DebugHUD.MessagesCleared += delegate
+        {
+            DebugHUD.Add("Moves: " + _movesThisTry);
+        };
         StartGame();
+    }
+    void Update()
+    {
+        if (GameState == GameStateType.InProgress || GameState == GameStateType.ViewingPlayback)
+        {
+            _prevGameDuration = _gameDuration;
+            _gameDuration += Time.deltaTime;
+        }
+
+        if(GameState == GameStateType.ViewingPlayback)
+        {
+            _playbackData.Playback(_gameDuration);
+        }
     }
 
     public void GameOver(string GameOverMessage)
     {
         GameState = GameStateType.GameOver;
-        UIGlobals.Instance.gameOverPanel.Show(GameOverMessage);
+        UIGlobals.Instance.GameOverPanel.Show(GameOverMessage);
         if (GameEnded != null)
             GameEnded();
         VictoryLossConditions.Instance.Disable();
     }
     public void StartGame()
     {
-        
+        _retries = 0;
+        _gameDuration = 0f;
+        _totalMoves = 0;
+        _movesThisTry = 0;
+        _retries = 0;
         Clear();
         GameState = GameStateType.InProgress;
-        UIGlobals.Instance.gameOverPanel.Hide();
+        UIGlobals.Instance.HideAll();
         if (GameStarted != null)
             GameStarted();
+        ResetBoard();
+    }
+    private void ResetBoard()
+    {
+        if (GameboardReset != null)
+            GameboardReset();
         ResourcePool.Instance.UpdateResourceCount();
         VictoryLossConditions.Instance.Enable();
     }
     public void ContinueGame()
     {
         GameState = GameStateType.InProgress;
-        UIGlobals.Instance.gameOverPanel.Hide();
+        UIGlobals.Instance.GameOverPanel.Hide();
         VictoryLossConditions.Instance.Disable();
     }
     public void NextLevel()
@@ -104,6 +146,44 @@ public class Gameboard : MonoBehaviour
             bls.NextLevel();
         }
         StartGame();
+    }
+    public void Retry()
+    {
+        _retries++;
+        _movesThisTry = 0;
+        ResetBoard();
+        if (GameRetry != null)
+            GameRetry();
+    }
+    public void ViewReplay(Playthrough playthrough, bool steppedPlayback)
+    {
+        _playbackData = playthrough;
+        _steppedPlayback = steppedPlayback;
+        _playbackData.ResetPlayback(steppedPlayback);
+        _totalMoves = 0;
+        _gameDuration = 0f;
+        UIGlobals.Instance.GameOverPanel.Hide();
+        UIGlobals.Instance.LogPlayThroughPanel.Hide();
+        UIGlobals.Instance.PlaybackControls.Show(steppedPlayback);
+        GameState = GameStateType.ViewingPlayback;
+        if (GameboardReset != null)
+            GameboardReset();
+        ResourcePool.Instance.UpdateResourceCount();
+        VictoryLossConditions.Instance.Enable();
+    }
+    public void RestartPlayback()
+    {
+        if(GameState == GameStateType.ViewingPlayback)
+        {
+            ViewReplay(_playbackData, _steppedPlayback);
+        }
+    }
+    public void AdvanceStepInPlayback()
+    {
+        if (GameState == GameStateType.ViewingPlayback)
+        {
+            _playbackData.AdvanceStep();
+        }
     }
 
     private void AddTileToTileTable(GameTile tile)
@@ -175,6 +255,7 @@ public class Gameboard : MonoBehaviour
             newTile.ApplyGravity();
         if (TileAdded != null)
             TileAdded(newTile);
+        newTile.GridPositionMoved += NewTile_GridPositionMoved1;
         return newTile;
     }
     private GameTile GenerateTileFromColoredToken(Token token)
@@ -331,6 +412,42 @@ public class Gameboard : MonoBehaviour
         }
     }
 
+    public void MoveWorm(Direction direction)
+    {
+        int x = 0;
+        int y = 0;
+        switch(direction)
+        {
+            case Direction.Left:
+                x = -1;
+                break;
+            case Direction.Right:
+                x = 1;
+                break;
+            case Direction.Up:
+                y = -1;
+                break;
+            case Direction.Down:
+                y = 1;
+                break;
+        }
+        for (int i = 0; i < gameTiles.Count; i++)
+        {
+            GameTile tile = gameTiles[i];
+            Worm worm = tile.GetComponent<Worm>();
+            if (worm != null)
+            {
+                if (worm.Move(worm.Head.GridPosition.x + x, worm.Head.GridPosition.y + y))
+                {
+                    _movesThisTry++;
+                    _totalMoves++;
+                }
+            }
+        }
+        if (WormMoveInputRecieved != null)
+            WormMoveInputRecieved(direction);
+    }
+
     public void ApplyGravity()
     {
         for (int y = Rows - 1; y >= -HopperSize; y--)
@@ -382,9 +499,23 @@ public class Gameboard : MonoBehaviour
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b);
     }
 
+    public static void SetPlaybackData(Playthrough playthrough)
+    {
+        _staticPlaybackData = playthrough;
+    }
+
+    #region Delegates
+    private void NewTile_GridPositionMoved1(GameTile sender, Rectangle oldGridBounds)
+    {
+        if (TileMoved != null)
+            TileMoved(sender, oldGridBounds);
+    }
+    #endregion
+
     public enum GameStateType
     {
         InProgress,
-        GameOver
+        GameOver,
+        ViewingPlayback
     }
 }

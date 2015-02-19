@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5151ec5ac43c75d4bbaddaf076e10e5e, type: 3}
   m_Name: LongBodyPart
   m_EditorClassIdentifier: 
+  GUID: d800fd73007ffdb49afe0cd918726bc7
   Tokens:
   - Token: {fileID: 11400000, guid: cbe0a7cb74e2fdf43a38b28b578c78fb, type: 2}
     Position:
