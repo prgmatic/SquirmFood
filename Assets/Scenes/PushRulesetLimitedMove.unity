@@ -3449,6 +3449,7 @@ MonoBehaviour:
   HopperMask: 0
   BackGroundColor1: {r: .125490203, g: .117647059, b: .0941176489, a: 1}
   BackGroundColor2: {r: .247058824, g: .200000003, b: .184313729, a: 1}
+  FreeMoveBackgroundColor: {r: .807843149, g: .70588237, b: .505882382, a: 1}
   gameTiles: []
 --- !u!4 &1455866807
 Transform:
@@ -3476,10 +3477,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TokensToSpawn:
   - {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
-  - {fileID: 11400000, guid: 437a0a8335defd24ab92b010a793d3c9, type: 2}
   - {fileID: 11400000, guid: 497c3540c32fefc4dbfc1432e3ff7add, type: 2}
   - {fileID: 11400000, guid: 2fd24fc2c0766464d86c022a1e9ebcd1, type: 2}
+  - {fileID: 11400000, guid: 2cc7ca4eba895b948ba74922c731a85f, type: 2}
   - {fileID: 11400000, guid: 1683b5ec0ee66c3459d777e8c6dc9934, type: 2}
+  - {fileID: 11400000, guid: 437a0a8335defd24ab92b010a793d3c9, type: 2}
 --- !u!114 &1455866809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3578,7 +3580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6978170297f6389458347743035dd82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoardLayout: {fileID: 11400000, guid: 1176a9f91864e7d4383294523ddd96e2, type: 2}
+  BoardLayout: {fileID: 11400000, guid: beda4d278e2aa7f4281d9638fabb70a1, type: 2}
 --- !u!114 &1455866816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3597,11 +3599,25 @@ MonoBehaviour:
     Enabled: 0
   - Layout: {fileID: 11400000, guid: 1176a9f91864e7d4383294523ddd96e2, type: 2}
     Enabled: 0
-  - Layout: {fileID: 11400000, guid: 3f28959c3c3e8c441b19f8795219cf63, type: 2}
+  - Layout: {fileID: 11400000, guid: a03a158def211014db15bd87cfb88343, type: 2}
+    Enabled: 0
+  - Layout: {fileID: 11400000, guid: 2e548579adc1dfa4892b4a4fe84a5b61, type: 2}
+    Enabled: 0
+  - Layout: {fileID: 11400000, guid: beda4d278e2aa7f4281d9638fabb70a1, type: 2}
+    Enabled: 0
+  - Layout: {fileID: 11400000, guid: abfa9783d64739d4ab1a3ade99fbd499, type: 2}
+    Enabled: 0
+  - Layout: {fileID: 11400000, guid: 962cecae456b55d488ef7a3667ec59cb, type: 2}
     Enabled: 1
-  - Layout: {fileID: 11400000, guid: 65823c865f20b3f4c92ea2145cb73b96, type: 2}
+  - Layout: {fileID: 11400000, guid: 0319332ab4f7ef04d85043fb476aed87, type: 2}
     Enabled: 1
-  - Layout: {fileID: 11400000, guid: bf0d750fb5bbb904ab0e137de773fa29, type: 2}
+  - Layout: {fileID: 11400000, guid: 1e3e33f9f33b45747b9966aad4f49e41, type: 2}
+    Enabled: 1
+  - Layout: {fileID: 11400000, guid: 97f0582a90c28cc45b0903cb178a98bb, type: 2}
+    Enabled: 1
+  - Layout: {fileID: 11400000, guid: bc694450f4f9b0943a2c9bccb4c67eda, type: 2}
+    Enabled: 1
+  - Layout: {fileID: 11400000, guid: f07df4902c4cc92448b26481830fa5e6, type: 2}
     Enabled: 1
   PlayTesterName: Matt
   AutoLogPlaytest: 0

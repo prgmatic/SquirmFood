@@ -20,6 +20,19 @@ public class BoardLayoutExporter
     {
         BoardLayout layout = ScriptableObject.CreateInstance<BoardLayout>();
         layout.Tokens = GetTokensOnBoard();
+        layout.Columns = Gameboard.Instance.Columns;
+        layout.Rows = Gameboard.Instance.Rows;
+        layout.BackgroundTileAttributes = new Gameboard.BackgroundTileAttribute[layout.Columns * layout.Rows];
+        for(int y = 0; y < layout.Rows; y++)
+        {
+            for(int x = 0; x < layout.Columns; x++)
+            {
+                layout.BackgroundTileAttributes[x + y * layout.Columns] = Gameboard.Instance.GetBackgroundTileAttribute(x, y);
+            }
+        }
+        //layout.BackgroundTileAttributes = Gameboard.Instance.ExportBackgroundTileAtributes();
+        
+
         return layout;
     }
 

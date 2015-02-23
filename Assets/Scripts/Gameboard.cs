@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Gameboard : MonoBehaviour
 {
@@ -25,8 +26,11 @@ public class Gameboard : MonoBehaviour
     public bool HopperMask = true;
     public Color BackGroundColor1 = new Color(32f / 255, 30f / 255, 24f / 255);
     public Color BackGroundColor2 = new Color(63f / 255, 51f / 255, 47f / 255);
+    public Color FreeMoveBackgroundColor = new Color(206f / 255, 180f / 255, 129f / 255);
 
     private GameTile[,] _tileTable;
+    private SpriteRenderer[,] _backgroundTiles;
+    private BackgroundTileAttribute[,] _backgroundTileAttributes;
     private int _hopperSize = 3;
     private static Gameboard _instance;
     private float _gameDuration = 0f;
@@ -75,6 +79,8 @@ public class Gameboard : MonoBehaviour
     }
     private void Init()
     {
+        _backgroundTiles = new SpriteRenderer[Columns, Rows];
+        _backgroundTileAttributes = new BackgroundTileAttribute[Columns, Rows];
         CreateBackgroundTiles();
         _tileTable = new GameTile[Columns, Rows + _hopperSize];
         if (HopperMask)
@@ -482,9 +488,35 @@ public class Gameboard : MonoBehaviour
                     Left + x + 0.5f,
                     Top - y - 0.5f
                     );
-                bgRenderer.color = (x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1) ? BackGroundColor1 : BackGroundColor2;
+                bgRenderer.color = GetBackgroundTileColor(x, y);//(x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1) ? BackGroundColor1 : BackGroundColor2;
+                _backgroundTiles[x, y] = bgRenderer;
             }
         }
+    }
+    private Color GetBackgroundTileColor(int x, int y)
+    {
+        BackgroundTileAttribute type = _backgroundTileAttributes[x, y];
+        switch(type)
+        {
+            case BackgroundTileAttribute.LimitedMove:
+                return (x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1) ? BackGroundColor1 : BackGroundColor2;
+            case BackgroundTileAttribute.FreeMove:
+                return FreeMoveBackgroundColor;
+        }
+        return Color.clear;
+    }
+    public void SetBackgroundTileAttribute(int x, int y, BackgroundTileAttribute attribute)
+    {
+        _backgroundTileAttributes[x, y] = attribute;
+        _backgroundTiles[x, y].color = GetBackgroundTileColor(x, y);
+    }
+    public BackgroundTileAttribute GetBackgroundTileAttribute(int x, int y)
+    {
+        return _backgroundTileAttributes[x, y];
+    }
+    public BackgroundTileAttribute[,] ExportBackgroundTileAtributes()
+    {
+        return _backgroundTileAttributes;
     }
     private void CreateHopperMask()
     {
@@ -517,5 +549,11 @@ public class Gameboard : MonoBehaviour
         InProgress,
         GameOver,
         ViewingPlayback
+    }
+
+    public enum BackgroundTileAttribute
+    {
+        LimitedMove,
+        FreeMove
     }
 }

@@ -43,4 +43,10 @@ public struct Rectangle
         return Left <= rectB.Left && Right >= rectB.Right &&
                Top <= rectB.Top && Bottom >= rectB.Bottom;
     }
+
+    public bool Contains(Point point)
+    {
+        return Left <= point.x && Right >= point.x &&
+               Top <= point.y && Bottom >= point.y;
+    }
 }

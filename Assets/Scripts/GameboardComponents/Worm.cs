@@ -96,7 +96,14 @@ public class Worm : MonoBehaviour
             }
             else if (OnlyMoveOnEat)
             {
-                return false;
+                Gameboard.BackgroundTileAttribute currentTileBackgroundAtt = Gameboard.Instance.GetBackgroundTileAttribute(Head.GridPosition.x, Head.GridPosition.y);
+                Gameboard.BackgroundTileAttribute movingToTileBackgroundAtt = Gameboard.Instance.GetBackgroundTileAttribute(x, y);
+
+                if (currentTileBackgroundAtt == Gameboard.BackgroundTileAttribute.LimitedMove ||
+                    movingToTileBackgroundAtt == Gameboard.BackgroundTileAttribute.LimitedMove)
+                {
+                    return false;
+                }
             }
         }
         if (Sections.Count == 0) return false; // Worm has died

@@ -105,7 +105,7 @@ public class BoardLayoutSet : MonoBehaviour
         if (!this.enabled || _currentBoardIndex < 0) return;
         if (BoardLayouts.Count > 0)
         {
-            BoardLayoutImporter.ImportBoardLayout(BoardLayouts[_currentBoardIndex].Layout.Tokens);
+            BoardLayoutImporter.ImportBoardLayout(BoardLayouts[_currentBoardIndex].Layout);
         }
     }
     private void Instance_GameStarted()

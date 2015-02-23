@@ -6,6 +6,9 @@ public class BoardLayout : ScriptableObject
     public string GUID = "";
     [HideInInspector]
     public List<TokenAtPoint> Tokens = new List<TokenAtPoint>();
+    public Gameboard.BackgroundTileAttribute[] BackgroundTileAttributes;
+    public int Columns;
+    public int Rows;
     [System.NonSerialized]
     public List<Playthrough> Playthroughs = new List<Playthrough>();
 

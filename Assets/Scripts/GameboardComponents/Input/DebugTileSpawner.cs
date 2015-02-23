@@ -24,6 +24,18 @@ public class DebugTileSpawner : MonoBehaviour
             Point point = Gameboard.Instance.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
             Gameboard.Instance.DestroyTileAt(point.x, point.y);
         }
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            Point point = Utils.CursorGridPosotion;
+            if(Gameboard.Instance.IsValidTileCoordinate(point))
+            {
+                Gameboard.BackgroundTileAttribute ta = Gameboard.Instance.GetBackgroundTileAttribute(point.x, point.y);
+                if (ta == Gameboard.BackgroundTileAttribute.FreeMove)
+                    ta = Gameboard.BackgroundTileAttribute.LimitedMove;
+                else ta = Gameboard.BackgroundTileAttribute.FreeMove;
+                Gameboard.Instance.SetBackgroundTileAttribute(point.x, point.y, ta);
+            }
+        }
         for (int i = 0; i < 10; i++)
         {
             if (Input.GetKeyDown(numberStrings[i]))

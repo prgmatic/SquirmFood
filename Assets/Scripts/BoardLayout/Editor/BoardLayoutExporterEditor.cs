@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class BoardLayoutExporterEditor
 {
     private static bool CanExport { get { return Application.isPlaying && Gameboard.Instance != null; } }
-    private static List<BoardLayout.TokenAtPoint> quickSaveTokens = new List<BoardLayout.TokenAtPoint>();
+    private static BoardLayout QuickSaveLayout = null;
 
     [MenuItem("Monster Mashup/Export Board Layout", false, 1)]
     private static void CreateBoardLayout()
@@ -37,7 +37,7 @@ public class BoardLayoutExporterEditor
     [MenuItem("Monster Mashup/Quick Export _&s", false, 1)]
     public static void QuickExport()
     {
-        quickSaveTokens = BoardLayoutExporter.GetTokensOnBoard();
+        QuickSaveLayout = BoardLayoutExporter.GenerateLayout();
         Debug.Log("Layout Quick Export");
     }
     [MenuItem("Monster Mashup/Quick Export _&s", true)]
@@ -48,8 +48,11 @@ public class BoardLayoutExporterEditor
     [MenuItem("Monster Mashup/Quick Import _&a", false, 1)]
     public static void QuickImport()
     {
-        BoardLayoutImporter.ImportBoardLayout(quickSaveTokens);
-        Debug.Log("Layout Quick Import");
+        if (QuickSaveLayout != null)
+        {
+            BoardLayoutImporter.ImportBoardLayout(QuickSaveLayout);
+            Debug.Log("Layout Quick Import");
+        }
     }
     [MenuItem("Monster Mashup/Quick Import _&a", true)]
     public static bool CanQuickImport()
