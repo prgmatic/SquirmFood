@@ -38,9 +38,9 @@ public class FocasCameraOnGameboard : MonoBehaviour
         float screenRatio = (float)Screen.width / Screen.height;
         float gameboardRatio = GaemboardWidth / GaemboardHeight;
         if (screenRatio > gameboardRatio)
-            camera.orthographicSize = GaemboardHeight / 2;
+            GetComponent<Camera>().orthographicSize = GaemboardHeight / 2;
         else
-            camera.orthographicSize = (float)Screen.height / Screen.width * (GaemboardWidth / 2);
+            GetComponent<Camera>().orthographicSize = (float)Screen.height / Screen.width * (GaemboardWidth / 2);
     }
 
     

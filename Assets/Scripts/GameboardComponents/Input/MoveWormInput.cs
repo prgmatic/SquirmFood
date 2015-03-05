@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using TouchScript.Gestures;
 
 public class MoveWormInput : MonoBehaviour 
 {
@@ -11,11 +10,14 @@ public class MoveWormInput : MonoBehaviour
 
     void OnEnable()
     {
+        /*
         FlickGesture flick = GetComponent<FlickGesture>();
         if(flick != null)
             flick.Flicked += Flick_Flicked;
+            */
     }
 
+    /*
     private void Flick_Flicked(object sender, System.EventArgs e)
     {
         if (!Gameboard.Instance.AcceptingInput) return;
@@ -32,7 +34,7 @@ public class MoveWormInput : MonoBehaviour
         else if (flickDirection.y < 0) Move(Direction.Down);
 
     }
-
+    */
 	void Update()
     {
         if (!Gameboard.Instance.AcceptingInput) return;

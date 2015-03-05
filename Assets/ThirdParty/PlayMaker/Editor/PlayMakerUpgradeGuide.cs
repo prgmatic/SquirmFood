@@ -60,11 +60,10 @@ namespace HutongGames.PlayMakerEditor
             EditorGUILayout.HelpBox("Always BACKUP projects before updating!", MessageType.Error);
 
             GUILayout.Label("Version 1.7.8", EditorStyles.boldLabel);
-            EditorGUILayout.HelpBox("This is a maintainance release for Unity 5 compatibility. " + 
-                                    "\nFor full Unity 5 compatibility please update PlayMaker in the Unity 5 Asset Store and re-import. " +
-                                    "", MessageType.Info);
+            EditorGUILayout.HelpBox("This is a maintainance release for Unity 5 compatibility. " +
+                                    "\nNew features and bug fixes coming soon in 1.8.0", MessageType.Info);
             EditorGUILayout.HelpBox("The Playmaker About Window still says 1.7.7 since the dlls were not recompiled for this version.", MessageType.Info);
- 
+
             GUILayout.Label("Unity 5 Upgrade Notes", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox("Unity 5 removed component property shortcuts from GameObject. " +
                                     "\n\nThe Unity auto update process replaces these properties with GetComponent calls. " +
