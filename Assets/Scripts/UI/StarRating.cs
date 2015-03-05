@@ -14,7 +14,7 @@ public class StarRating : MonoBehaviour
 
     void Start()
     {
-        SetRating(3);
+        SetRating(1);
     }
 
     public void SetRating(int rating)

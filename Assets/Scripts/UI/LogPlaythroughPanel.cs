@@ -13,9 +13,9 @@ public class LogPlaythroughPanel : MonoBehaviour
     public void Show()
     {
         this.gameObject.SetActive(true);
-        DifficultyRating.SetRating(3);
-        DifficultyRating.SetRating(3);
-        TesterName.text = Gameboard.Instance.GetComponent<BoardLayoutSet>().PlayTesterName;
+        DifficultyRating.SetRating(1);
+        SatisfactionRating.SetRating(1);
+        //TesterName.text = Gameboard.Instance.GetComponent<BoardLayoutSet>().PlayTesterName;
         Notes.text = "";
     }
 
@@ -28,7 +28,13 @@ public class LogPlaythroughPanel : MonoBehaviour
     {
         BoardLayoutSet layouts = Gameboard.Instance.GetComponent<BoardLayoutSet>();
         layouts.AddPlaythrough(TesterName.text, Notes.text, DifficultyRating.Rating, SatisfactionRating.Rating);
-        Hide();
-        UIGlobals.Instance.GameOverPanel.Show("");
+        Gameboard.Instance.GetComponent<PlayMakerFSM>().Fsm.Event("PlaythroughSubmitted");
+        //Hide();
+        //UIGlobals.Instance.GameOverPanel.Show("");
+    }
+
+    public void SetName(string testerName)
+    {
+        TesterName.text = testerName;
     }
 }

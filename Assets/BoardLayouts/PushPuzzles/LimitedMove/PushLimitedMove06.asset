@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5151ec5ac43c75d4bbaddaf076e10e5e, type: 3}
   m_Name: PushLimitedMove06
   m_EditorClassIdentifier: 
-  GUID: 
+  GUID: beda4d278e2aa7f4281d9638fabb70a1
   Tokens:
   - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
     Position:
@@ -73,3 +73,6 @@ MonoBehaviour:
     Position:
       x: 5
       y: 3
+  BackgroundTileAttributes: 
+  Columns: 8
+  Rows: 8

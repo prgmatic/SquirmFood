@@ -77,3 +77,6 @@ MonoBehaviour:
     Position:
       x: 4
       y: 2
+  BackgroundTileAttributes: 
+  Columns: 8
+  Rows: 8

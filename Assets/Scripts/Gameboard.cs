@@ -15,18 +15,24 @@ public class Gameboard : MonoBehaviour
     public event GameStateEvent GameStarted;
     public event GameStateEvent GameEnded;
     public event GameStateEvent GameRetry;
-    public delegate void DirectionEvent(Direction direction);
-    public event DirectionEvent WormMoveInputRecieved;
-    public GameStateType GameState = GameStateType.GameOver;
+    public delegate void InputEvent(Direction direction, bool inputValidated);
+    public event InputEvent WormMoveInputRecieved;
     #endregion
 
     #region Variables
+    public bool DoKeyValidation = true;
+    public bool ShowLevelSelectionScreenOnStartup = true;
     public int Columns = 8;
     public int Rows = 9;
     public bool HopperMask = true;
-    public Color BackGroundColor1 = new Color(32f / 255, 30f / 255, 24f / 255);
-    public Color BackGroundColor2 = new Color(63f / 255, 51f / 255, 47f / 255);
-    public Color FreeMoveBackgroundColor = new Color(206f / 255, 180f / 255, 129f / 255);
+    public Sprite BackgroundTile1;
+    public Sprite BackgroundTile2;
+
+    public Sprite MudTileFill;
+    public Sprite MudTileInsideCorner;
+    public Sprite MudTileLongEdge;
+    public Sprite MudTileOutsideCorner;
+    public Sprite MudTileSwoopOut;
 
     private GameTile[,] _tileTable;
     private SpriteRenderer[,] _backgroundTiles;
@@ -41,9 +47,16 @@ public class Gameboard : MonoBehaviour
     private bool _steppedPlayback = false;
     private static Playthrough _staticPlaybackData = null;
     private Playthrough _playbackData = null;
+    private GameObject _bgTileGroup;
+    private SpriteRenderer[,] _mudTiles;
+    private GameObject _mudTileGroup;
 
-    [HideInInspector]
+    [System.NonSerialized]
     public List<GameTile> gameTiles = new List<GameTile>();
+    [System.NonSerialized]
+    public bool Validated = true;
+    [System.NonSerialized]
+    public GameStateType GameState = GameStateType.GameOver;
     #endregion
 
     #region Properties
@@ -75,6 +88,7 @@ public class Gameboard : MonoBehaviour
         else if(this != Instance)
         {
             Destroy(this.gameObject);
+            return;
         }
     }
     private void Init()
@@ -82,6 +96,7 @@ public class Gameboard : MonoBehaviour
         _backgroundTiles = new SpriteRenderer[Columns, Rows];
         _backgroundTileAttributes = new BackgroundTileAttribute[Columns, Rows];
         CreateBackgroundTiles();
+        CreateMudTiles();
         _tileTable = new GameTile[Columns, Rows + _hopperSize];
         if (HopperMask)
             CreateHopperMask();
@@ -89,14 +104,28 @@ public class Gameboard : MonoBehaviour
     }
     void Start()
     {
+        /*
+        UIGlobals.Instance.HideAll();
+        if (DoKeyValidation)
+        {
+            Hide();
+            if (RequestParameters.IsInitialized)
+                CheckValidation();
+            else
+                RequestParameters.Initialized += RequestParameters_Initialized;
+        }
+        else
+        {
+            Startup();
+        }
         DebugHUD.MessagesCleared += delegate
         {
             DebugHUD.Add("Moves: " + _movesThisTry);
         };
-        StartGame();
+        */
     }
     void Update()
-    {
+    { 
         if (GameState == GameStateType.InProgress || GameState == GameStateType.ViewingPlayback)
         {
             _prevGameDuration = _gameDuration;
@@ -108,15 +137,6 @@ public class Gameboard : MonoBehaviour
             _playbackData.Playback(_gameDuration);
         }
     }
-
-    public void GameOver(string GameOverMessage)
-    {
-        GameState = GameStateType.GameOver;
-        UIGlobals.Instance.GameOverPanel.Show(GameOverMessage);
-        if (GameEnded != null)
-            GameEnded();
-        VictoryLossConditions.Instance.Disable();
-    }
     public void StartGame()
     {
         _retries = 0;
@@ -126,10 +146,16 @@ public class Gameboard : MonoBehaviour
         _retries = 0;
         Clear();
         GameState = GameStateType.InProgress;
-        UIGlobals.Instance.HideAll();
         if (GameStarted != null)
             GameStarted();
         ResetBoard();
+    }
+    public void EndGame()
+    {
+        GameState = GameStateType.GameOver;
+        if (GameEnded != null)
+            GameEnded();
+        VictoryLossConditions.Instance.Disable();
     }
     private void ResetBoard()
     {
@@ -137,21 +163,16 @@ public class Gameboard : MonoBehaviour
             GameboardReset();
         ResourcePool.Instance.UpdateResourceCount();
         VictoryLossConditions.Instance.Enable();
+        UpdateMudTiles();
     }
-    public void ContinueGame()
-    {
-        GameState = GameStateType.InProgress;
-        UIGlobals.Instance.GameOverPanel.Hide();
-        VictoryLossConditions.Instance.Disable();
-    }
-    public void NextLevel()
+    public void AdvanceLevel()
     {
         BoardLayoutSet bls = GetComponent<BoardLayoutSet>();
         if(bls != null)
         {
             bls.NextLevel();
         }
-        StartGame();
+        //StartGame();
     }
     public void Retry()
     {
@@ -161,6 +182,8 @@ public class Gameboard : MonoBehaviour
         if (GameRetry != null)
             GameRetry();
     }
+
+    /*
     public void ViewReplay(Playthrough playthrough, bool steppedPlayback)
     {
         _playbackData = playthrough;
@@ -177,6 +200,7 @@ public class Gameboard : MonoBehaviour
         ResourcePool.Instance.UpdateResourceCount();
         VictoryLossConditions.Instance.Enable();
     }
+    
     public void RestartPlayback()
     {
         if(GameState == GameStateType.ViewingPlayback)
@@ -191,7 +215,19 @@ public class Gameboard : MonoBehaviour
             _playbackData.AdvanceStep();
         }
     }
+    */
 
+    public void SetBoardSize(int columns, int rows)
+    {
+        Clear();
+        this.Columns = columns;
+        this.Rows = rows;
+
+        _backgroundTiles = new SpriteRenderer[Columns, Rows];
+        _backgroundTileAttributes = new BackgroundTileAttribute[Columns, Rows];
+        CreateBackgroundTiles();
+        _tileTable = new GameTile[Columns, Rows + _hopperSize];
+    }
     private void AddTileToTileTable(GameTile tile)
     {
         for (int x = 0; x < tile.Width; x++)
@@ -416,6 +452,13 @@ public class Gameboard : MonoBehaviour
         {
             DestroyTile(gameTiles[0]);
         }
+        for(int y = 0; y < Rows; y++)
+        {
+            for(int x = 0; x< Columns; x++)
+            {
+                SetBackgroundTileAttribute(x, y, BackgroundTileAttribute.LimitedMove);
+            }
+        }
     }
 
     public void MoveWorm(Direction direction)
@@ -437,6 +480,7 @@ public class Gameboard : MonoBehaviour
                 y = 1;
                 break;
         }
+        bool inputValidated = false;
         for (int i = 0; i < gameTiles.Count; i++)
         {
             GameTile tile = gameTiles[i];
@@ -445,13 +489,14 @@ public class Gameboard : MonoBehaviour
             {
                 if (worm.Move(worm.Head.GridPosition.x + x, worm.Head.GridPosition.y + y))
                 {
+                    inputValidated = true;
                     _movesThisTry++;
                     _totalMoves++;
                 }
             }
         }
         if (WormMoveInputRecieved != null)
-            WormMoveInputRecieved(direction);
+            WormMoveInputRecieved(direction, inputValidated);
     }
 
     public void ApplyGravity()
@@ -469,10 +514,16 @@ public class Gameboard : MonoBehaviour
 
     private void CreateBackgroundTiles()
     {
-        GameObject backgroundTiles = new GameObject();
-        backgroundTiles.name = "BackgroundTiles";
-        backgroundTiles.transform.SetParent(this.transform);
-        backgroundTiles.transform.localPosition = new Vector3(0, 0, 0.1f);
+        if (_bgTileGroup != null)
+            Destroy(_bgTileGroup);
+
+        _bgTileGroup = new GameObject();
+        _bgTileGroup.name = "BackgroundTiles";
+        _bgTileGroup.transform.SetParent(this.transform);
+        _bgTileGroup.transform.localPosition = new Vector3(0, 0, 0.1f);
+
+        float scaleF = 1f / BackgroundTile1.bounds.size.x;
+        Vector3 scale = new Vector3(scaleF, scaleF, 1f);
 
         for(int y = 0; y < Rows; y++)
         {
@@ -480,35 +531,163 @@ public class Gameboard : MonoBehaviour
             {
                 GameObject backgroundTile = new GameObject();
                 backgroundTile.name = "BackgroundTile";
-                backgroundTile.transform.SetParent(backgroundTiles.transform);
+                backgroundTile.transform.SetParent(_bgTileGroup.transform);
                 SpriteRenderer bgRenderer = backgroundTile.AddComponent<SpriteRenderer>();
-                bgRenderer.sprite = Utils.DummySprite;
+                bgRenderer.sprite = (x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1) ? BackgroundTile1 : BackgroundTile2;
                 //bgRenderer.transform.localScale = new Vector3(tileSet.TileWidth * 100, tileSet.TileHeight * 100, 1);
                 bgRenderer.transform.localPosition = new Vector3(
-                    Left + x + 0.5f,
-                    Top - y - 0.5f
+                    Left + x,// - 0.5f,
+                    Top - y// - 0.5f
                     );
-                bgRenderer.color = GetBackgroundTileColor(x, y);//(x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1) ? BackGroundColor1 : BackGroundColor2;
+                bgRenderer.transform.localScale = scale;
                 _backgroundTiles[x, y] = bgRenderer;
             }
         }
     }
-    private Color GetBackgroundTileColor(int x, int y)
+    private void CreateMudTiles()
     {
-        BackgroundTileAttribute type = _backgroundTileAttributes[x, y];
-        switch(type)
+        if (_mudTileGroup != null)
+            Destroy(_mudTileGroup);
+
+        _mudTileGroup = new GameObject();
+        _mudTileGroup.name = "MudTiles";
+        _mudTileGroup.transform.SetParent(this.transform);
+        _mudTileGroup.transform.localPosition = new Vector3(0, 0, 0.05f);
+
+
+        float tileWidth = MudTileFill.bounds.size.x;
+        float scaleF = 1f / tileWidth * 0.5f;
+
+        Vector3 scale = new Vector3(scaleF, scaleF, 1f);
+        _mudTiles = new SpriteRenderer[Columns * 2, Rows * 2];
+
+        for (int y = 0; y < Rows * 2; y++)
         {
-            case BackgroundTileAttribute.LimitedMove:
-                return (x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1) ? BackGroundColor1 : BackGroundColor2;
-            case BackgroundTileAttribute.FreeMove:
-                return FreeMoveBackgroundColor;
+            for(int x = 0; x < Columns * 2; x++)
+            {
+                GameObject mudTile = new GameObject();
+                mudTile.name = "MudTile";
+                mudTile.transform.SetParent(_mudTileGroup.transform);
+                SpriteRenderer mudRenderer = mudTile.AddComponent<SpriteRenderer>();
+                //mudRenderer.sprite = MudTileFill;
+
+                mudRenderer.transform.localPosition = new Vector3(
+                    Left + x * 0.5f + 0.25f,
+                    Top - y * 0.5f - 0.25f
+                    );
+                mudRenderer.transform.localScale = scale;
+                _mudTiles[x, y] = mudRenderer;
+
+                int tx = x % 2;
+                int ty = y % 2;
+
+                if (tx == 1 && ty == 0) mudRenderer.transform.localRotation = Quaternion.Euler(0, 0, -90);
+                else if(tx == 0 && ty == 1) mudRenderer.transform.localRotation = Quaternion.Euler(0, 0, 90);
+                else if(tx == 1 && ty == 1) mudRenderer.transform.localRotation = Quaternion.Euler(0, 0, 180);
+            }
         }
-        return Color.clear;
+
     }
+    private void UpdateMudTiles()
+    {
+        for(int y = 0; y < Rows; y++)
+        {
+            for(int x = 0; x < Columns; x++)
+            {
+                UpdateMudTile(x, y);
+            }
+        }
+    }
+
+    private void UpdateMudTile(int x, int y)
+    {
+        SpriteRenderer topLeft     = _mudTiles[x * 2, y * 2];
+        SpriteRenderer topRight    = _mudTiles[x * 2 + 1, y * 2];
+        SpriteRenderer bottomLeft  = _mudTiles[x * 2, y * 2 + 1];
+        SpriteRenderer bottomRight = _mudTiles[x * 2 + 1, y * 2 + 1];
+
+        bool nAbove      = BackgroundTileIsMud(x, y - 1);
+        bool nBelow      = BackgroundTileIsMud(x, y + 1);
+        bool nAboveLeft  = BackgroundTileIsMud(x - 1, y - 1);
+        bool nLeft       = BackgroundTileIsMud(x - 1, y);
+        bool nBelowLeft  = BackgroundTileIsMud(x - 1, y + 1);
+        bool nAboveRight = BackgroundTileIsMud(x + 1, y - 1);
+        bool nRight      = BackgroundTileIsMud(x + 1, y);
+        bool nBelowRight = BackgroundTileIsMud(x + 1, y + 1);
+
+        bool self = _backgroundTileAttributes[x, y] == BackgroundTileAttribute.FreeMove;
+
+        SetMudSprite(topLeft, 0, self, nLeft, nAbove, nAboveLeft);
+        SetMudSprite(topRight, -90, self, nRight, nAbove, nAboveRight);
+        SetMudSprite(bottomLeft, 90, self, nLeft, nBelow, nBelowLeft);
+        SetMudSprite(bottomRight, 180, self, nRight, nBelow, nBelowRight);
+    }
+
+    private void SetMudSprite(SpriteRenderer renderer, int rotation, bool self, bool horizontalNeighbor, bool verticalNeightbor, bool cornerNeighbor)
+    {
+        if (self)
+        {
+            if (horizontalNeighbor && verticalNeightbor)
+                renderer.sprite = MudTileFill;
+            else if((horizontalNeighbor || verticalNeightbor) && cornerNeighbor)
+            {
+                renderer.sprite = MudTileSwoopOut;
+                if (horizontalNeighbor)
+                {
+                    if (rotation == 90 || rotation == -90)
+                        rotation += 90;
+                    else rotation -= 90;
+                }
+                else
+                {
+                    if (rotation == 0 || rotation == 180)
+                        rotation += 90;
+                    else rotation -= 90;
+                }
+            }
+            else if (horizontalNeighbor && !verticalNeightbor) // horizontal long edge
+            {
+                    renderer.sprite = MudTileLongEdge;
+                if (rotation == 90f || rotation == -90f)
+                {
+                    rotation += 90;
+                }
+            }
+            else if (!horizontalNeighbor && verticalNeightbor)
+            {
+                    renderer.sprite = MudTileLongEdge;
+                if (rotation != 90f && rotation != -90f)
+                {
+                    rotation += 90;
+                }
+            }
+            else renderer.sprite = MudTileOutsideCorner;
+        }
+        else
+        {
+            if (horizontalNeighbor && verticalNeightbor && cornerNeighbor)
+            {
+                renderer.sprite = MudTileInsideCorner;
+                rotation += 180;
+            }
+            else renderer.sprite = null;
+        }
+        renderer.transform.localRotation = Quaternion.Euler(0, 0, rotation);
+        //return null;
+    }
+
+    private bool BackgroundTileIsMud(int x, int y)
+    {
+        if (x < 0 || y < 0 || x >= Columns || y >= Rows) return false;
+        return _backgroundTileAttributes[x, y] == BackgroundTileAttribute.FreeMove; 
+    }
+
     public void SetBackgroundTileAttribute(int x, int y, BackgroundTileAttribute attribute)
     {
         _backgroundTileAttributes[x, y] = attribute;
-        _backgroundTiles[x, y].color = GetBackgroundTileColor(x, y);
+        //_backgroundTiles[x, y].color = GetBackgroundTileColor(x, y);
+        
+        UpdateMudTiles();
     }
     public BackgroundTileAttribute GetBackgroundTileAttribute(int x, int y)
     {
@@ -529,6 +708,21 @@ public class Gameboard : MonoBehaviour
         sr.transform.position = new Vector3(this.transform.position.x, Top + sr.transform.localScale.y / 2 / 100, -0.1f);
         sr.color = Camera.main.backgroundColor;
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b);
+    }
+
+    public void Show()
+    {
+        for(int i = 0; i < this.transform.childCount; i++)
+        {
+            this.transform.GetChild(i).gameObject.SetActive(true);
+        }
+    }
+    public void Hide()
+    {
+        for(int i = 0; i < this.transform.childCount; i++)
+        {
+            this.transform.GetChild(i).gameObject.SetActive(false);
+        }
     }
 
     public static void SetPlaybackData(Playthrough playthrough)

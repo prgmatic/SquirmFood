@@ -20,11 +20,11 @@ public class PlaybackControls : MonoBehaviour
 
     public void Replay()
     {
-        Gameboard.Instance.RestartPlayback();
+        //Gameboard.Instance.RestartPlayback();
     }
 
     public void NextStep()
     {
-        Gameboard.Instance.AdvanceStepInPlayback();
+        //Gameboard.Instance.AdvanceStepInPlayback();
     }
 }

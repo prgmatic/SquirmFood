@@ -20,32 +20,17 @@ public class BoardLayoutImporter : MonoBehaviour
     void Start () 
 	{
     }
-     /*
-    private void ImportBoardLayout()
-    {
-        WormSpawnerInput wormSpawner = GetComponent<WormSpawnerInput>();
-
-        Gameboard.Instance.Clear();
-        foreach (var token in BoardLayout.Tokens)
-        {
-            if(token.Token.IsWorm)
-            {
-                if(wormSpawner != null)
-                    wormSpawner.CreateWorm(token.Position);
-            }
-            else
-                Gameboard.Instance.AddTileFromToken(token.Token, token.Position, false, true);
-        }
-        Gameboard.Instance.ApplyGravity();
-        
-    }
-    */
 
     public static void ImportBoardLayout(BoardLayout layout)
     {
         WormSpawnerInput wormSpawner = Gameboard.Instance.GetComponent<WormSpawnerInput>();
 
         Gameboard.Instance.Clear();
+        if(layout.Columns > 0 && layout.Rows > 0)
+        {
+            Gameboard.Instance.SetBoardSize(layout.Columns, layout.Rows);
+        }
+
         foreach (var token in layout.Tokens)
         {
             if (token.Token.IsWorm)
@@ -56,11 +41,14 @@ public class BoardLayoutImporter : MonoBehaviour
             else
                 Gameboard.Instance.AddTileFromToken(token.Token, token.Position, false, true);
         }
-        for (int y = 0; y < layout.Rows; y++)
+        if (layout.BackgroundTileAttributes.Length == layout.Columns * layout.Rows)
         {
-            for (int x = 0; x < layout.Columns; x++)
+            for (int y = 0; y < layout.Rows; y++)
             {
-                Gameboard.Instance.SetBackgroundTileAttribute(x, y, layout.BackgroundTileAttributes[x + y * layout.Columns]);
+                for (int x = 0; x < layout.Columns; x++)
+                {
+                    Gameboard.Instance.SetBackgroundTileAttribute(x, y, layout.BackgroundTileAttributes[x + y * layout.Columns]);
+                }
             }
         }
 

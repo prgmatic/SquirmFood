@@ -66,7 +66,7 @@ public class Worm : MonoBehaviour
 
     public bool Move(int x, int y)
     {
-        if (Gameboard.Instance.IsValidTileCoordinate(x, y, true))
+        if (Gameboard.Instance.IsValidTileCoordinate(x, y, false))
         {
             GameTile tile = Gameboard.Instance.GetTileAt(x, y);
             if (tile != null)
@@ -106,6 +106,7 @@ public class Worm : MonoBehaviour
                 }
             }
         }
+        else return false;
         if (Sections.Count == 0) return false; // Worm has died
         try
         {
@@ -159,7 +160,7 @@ public class Worm : MonoBehaviour
         {
             Kill();
         }
-        else
+        else if(WormStomach.Instance != null)
             WormStomach.Instance.SetWorm(this);
     }
 

@@ -24,7 +24,15 @@ public class DebugTileSpawner : MonoBehaviour
             Point point = Gameboard.Instance.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
             Gameboard.Instance.DestroyTileAt(point.x, point.y);
         }
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (!Gameboard.Instance.AcceptingInput) return;
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if(Gameboard.Instance.GetComponent<WormSpawnerInput>() != null)
+            {
+                Gameboard.Instance.GetComponent<WormSpawnerInput>().CreateWorm(Utils.CursorGridPosotion);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             Point point = Utils.CursorGridPosotion;
             if(Gameboard.Instance.IsValidTileCoordinate(point))

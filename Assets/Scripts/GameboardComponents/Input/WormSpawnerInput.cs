@@ -23,15 +23,6 @@ public class WormSpawnerInput : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (!Gameboard.Instance.AcceptingInput) return;
-        if(Input.GetKeyDown(KeyCode.W))
-        {
-            CreateWorm(Utils.CursorGridPosotion);
-        }
-    }
-
     public void CreateWorm(Point point)
     {
         WormCreator.CreateWorm(WormHeadToken, WormBodyToken, point, WormProperties);

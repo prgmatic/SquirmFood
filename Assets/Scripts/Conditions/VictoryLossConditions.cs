@@ -7,6 +7,7 @@ public class VictoryLossConditions : MonoBehaviour
     private static VictoryLossConditions _instance;
 
     private bool CheckEnabled = false;
+    private PlayMakerFSM gameboardFsm;
 
     public List<GameCondition> VictoryConditions = new List<GameCondition>();
     public List<GameCondition> LossConditions = new List<GameCondition>();
@@ -18,6 +19,7 @@ public class VictoryLossConditions : MonoBehaviour
         else if (this != _instance)
             Destroy(this.gameObject);
         this.CheckEnabled = false;
+        gameboardFsm = Gameboard.Instance.GetComponent<PlayMakerFSM>();
     }
 
     void Update()
@@ -35,10 +37,15 @@ public class VictoryLossConditions : MonoBehaviour
         {
             if(condition.ConditionMet())
             {
+                if (Gameboard.Instance.GameState == Gameboard.GameStateType.InProgress)
+                    gameboardFsm.Fsm.Event("Victory");
+                    
+                /*
                 if(Gameboard.Instance.GameState == Gameboard.GameStateType.InProgress)
                     Gameboard.Instance.GameOver("You Win");
                 if (Gameboard.Instance.GameState == Gameboard.GameStateType.ViewingPlayback)
                     Gameboard.Instance.StartGame();
+                    */
             }
         }
     }
@@ -49,7 +56,8 @@ public class VictoryLossConditions : MonoBehaviour
         {
             if (condition.ConditionMet())
             {
-                Gameboard.Instance.GameOver("Game Over");
+                gameboardFsm.Fsm.Event("Loss");
+                //Gameboard.Instance.GameOver("Game Over");
             }
         }
     }

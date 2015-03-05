@@ -16,6 +16,8 @@ public class PlaythroughDatabase : MonoBehaviour {
     public event PlaythroughSubmitedEvent PlaythroughSubmited;
     public delegate void WWWLoadedEvent();
     public event WWWLoadedEvent PlaythroughDeletionComplete;
+    public delegate void KeyValidationEvent(bool keyValidated, string testerName);
+    public event KeyValidationEvent KeyValidationComplete;
 
     WWW www;
     string SubmitPlaythroughURL = "http://pennyanfootballpool.com/MonsterMashup/SubmitPlaythrough.php";
@@ -23,8 +25,9 @@ public class PlaythroughDatabase : MonoBehaviour {
     string GetPlaythroughsURL = "http://pennyanfootballpool.com/MonsterMashup/GetPlaythroughs.php";
     string GetPlaythroughActionsURL = "http://pennyanfootballpool.com/MonsterMashup/GetPlaythroughActions.php";
     string DeletePlaythroughURL = "http://pennyanfootballpool.com/MonsterMashup/DeletePlaythrough.php";
-    
-    byte actionsExportVersion = 0;
+    string ValidateKeyURL = "http://pennyanfootballpool.com/MonsterMashup/ValidateKey.php";
+
+    byte actionsExportVersion = 1;
 
     public static PlaythroughDatabase Insstance { get { return _instance; } }
     private static PlaythroughDatabase _instance;
@@ -100,6 +103,15 @@ public class PlaythroughDatabase : MonoBehaviour {
         StopAllCoroutines();
         StartCoroutine("DeletePlaythroughRoutine");
     }
+    public void ValidateKey(string key)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("Key", key);
+
+        www = new WWW(ValidateKeyURL, form);
+        StopAllCoroutines();
+        StartCoroutine("ValidateKeyRoutine");
+    }
 
     #region CoRoutines
     System.Collections.IEnumerator PostPlaythroughRoutine()
@@ -146,6 +158,17 @@ public class PlaythroughDatabase : MonoBehaviour {
         if (PlaythroughDeletionComplete != null)
             PlaythroughDeletionComplete();
     }
+    System.Collections.IEnumerator ValidateKeyRoutine()
+    {
+        yield return www;
+        PrintServerResponse(www);
+        var json = JSON.Parse(www.text);
+        bool validated = json["Validated"].AsBool;
+        if(validated)
+        Debug.Log(validated);
+        if (KeyValidationComplete != null)
+            KeyValidationComplete(json["Validated"].AsBool, json["Name"].Value);
+    }
     #endregion
 
     #region HelperMethods
@@ -176,6 +199,7 @@ public class PlaythroughDatabase : MonoBehaviour {
                         writer.Write((byte)0);
                         writer.Write((byte)((InputAction)action).Direction);
                         writer.Write(action.Time);
+                        writer.Write(((InputAction)action).InputValidated);
                     }
                     else if (action is RetryAction)
                     {
@@ -207,7 +231,11 @@ public class PlaythroughDatabase : MonoBehaviour {
                     switch(actionType)
                     {
                         case 0:
-                            results.Add(new InputAction((Direction)reader.ReadByte(), reader.ReadSingle()));
+                            if(exportVersion == 0)
+                                results.Add(new InputAction((Direction)reader.ReadByte(), reader.ReadSingle(), true));
+                            else if(exportVersion == 1)
+                                results.Add(new InputAction((Direction)reader.ReadByte(), reader.ReadSingle(), reader.ReadBoolean()));
+
                             break;
                         case 1:
                             results.Add(new RetryAction(reader.ReadSingle()));

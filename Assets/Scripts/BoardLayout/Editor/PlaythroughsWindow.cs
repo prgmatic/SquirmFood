@@ -232,7 +232,7 @@ public class PlaythroughsWindow : EditorWindow
     {
         PlaythroughDatabase.Insstance.PlaythroughActionsDownloaded -= Insstance_PlaythroughActionsDownloaded;
         Gameboard.Instance.GetComponent<BoardLayoutSet>().SetLayout(currentLayout);
-        Gameboard.Instance.ViewReplay(playthrough, steppedPlayback);
+        //Gameboard.Instance.ViewReplay(playthrough, steppedPlayback);
     }
     private void Insstance_PlaythroughDeletionComplete()
     {

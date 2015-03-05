@@ -12,10 +12,12 @@ public class InputAction : PlaythroughAction
 {
     [SerializeField]
     public Direction Direction;
-    public InputAction(Direction direction, float time)
+    public bool InputValidated = true;
+    public InputAction(Direction direction, float time, bool inputValidated)
     {
         this.Direction = direction;
         this.Time = time;
+        this.InputValidated = inputValidated;
     }
 }
 

@@ -6,17 +6,15 @@ public class GameOverPanel : MonoBehaviour
 {
     public Text GameOverText;
     public Button NextLevelButton;
+    public PlayMakerFSM fsm;
 
-    public void Hide()
+    void Awake()
     {
-        this.gameObject.SetActive(false);
+        fsm = Gameboard.Instance.GetComponent<PlayMakerFSM>();
     }
 
-    public void Show(string gameOverMsg)
+    void OnEnable()
     {
-        this.gameObject.SetActive(true);
-        this.GameOverText.text = gameOverMsg;
-
         BoardLayoutSet bls = Gameboard.Instance.GetComponent<BoardLayoutSet>();
         if (bls != null && bls.enabled)
         {
@@ -25,24 +23,27 @@ public class GameOverPanel : MonoBehaviour
         else NextLevelButton.gameObject.SetActive(false);
     }
 
-    public void StartGame()
+    public void SetGameOverMessage(string msg)
     {
-        Gameboard.Instance.StartGame();
+        this.GameOverText.text = msg;
     }
 
-    public void ContinueGame()
+    public void GoToLevelSelection()
     {
-        Gameboard.Instance.ContinueGame();
+        fsm.Fsm.Event("GoToLevelSelection");
+    }
+    public void RestartLevel()
+    {
+        fsm.Fsm.Event("RestartLevel");
     }
 
-    public void NextLevel()
+    public void GoToNextLevel()
     {
-        Gameboard.Instance.NextLevel();
+        fsm.Fsm.Event("GoToNextLevel");
     }
     public void LogPlaythrough()
     {
-        Hide();
-        UIGlobals.Instance.LogPlayThroughPanel.Show();
+        fsm.Fsm.Event("OpenPlaythroughSubmission");
     }
     
 }

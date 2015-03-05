@@ -117,9 +117,9 @@ public class BoardLayoutSet : MonoBehaviour
     {
         _playthroughActions.Add(new RetryAction(Gameboard.Instance.GameDuration));
     }
-    private void Instance_WormMoveInputRecieved(Direction direction)
+    private void Instance_WormMoveInputRecieved(Direction direction, bool inputValidated)
     {
-        _playthroughActions.Add(new InputAction(direction, Gameboard.Instance.GameDuration));
+        _playthroughActions.Add(new InputAction(direction, Gameboard.Instance.GameDuration, inputValidated));
     }
     private void Insstance_PlaythroughSubmited(int playthroughID)
     {

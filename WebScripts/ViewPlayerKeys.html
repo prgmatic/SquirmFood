@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Play Tester Keys</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<style>
+    input[readonly] {
+        background-color: #fff;
+    }
+</style>
+
+<body>
+    <div id="container" style="width:800px; margin:auto; margin-top:50px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 id="panelHeader">Enter Password</h1>
+            </div>
+            <div class="panel-body">
+                <table class="table" id="keyTable" style="display:none;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Key</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div id="passwordForm" style="width:450px;margin:auto;">
+                    <div id="infoForm">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" onkeydown="if (event.keyCode == 13)Submit()" name="password" id="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <button onclick="Submit()" style="margin-bottom:13px" class="btn btn-default">Submit</button>
+                </div>
+                <div id="errorDiv" style="display:none" class="alert alert-danger" role="alert">
+                    <span id="errorMessage">Error!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>
+        function Submit() {
+            HideErrorDiv();
+
+            var values = {};
+            var fields = $('#infoForm :input');
+            $.each(fields, function (i, field) {
+                var dom = $(field),
+                    name = dom.attr('id'),
+                    value = dom.val();
+                values[name] = value;
+            });
+
+            $.post("GetPlayerKeys.php", values, function (data, status) {
+                console.log("Recieved response...");
+                console.log(data);
+                data = JSON.parse(data);
+                if (data.error.length > 0) { //We got an error
+                    SetError(data.error);
+                } else {
+                    HidePasswordForm();
+                    ShowKeyTable();
+                    $("#panelHeader").text("Keys");
+                    for (var i = 0; i < data.players.length; i++) {
+                        $('#keyTable > tbody:last').append("<tr><td style='vertical-align:middle;'>" + data.players[i].Name + "</td><td>" +
+                            "<input type='text' class='form-control' style='cursor:text;' value='" +
+                            data.players[i].Key +
+                            "' readonly></td></tr>");
+                    }
+                }
+            });
+        }
+
+        function HideErrorDiv() {
+            $("#errorDiv").hide();
+        }
+
+        function ShowErrorDiv() {
+            $("#errorDiv").show();
+        }
+
+        function ShowPasswordForm() {
+            $("#passwordForm").show();
+        }
+
+        function HidePasswordForm() {
+            $("#passwordForm").hide();
+        }
+
+        function ShowKeyTable() {
+            $("#keyTable").show();
+        }
+
+        function SetError(message) {
+            ShowErrorDiv();
+            $("#errorMessage").text(message);
+        }
+    </script>
+
+</body>
+
+</html>

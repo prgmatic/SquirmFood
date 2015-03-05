@@ -21,6 +21,7 @@ public class Playthrough
 
     private int _playIndex = 0;
     private bool _steppedPlayback = false;
+    private PlaythroughAction currentAction { get { return Actions[_playIndex]; } }
 
     public List<PlaythroughAction> Actions;
     public Playthrough()
@@ -52,6 +53,10 @@ public class Playthrough
 
     public void AdvanceStep()
     {
+        while (Actions[_playIndex] is InputAction && !((InputAction)currentAction).InputValidated && _playIndex < Actions.Count)
+        {
+            _playIndex++;
+        }
         if (_playIndex >= Actions.Count) return;
         ExecuteStep(_playIndex);
         _playIndex++;

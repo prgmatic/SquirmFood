@@ -23,7 +23,7 @@ public class MoveWormInput : MonoBehaviour
 
         Vector2 flickDirection = flick.ScreenFlickVector.normalized;
         flickDirection = SnapTo(flickDirection, 90);
-        Debug.Log(flickDirection);
+        //Debug.Log(flickDirection);
 
         //Move(Mathf.RoundToInt(flickDirection.x), Mathf.RoundToInt(-flickDirection.y));
         if (flickDirection.x > 0) Move(Direction.Right);

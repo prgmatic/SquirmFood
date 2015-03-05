@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Add Play Tester</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+
+<body>
+    <div id="container" style="width:400px; margin:auto; margin-top:50px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1>Add Play Tester</h1>
+            </div>
+            <div class="panel-body">
+                <form role="form" id="infoForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" name="name" id="name" onkeydown="if (event.keyCode == 13)Submit()" placeholder="Enter Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" onkeydown="if (event.keyCode == 13)Submit()" placeholder="Password">
+                    </div>
+                </form>
+                <button onclick="Submit()" style="margin-bottom:13px" class="btn btn-default">Submit</button>
+                    
+
+                <div id="successDiv" style="display:none" class="alert alert-success" role="alert">
+                    <p id="successMessage">Success!</p>
+                    <input id="urlTextBox" type="text" class="form-control" style="cursor:text;" value="undefined" readonly>
+                </div>
+                <div id="errorDiv" style="display:none" class="alert alert-danger" role="alert">
+                    <span id="errorMessage">Error!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>
+        function HideErrorDiv() {
+            $("#errorDiv").hide();
+        }
+
+        function ShowErrorDiv() {
+            $("#errorDiv").show();
+        }
+
+        function HideSuccessDiv() {
+            $("#successDiv").hide();
+        }
+
+        function ShowSuccessDiv() {
+            $("#successDiv").show();
+        }
+
+        function SetSuccess(message) {
+            ShowSuccessDiv();
+            $("#successMessage").text(message);
+            $("#urlTextBox").val("");
+        }
+
+        function SetSuccessAndKey(message, key) {
+            SetSuccess(message);
+            $("#urlTextBox").val(key);
+        }
+
+        function SetError(message) {
+            ShowErrorDiv();
+            $("#errorMessage").text(message);
+        }
+
+
+        function Submit() {
+            HideSuccessDiv();
+            HideErrorDiv();
+
+            var values = {};
+            var fields = $('#infoForm :input');
+            $.each(fields, function (i, field) {
+                var dom = $(field),
+                    name = dom.attr('id'),
+                    value = dom.val();
+                values[name] = value;
+            });
+
+            $.post("AddPlayer.php", values, function (data, status) {
+                console.log("We got a response!");
+                data = JSON.parse(data);
+                if (data.error.length > 0) {
+                    SetError(data.error);
+                } else if (data.success.length > 0 && data.key.length > 0) {
+                    SetSuccessAndKey(data.success, data.key);
+                } else SetError("Something went wrong in getting data from the server");
+            });
+        }
+    </script>
+
+</body>
+
+</html>
