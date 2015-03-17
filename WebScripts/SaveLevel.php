@@ -16,8 +16,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                                 
     if($db->GetPlayer($authorKey) != null)
     {
-        if($db->GetLevel($levelID) != null)
+        if($db->GetLevel($authorKey, $levelID) != null)
         {
+            $message .= "Got level";
             if($db->UpdateLevel($levelID, $authorKey, $levelData))
                 $message .= "Level Updated...\r\n";
             else

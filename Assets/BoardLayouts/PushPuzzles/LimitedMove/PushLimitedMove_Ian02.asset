@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5151ec5ac43c75d4bbaddaf076e10e5e, type: 3}
   m_Name: PushLimitedMove_Ian02
   m_EditorClassIdentifier: 
-  GUID: 65823c865f20b3f4c92ea2145cb73b96
+  ID: 145
   Tokens:
   - Token: {fileID: 11400000, guid: 497c3540c32fefc4dbfc1432e3ff7add, type: 2}
     Position:
@@ -29,3 +29,6 @@ MonoBehaviour:
     Position:
       x: 4
       y: 3
+  BackgroundTileAttributes: 
+  Columns: 8
+  Rows: 8

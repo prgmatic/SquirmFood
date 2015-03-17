@@ -137,9 +137,12 @@ class DatabaseManager
     }
     public function AddLevel($levelName, $authorKey, $levelData, $authorName = "", $isSubmission = false)
     {
+        global $message;
         $time = time();
+        $isSubmission = (int)$isSubmission;
         $query = "INSERT INTO Levels (LevelName, AuthorName, AuthorKey, LevelData, IsSubmission, TimeCreated)
         VALUES('$levelName', '$authorName', '$authorKey', '$levelData', $isSubmission, $time)";
+        $message .= "Query: $query\r\n";
         if($this->conn->query($query))
         {
             return $this->conn->insert_id;

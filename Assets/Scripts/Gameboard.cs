@@ -33,6 +33,7 @@ public class Gameboard : MonoBehaviour
     public Sprite MudTileLongEdge;
     public Sprite MudTileOutsideCorner;
     public Sprite MudTileSwoopOut;
+    public Sprite MudTileSwoopOut2;
     public Material MultiplyMaterial;
 
     private GameTile[,] _tileTable;
@@ -625,24 +626,43 @@ public class Gameboard : MonoBehaviour
 
     private void SetMudSprite(SpriteRenderer renderer, int rotation, bool self, bool horizontalNeighbor, bool verticalNeightbor, bool cornerNeighbor)
     {
+        var scale = renderer.transform.localScale;
+        scale.y = Mathf.Abs(scale.y);
+        renderer.transform.localScale = scale;
         if (self)
         {
             if (horizontalNeighbor && verticalNeightbor)
-                renderer.sprite = MudTileFill;
+            {
+                if (cornerNeighbor)
+                    renderer.sprite = MudTileFill;
+                else renderer.sprite = MudTileSwoopOut2;
+            }
             else if((horizontalNeighbor || verticalNeightbor) && cornerNeighbor)
             {
                 renderer.sprite = MudTileSwoopOut;
                 if (horizontalNeighbor)
                 {
                     if (rotation == 90 || rotation == -90)
+                    {
                         rotation += 90;
-                    else rotation -= 90;
+                    }
+                    else
+                    {
+                        rotation += 180;
+                        scale.y = -scale.y;
+                        renderer.transform.localScale = scale;
+                    }
                 }
                 else
                 {
                     if (rotation == 0 || rotation == 180)
                         rotation += 90;
-                    else rotation -= 90;
+                    else
+                    {
+                        rotation += 180;
+                        scale.y = -scale.y;
+                        renderer.transform.localScale = scale;
+                    }
                 }
             }
             else if (horizontalNeighbor && !verticalNeightbor) // horizontal long edge

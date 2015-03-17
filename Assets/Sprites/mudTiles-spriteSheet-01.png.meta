@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 775518b575237094ba3af6cf08b22282
+timeCreated: 1426617971
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: MudTileFill
@@ -7,6 +9,7 @@ TextureImporter:
     21300004: MudTileLongEdge
     21300006: MudTileOutsideCorner
     21300008: MudTileSwwopOut
+    21300010: MudTileSwoopOut2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -96,6 +99,16 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 512
+        y: 384
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MudTileSwoopOut2
+      rect:
+        serializedVersion: 2
+        x: 640
         y: 384
         width: 128
         height: 128

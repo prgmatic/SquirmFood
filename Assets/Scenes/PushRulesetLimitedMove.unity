@@ -9613,6 +9613,7 @@ MonoBehaviour:
   MudTileOutsideCorner: {fileID: 21300006, guid: 775518b575237094ba3af6cf08b22282,
     type: 3}
   MudTileSwoopOut: {fileID: 21300008, guid: 775518b575237094ba3af6cf08b22282, type: 3}
+  MudTileSwoopOut2: {fileID: 21300010, guid: 775518b575237094ba3af6cf08b22282, type: 3}
   MultiplyMaterial: {fileID: 2100000, guid: 5d17cd218ae846047818e17c91e08fdb, type: 2}
 --- !u!4 &1455866807
 Transform:
@@ -12815,6 +12816,12 @@ MonoBehaviour:
   - Layout: {fileID: 11400000, guid: abfa9783d64739d4ab1a3ade99fbd499, type: 2}
     Enabled: 1
   - Layout: {fileID: 11400000, guid: 962cecae456b55d488ef7a3667ec59cb, type: 2}
+    Enabled: 1
+  - Layout: {fileID: 11400000, guid: 3f28959c3c3e8c441b19f8795219cf63, type: 2}
+    Enabled: 1
+  - Layout: {fileID: 11400000, guid: 65823c865f20b3f4c92ea2145cb73b96, type: 2}
+    Enabled: 1
+  - Layout: {fileID: 11400000, guid: bf0d750fb5bbb904ab0e137de773fa29, type: 2}
     Enabled: 1
   - Layout: {fileID: 11400000, guid: 0319332ab4f7ef04d85043fb476aed87, type: 2}
     Enabled: 1
