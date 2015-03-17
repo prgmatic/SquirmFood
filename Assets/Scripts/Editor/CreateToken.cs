@@ -10,7 +10,7 @@ public class CreateToken : MonoBehaviour
     const string DefaultConditionsFolder = @"Assets\Conditions";
 
     #region CreateToken
-    [MenuItem("Monster Mashup/Create Token/Colored")]
+    [MenuItem("Worm Food/Create Token/Colored")]
     static void CreateColoredToken()
     {
         ColoredToken coloredToken = ScriptableObject.CreateInstance<ColoredToken>();
@@ -19,7 +19,7 @@ public class CreateToken : MonoBehaviour
         Debug.Log("Creating new colored token.");
     }
 
-    [MenuItem("Monster Mashup/Create Token/Textured")]
+    [MenuItem("Worm Food/Create Token/Textured")]
     static void CreateTexturedToken()
     {
         TexturedToken textureToken = ScriptableObject.CreateInstance<TexturedToken>();
@@ -30,7 +30,7 @@ public class CreateToken : MonoBehaviour
     #endregion
 
     #region CreateAction
-    [MenuItem("Monster Mashup/Create Action/Modify Worm Size")]
+    [MenuItem("Worm Food/Create Action/Modify Worm Size")]
     static void CreateModifyWormSizeAction()
     {
         ModifyWormSize action = ScriptableObject.CreateInstance<ModifyWormSize>();
@@ -38,7 +38,7 @@ public class CreateToken : MonoBehaviour
         AssetDatabase.CreateAsset(action, DefaultGameActionsFolder + @"\ModifyWormSize.asset");
         AssetDatabase.Refresh();
     }
-    [MenuItem("Monster Mashup/Create Action/Modify Worm Stomach Size")]
+    [MenuItem("Worm Food/Create Action/Modify Worm Stomach Size")]
     static void CreateModifyWormStomachSizeAction()
     {
         ModifyWormStomachSize action = ScriptableObject.CreateInstance<ModifyWormStomachSize>();
@@ -47,7 +47,7 @@ public class CreateToken : MonoBehaviour
         AssetDatabase.Refresh();
     }
 
-    [MenuItem("Monster Mashup/Create Action/Drop Token")]
+    [MenuItem("Worm Food/Create Action/Drop Token")]
     static void CreateDropTokenAction()
     {
         DropToken action = ScriptableObject.CreateInstance<DropToken>();
@@ -55,7 +55,7 @@ public class CreateToken : MonoBehaviour
         AssetDatabase.CreateAsset(action, DefaultGameActionsFolder + @"\DropToken.asset");
         AssetDatabase.Refresh();
     }
-    [MenuItem("Monster Mashup/Create Action/Multi Action")]
+    [MenuItem("Worm Food/Create Action/Multi Action")]
     static void CreateMultiAction()
     {
         MultiAction action = ScriptableObject.CreateInstance<MultiAction>();
@@ -66,7 +66,7 @@ public class CreateToken : MonoBehaviour
     #endregion
 
     #region CreateRecipe
-    [MenuItem("Monster Mashup/Create Recipe")]
+    [MenuItem("Worm Food/Create Recipe")]
     static void CreateRecipe()
     {
         Recipe recipe = ScriptableObject.CreateInstance<Recipe>();
@@ -77,7 +77,7 @@ public class CreateToken : MonoBehaviour
     #endregion
 
     #region CreateCondition
-    [MenuItem("Monster Mashup/Create Condition/Moves Taken")]
+    [MenuItem("Worm Food/Create Condition/Moves Taken")]
     static void CreateMovesTakenCondition()
     {
         MovesTakenCondition condition = ScriptableObject.CreateInstance<MovesTakenCondition>();
@@ -85,7 +85,7 @@ public class CreateToken : MonoBehaviour
         AssetDatabase.CreateAsset(condition, DefaultConditionsFolder + @"\MovesTaken.asset");
         AssetDatabase.Refresh();
     }
-    [MenuItem("Monster Mashup/Create Condition/Resource")]
+    [MenuItem("Worm Food/Create Condition/Resource")]
     static void CreateResourceCondition()
     {
         ResourceCondition condition = ScriptableObject.CreateInstance<ResourceCondition>();
@@ -93,7 +93,7 @@ public class CreateToken : MonoBehaviour
         AssetDatabase.CreateAsset(condition, DefaultConditionsFolder + @"\ResourceCondition.asset");
         AssetDatabase.Refresh();
     }
-    [MenuItem("Monster Mashup/Create Condition/Multi Condition")]
+    [MenuItem("Worm Food/Create Condition/Multi Condition")]
     static void CreateMultiCondition()
     {
         MultiCondition condition = ScriptableObject.CreateInstance<MultiCondition>();

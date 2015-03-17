@@ -59,7 +59,16 @@ public class GameTile : MonoBehaviour
     public Rectangle GridBounds { get { return new Rectangle(GridLeft, GridTop, Width, Height);} }
 
     public bool Moving { get { return _moving; } }
-    public Sprite Sprite { get { return _renderer.sprite; } set { _renderer.sprite = value; } }
+    public Sprite Sprite { get { return _renderer.sprite; } set {
+            try
+            {
+                _renderer.sprite = value;
+            }
+            catch
+            {
+                Debug.Log("oh");
+            }
+            } }
     public Color Color { get { return _renderer.color; } set { _renderer.color = value; } }
 
     public Token TokenProperties
@@ -111,7 +120,14 @@ public class GameTile : MonoBehaviour
                 if (GridPositionMoved != null)
                     GridPositionMoved(this, oldGridBounds);
                 StopCoroutine("FallToTarget");
-                StartCoroutine("FallToTarget");
+                try
+                {
+                    StartCoroutine("FallToTarget");
+                }
+                catch
+                {
+                    Debug.Log("oh no");
+                }
             }
             if (GridBottom == Gameboard.Instance.Rows && (Width > 1 || Height > 1))
             {
@@ -192,7 +208,6 @@ public class GameTile : MonoBehaviour
         bool reachedTarget = false;
         while(!reachedTarget)
         {
-            float deltaTime = Time.deltaTime;
             _velocity.y -= Acceleration * Time.deltaTime * 60;
             WorldTop += _velocity.y * Time.deltaTime;
             if(WorldTop <= yTarget)

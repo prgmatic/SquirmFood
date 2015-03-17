@@ -140,7 +140,7 @@ PlayerSettings:
   - m_BuildTarget: Android
     m_StaticBatching: 1
     m_DynamicBatching: 1
-  webPlayerTemplate: APPLICATION:Default
+  webPlayerTemplate: APPLICATION:No Context Menu
   m_TemplateCustomTags: {}
   actionOnDotNetUnhandledException: 1
   enableInternalProfiler: 0

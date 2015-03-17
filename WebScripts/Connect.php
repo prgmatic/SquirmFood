@@ -1,4 +1,6 @@
 <?php
+require('DatabaseManager.php');
+
 //Variables for connecting to your database.
 //These variable values come from your hosting account.
 $hostname = "MonsterMashup.db.9807853.hostedresource.com";
@@ -17,6 +19,9 @@ if ($conn->connect_error)
 {
     die("Connection failed: " . $conn->connect_error);
 } 
+
+$db = new DatabaseManager($conn);
+
 function StripInput($data)
 {
     $data = trim($data);

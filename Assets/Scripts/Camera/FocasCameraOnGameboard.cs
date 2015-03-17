@@ -12,13 +12,11 @@ public class FocasCameraOnGameboard : MonoBehaviour
 
     private int prevScreenWidth;
     private int prevScreenHeight;
-    private ScreenOrientation previousOrientation;
     void Start()
     {
         AdjustCameraSize();
         prevScreenHeight = Screen.height;
         prevScreenWidth = Screen.width;
-        previousOrientation = Screen.orientation;
     }
 
     void Update()
@@ -30,7 +28,6 @@ public class FocasCameraOnGameboard : MonoBehaviour
 
         prevScreenHeight = Screen.height;
         prevScreenWidth = Screen.width;
-        previousOrientation = Screen.orientation;
     }
 
     private void AdjustCameraSize()

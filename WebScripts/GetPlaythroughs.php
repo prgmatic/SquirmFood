@@ -4,42 +4,26 @@ require('Connect.php');
 $rows = array();
 $message = "";
 $message .= "Connected to database...\r\n";
+$playthroughs;
 
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
-    $sceneGUID     = StripInput($_POST["SceneGUID"]);
-    $layoutGUID    = StripInput($_POST["LayoutGUID"]);
-    $accessPassword      = StripInput($_POST["Password"]);
+    $key           = StripInput($_POST["Key"]);
+    $password      = StripInput($_POST["Password"]);
+    $levelID       = StripInput($_POST["LevelID"]);
     
-    if($accessPassword == $expectedAccessPassword)
-    {
-        $message .= "$sceneGUID\r\n$layoutGUID\r\n";
-
-        $query = "SELECT * FROM Playthroughs WHERE SceneGUID = '$sceneGUID' AND LayoutGUID = '$layoutGUID'";
-        $queryResult = $conn->query($query);
-
-        if($queryResult)
-        {
-            while($row = $queryResult->fetch_assoc())
-            {
-                unset($row["Actions"]);
-                $rows[] = $row;
-            }
-        }
-        else
-        {
-            $message .= "No Playthroughs for this layout\r\n";
-        }
-    }
+    $playthroughs = $db->GetPlaythroughsForLevel($key, $password, $levelID);
+    if(playthroughs != null)
+        $message .= "Got Playthroughs\r\n";
     else
-        $message .= "Password Invalid";
+        $message .= $db->GetError() . "\r\n";
 }
-mysqli_close($conn);
+$db->CloseConnection();
 $message .= "Closing Connection...Done";
 
 $response = array(
-            'Message' => $message,
-            'Playthroughs' => $rows
-    );
+    'Message' => $message,
+    'Playthroughs' => $playthroughs
+);
 echo json_encode($response);
 ?>

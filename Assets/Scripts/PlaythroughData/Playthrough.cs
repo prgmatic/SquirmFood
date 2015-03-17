@@ -4,10 +4,10 @@ using System.Linq;
 
 public class Playthrough
 {
-    public int ID = 0;
+    public int ID = -1;
+    public int LevelID = -1;
     public string TesterName = "Anonymous";
-    public string SceneGUID = "";
-    public string LayoutGUID = "";
+    public string TesterKey = "";
     public float DurationInSeconds = 0f;
     public int DifficultyRating = 0;
     public int SatisfactionRating = 0;
@@ -28,11 +28,11 @@ public class Playthrough
     {
 
     }
-    public Playthrough(string testerName, string sceneGUID, string layoutGUID, string notes, int difficulty, int satisfaction, float duration, int totalMoves, int movesOnWin, int reties, List<PlaythroughAction> actions)
+    public Playthrough(int levelID, string testerName, string testerKey, string notes, int difficulty, int satisfaction, float duration, int totalMoves, int movesOnWin, int reties, List<PlaythroughAction> actions)
     {
+        this.LevelID = levelID;
         this.TesterName = testerName;
-        this.SceneGUID = sceneGUID;
-        this.LayoutGUID = layoutGUID;
+        this.TesterKey = testerKey;
         this.Notes = notes;
         this.DifficultyRating = difficulty;
         this.SatisfactionRating = satisfaction;

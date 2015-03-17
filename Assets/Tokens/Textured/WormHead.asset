@@ -11,9 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 600a4ed6aa45419449d0dda543157294, type: 3}
   m_Name: WormHead
   m_EditorClassIdentifier: 
-  Fuel: 0
+  ID: 7
+  Resources: []
   IsNuisance: 0
   IsEdible: 0
+  Pushable: 0
   CanFall: 0
   IsWorm: 1
   Width: 1

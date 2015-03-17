@@ -108,14 +108,6 @@ public class Worm : MonoBehaviour
         }
         else return false;
         if (Sections.Count == 0) return false; // Worm has died
-        try
-        {
-            Point testPoint = Tail.GridPosition;
-        }
-        catch(System.Exception ex)
-        {
-            Debug.Log(ex);
-        }
         _movesTaken++;
         Point previousTailPosition = Tail.GridPosition;
 

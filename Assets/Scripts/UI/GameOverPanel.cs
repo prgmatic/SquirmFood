@@ -6,21 +6,23 @@ public class GameOverPanel : MonoBehaviour
 {
     public Text GameOverText;
     public Button NextLevelButton;
-    public PlayMakerFSM fsm;
+    public Button LogPlaythroughButton;
+    private PlayMakerFSM fsm;
+    private HutongGames.PlayMaker.FsmState gameOverState;
 
     void Awake()
     {
         fsm = Gameboard.Instance.GetComponent<PlayMakerFSM>();
+        gameOverState = fsm.Fsm.GetState("GameOverScreen");
     }
 
-    void OnEnable()
+    void Update()
     {
-        BoardLayoutSet bls = Gameboard.Instance.GetComponent<BoardLayoutSet>();
-        if (bls != null && bls.enabled)
+        if(fsm.Fsm.ActiveState != gameOverState)
         {
-            NextLevelButton.gameObject.SetActive(true);
+            NextLevelButton.gameObject.SetActive(false);
+            LogPlaythroughButton.gameObject.SetActive(false);
         }
-        else NextLevelButton.gameObject.SetActive(false);
     }
 
     public void SetGameOverMessage(string msg)

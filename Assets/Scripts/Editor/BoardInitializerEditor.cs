@@ -7,11 +7,9 @@ using System.Collections;
 public class BoardInitializerEditor : Editor 
 {
     const int spacing = 3;
-    SerializedProperty _tokensToSpawnProp;
 
     void OnEnable()
     {
-        _tokensToSpawnProp = serializedObject.FindProperty("TokensToSpawn");
     }
 
     public override void OnInspectorGUI()
@@ -31,7 +29,7 @@ public class BoardInitializerEditor : Editor
         //position.y += EditorGUIUtility.singleLineHeight + spacing;
         position.width += 3;
         position.x += position.width;
-        itemValue.Token = (Token)EditorGUI.ObjectField(position, itemValue.Token, typeof(Token));
+        itemValue.Token = (Token)EditorGUI.ObjectField(position, itemValue.Token, typeof(Token), false);
         return itemValue;
     }
 }

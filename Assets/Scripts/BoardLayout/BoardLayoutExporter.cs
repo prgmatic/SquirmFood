@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.IO;
 
 public class BoardLayoutExporter 
 {
+    const int ExportVersion = 0;
+
     public static List<BoardLayout.TokenAtPoint> GetTokensOnBoard()
     {
         List<BoardLayout.TokenAtPoint> result = new List<BoardLayout.TokenAtPoint>();
@@ -31,10 +34,50 @@ public class BoardLayoutExporter
             }
         }
         //layout.BackgroundTileAttributes = Gameboard.Instance.ExportBackgroundTileAtributes();
-        
-
         return layout;
     }
 
-   
+    public static byte[] ExportBinary()
+    {
+        return ExportBinary(GenerateLayout());
+    }
+
+    public static byte[] ExportBinary(BoardLayout layout)
+    {
+        byte[] result = null;
+        using (MemoryStream ms = new MemoryStream())
+        {
+            using (BinaryWriter writer = new BinaryWriter(ms))
+            {
+                //Gameboard gb = Gameboard.Instance;
+
+                writer.Write(ExportVersion);
+
+                writer.Write(layout.Columns);
+                writer.Write(layout.Rows);
+
+                for (int y = 0; y < layout.Rows; y++)
+                {
+                    for (int x = 0; x < layout.Columns; x++)
+                    {
+                        if (layout.BackgroundTileAttributes.Length > x + y * layout.Columns)
+                            writer.Write(layout.BackgroundTileAttributes[x + y * layout.Columns] == Gameboard.BackgroundTileAttribute.FreeMove);
+                        else
+                            writer.Write(false);
+                    }
+                }
+                writer.Write(layout.Tokens.Count);
+                foreach(var token in layout.Tokens)
+                {
+                    if (token.Token.ID == 0 || token.Token.ID == 255)
+                        Debug.LogError("Token " + token.Token.name + " does not have an ID");
+                    writer.Write(token.Token.ID);
+                    writer.Write((byte)token.Position.x);
+                    writer.Write((byte)token.Position.y);
+                }
+                result = ms.ToArray();
+            }
+        }
+        return result;
+    }
 }

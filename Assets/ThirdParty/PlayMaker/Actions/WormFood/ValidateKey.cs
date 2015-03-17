@@ -7,7 +7,8 @@ using Tooltip = HutongGames.PlayMaker.TooltipAttribute;
 [Tooltip("Validate the users key.")]
 public class ValidateKey : FsmStateAction
 {
-
+    public static string KeyHolderName = "";
+    public static string Key = "";
     public FsmEvent ValidatedEvent;
     public FsmEvent InvalidatedEvent;
     public bool SkipValidation;
@@ -30,20 +31,41 @@ public class ValidateKey : FsmStateAction
         }
         else
         {
-            if (RequestParameters.HasKey("key"))
+            if (RequestParameters.IsInitialized)
             {
-                string key = RequestParameters.GetValue("key");
-                PlaythroughDatabase.Insstance.KeyValidationComplete += Insstance_KeyValidationComplete;
-                PlaythroughDatabase.Insstance.ValidateKey(key);
+                DoKeyValidation();
             }
-            else Fsm.Event(InvalidatedEvent);
+            else
+            {
+                RequestParameters.Initialized += RequestParameters_Initialized;
+            }
         }
+    }
+
+    private void RequestParameters_Initialized(object sender, System.EventArgs e)
+    {
+        RequestParameters.Initialized -= RequestParameters_Initialized;
+        DoKeyValidation();
+    }
+
+    private void DoKeyValidation()
+    {
+        if (RequestParameters.HasKey("key"))
+        {
+            Key = RequestParameters.GetValue("key");
+            WebManager.Instance.KeyValidationComplete += Insstance_KeyValidationComplete;
+            WebManager.Instance.CheckKeyValidation(Key);
+        }
+        else Fsm.Event(InvalidatedEvent);
     }
 
     private void Insstance_KeyValidationComplete(bool keyValidated, string testerName)
     {
         if (keyValidated)
+        {
+            KeyHolderName = testerName;
             Fsm.Event(ValidatedEvent);
+        }
         else
             Fsm.Event(InvalidatedEvent);
     }

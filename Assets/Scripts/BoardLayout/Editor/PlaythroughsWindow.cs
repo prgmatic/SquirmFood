@@ -13,9 +13,6 @@ public class PlaythroughsWindow : EditorWindow
     private GUIStyle darkStyle;
     private string pWord = "GoTeam";
     private bool loading = false;
-    private bool steppedPlayback = false;
-
-    private List<Playthrough> playthroughs = new List<Playthrough>();
 
     void OnEnable()
     {
@@ -58,10 +55,8 @@ public class PlaythroughsWindow : EditorWindow
     {
         currentLayout = layout;
 
-        string sceneGUID = AssetDatabase.AssetPathToGUID(EditorApplication.currentScene);
-        string layoutGUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(layout));
-        PlaythroughDatabase.Insstance.PlaythroughsDownloaded += Insstance_PlaythroughsDownloaded;
-        PlaythroughDatabase.Insstance.GetPlaythroughsForLayout(sceneGUID, layoutGUID, pWord);
+        //WebManager.Insstance.PlaythroughsDownloaded += Insstance_PlaythroughsDownloaded;
+        //WebManager.Insstance.GetPlaythroughsForLevel(layout.ID, pWord);
         loading = true;
     }
 
@@ -107,8 +102,8 @@ public class PlaythroughsWindow : EditorWindow
                 {
                     loading = true;
                     currentLayout.Playthroughs.Clear();
-                    PlaythroughDatabase.Insstance.PlaythroughDeletionComplete += Insstance_PlaythroughDeletionComplete;
-                    PlaythroughDatabase.Insstance.DeletePlaythrough(playthrough, pWord);
+                    WebManager.Instance.PlaythroughDeletionComplete += Insstance_PlaythroughDeletionComplete;
+                    WebManager.Instance.DeletePlaythrough(playthrough, pWord);
                     break;
                 }
             }
@@ -121,8 +116,6 @@ public class PlaythroughsWindow : EditorWindow
                 DrawAtCenter("No playthroughs logged for this level in this scene");
         }
     }
-
-    
 
     #region DrawMethods
     private void DrawAtCenter(string msg, GUIStyle style = null)
@@ -191,15 +184,13 @@ public class PlaythroughsWindow : EditorWindow
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("View Realtime"))
         {
-            steppedPlayback = false;
-            PlaythroughDatabase.Insstance.PlaythroughActionsDownloaded += Insstance_PlaythroughActionsDownloaded;
-            PlaythroughDatabase.Insstance.GetPlaythroughActions(playthrough, pWord);
+            //WebManager.Instance.PlaythroughActionsDownloaded += Insstance_PlaythroughActionsDownloaded;
+            //WebManager.Instance.GetPlaythroughActions(playthrough, pWord);
         }
         if (GUILayout.Button("View Stepped"))
         {
-            steppedPlayback = true;
-            PlaythroughDatabase.Insstance.PlaythroughActionsDownloaded += Insstance_PlaythroughActionsDownloaded;
-            PlaythroughDatabase.Insstance.GetPlaythroughActions(playthrough, pWord);
+            //WebManager.Instance.PlaythroughActionsDownloaded += Insstance_PlaythroughActionsDownloaded;
+            //WebManager.Instance.GetPlaythroughActions(playthrough, pWord);
         }
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();
@@ -224,19 +215,19 @@ public class PlaythroughsWindow : EditorWindow
     private void Insstance_PlaythroughsDownloaded(List<Playthrough> playthroughs)
     {
         currentLayout.Playthroughs = playthroughs.OrderBy(x => x.DateTime).ToList();
-        PlaythroughDatabase.Insstance.PlaythroughsDownloaded -= Insstance_PlaythroughsDownloaded;
+        //WebManager.Insstance.PlaythroughsDownloaded -= Insstance_PlaythroughsDownloaded;
         loading = false;
         Repaint();
     }
     private void Insstance_PlaythroughActionsDownloaded(Playthrough playthrough)
     {
-        PlaythroughDatabase.Insstance.PlaythroughActionsDownloaded -= Insstance_PlaythroughActionsDownloaded;
+        //WebManager.Instance.PlaythroughActionsDownloaded -= Insstance_PlaythroughActionsDownloaded;
         Gameboard.Instance.GetComponent<BoardLayoutSet>().SetLayout(currentLayout);
         //Gameboard.Instance.ViewReplay(playthrough, steppedPlayback);
     }
     private void Insstance_PlaythroughDeletionComplete()
     {
-        PlaythroughDatabase.Insstance.PlaythroughDeletionComplete -= Insstance_PlaythroughDeletionComplete;
+        WebManager.Instance.PlaythroughDeletionComplete -= Insstance_PlaythroughDeletionComplete;
         if (currentLayout != null)
             SetLayout(currentLayout);
         else loading = false;

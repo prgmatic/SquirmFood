@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class BoardLayout : ScriptableObject 
 {
-    public string GUID = "";
+    public int ID = -1;
     [HideInInspector]
     public List<TokenAtPoint> Tokens = new List<TokenAtPoint>();
     public Gameboard.BackgroundTileAttribute[] BackgroundTileAttributes;

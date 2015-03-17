@@ -1,25 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using System.IO;
 
-[RequireComponent(typeof(Gameboard))]
-public class BoardLayoutImporter : MonoBehaviour 
+public class BoardLayoutImporter
 {
-    public BoardLayout BoardLayout;
-
-    void Awake()
-    {
-        Gameboard.Instance.GameboardReset += Instance_GameStarted;
-    }
-
-    private void Instance_GameStarted()
-    {
-        if (!this.enabled) return;
-        ImportBoardLayout(BoardLayout);
-    }
-
-    void Start () 
-	{
-    }
 
     public static void ImportBoardLayout(BoardLayout layout)
     {
@@ -51,7 +36,67 @@ public class BoardLayoutImporter : MonoBehaviour
                 }
             }
         }
-
         Gameboard.Instance.ApplyGravity();
+    }
+
+    public static BoardLayout GetBoardLayoutFromBinary(byte[] data)
+    {
+        BoardLayout result = ScriptableObject.CreateInstance<BoardLayout>();
+
+        var tokens = Resources.FindObjectsOfTypeAll<Token>()
+            .Where(t => t.ID != 0 && t.ID != 255)
+            .Select(t => t)
+            .ToArray();
+        WormSpawnerInput wormSpawner = Gameboard.Instance.GetComponent<WormSpawnerInput>();
+
+        using (MemoryStream ms = new MemoryStream(data))
+        {
+            using (BinaryReader reader = new BinaryReader(ms))
+            {
+#pragma warning disable 0219
+                int exportVersion = reader.ReadInt32();
+#pragma warning restore 0219
+                result.Columns = reader.ReadInt32();
+                result.Rows = reader.ReadInt32();
+
+                result.BackgroundTileAttributes = new Gameboard.BackgroundTileAttribute[result.Columns * result.Rows];
+                for (int y = 0; y < result.Rows; y++)
+                {
+                    for (int x = 0; x < result.Columns; x++)
+                    {
+                        if (reader.ReadBoolean())
+                            result.BackgroundTileAttributes[x + y * result.Columns] = Gameboard.BackgroundTileAttribute.FreeMove;
+                        else
+                            result.BackgroundTileAttributes[x + y * result.Columns] = Gameboard.BackgroundTileAttribute.LimitedMove;
+                    }
+                }
+
+                int numberOfTokens = reader.ReadInt32();
+                for (int i = 0; i < numberOfTokens; i++)
+                {
+                    //result.Tokens.Add(new BoardLayout.TokenAtPoint())
+                    int id = reader.ReadByte();
+                    int x = reader.ReadByte();
+                    int y = reader.ReadByte();
+
+                    if (id == 0 || id == 255)
+                        continue;
+
+                    foreach (var token in tokens)
+                    {
+                        if (token.ID == id)
+                        {
+                            result.Tokens.Add(new BoardLayout.TokenAtPoint(token, new Point(x, y)));
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public static void ImportBinary(byte[] data)
+    {
+        ImportBoardLayout(GetBoardLayoutFromBinary(data));
     }
 }

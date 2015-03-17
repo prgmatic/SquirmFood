@@ -33,6 +33,7 @@ public class Gameboard : MonoBehaviour
     public Sprite MudTileLongEdge;
     public Sprite MudTileOutsideCorner;
     public Sprite MudTileSwoopOut;
+    public Material MultiplyMaterial;
 
     private GameTile[,] _tileTable;
     private SpriteRenderer[,] _backgroundTiles;
@@ -40,16 +41,14 @@ public class Gameboard : MonoBehaviour
     private int _hopperSize = 3;
     private static Gameboard _instance;
     private float _gameDuration = 0f;
-    private float _prevGameDuration = 0f;
     private int _totalMoves = 0;
     private int _movesThisTry = 0;
     private int _retries = 0;
-    private bool _steppedPlayback = false;
-    private static Playthrough _staticPlaybackData = null;
     private Playthrough _playbackData = null;
     private GameObject _bgTileGroup;
     private SpriteRenderer[,] _mudTiles;
     private GameObject _mudTileGroup;
+    private BoardLayout _currentLevel;
 
     [System.NonSerialized]
     public List<GameTile> gameTiles = new List<GameTile>();
@@ -75,6 +74,9 @@ public class Gameboard : MonoBehaviour
     public int TotalMoves { get { return _totalMoves; } }
     public int MovesThisTry { get { return _movesThisTry; } }
     public int Retries { get { return _retries; } }
+    public BoardLayout CurrentLevel {
+        get { return _currentLevel; }
+        set { _currentLevel = value; } }
     #endregion
     
 
@@ -128,13 +130,7 @@ public class Gameboard : MonoBehaviour
     { 
         if (GameState == GameStateType.InProgress || GameState == GameStateType.ViewingPlayback)
         {
-            _prevGameDuration = _gameDuration;
             _gameDuration += Time.deltaTime;
-        }
-
-        if(GameState == GameStateType.ViewingPlayback)
-        {
-            _playbackData.Playback(_gameDuration);
         }
     }
     public void StartGame()
@@ -161,6 +157,9 @@ public class Gameboard : MonoBehaviour
     {
         if (GameboardReset != null)
             GameboardReset();
+        if (CurrentLevel != null)
+            BoardLayoutImporter.ImportBoardLayout(CurrentLevel);
+        
         ResourcePool.Instance.UpdateResourceCount();
         VictoryLossConditions.Instance.Enable();
         UpdateMudTiles();
@@ -303,8 +302,8 @@ public class Gameboard : MonoBehaviour
     private GameTile GenerateTileFromColoredToken(Token token)
     {
         GameObject go = new GameObject();
-        go.transform.transform.SetParent(this.transform);
         GameTile result = go.AddComponent<GameTile>();
+        go.transform.transform.SetParent(this.transform);
         result.TokenProperties = token;
         return result;
     }
@@ -450,7 +449,7 @@ public class Gameboard : MonoBehaviour
     {
         while(gameTiles.Count > 0)
         {
-            DestroyTile(gameTiles[0]);
+            DestroyTile(gameTiles[0], false, false);
         }
         for(int y = 0; y < Rows; y++)
         {
@@ -569,6 +568,7 @@ public class Gameboard : MonoBehaviour
                 mudTile.name = "MudTile";
                 mudTile.transform.SetParent(_mudTileGroup.transform);
                 SpriteRenderer mudRenderer = mudTile.AddComponent<SpriteRenderer>();
+                mudRenderer.material = MultiplyMaterial;
                 //mudRenderer.sprite = MudTileFill;
 
                 mudRenderer.transform.localPosition = new Vector3(
@@ -725,10 +725,7 @@ public class Gameboard : MonoBehaviour
         }
     }
 
-    public static void SetPlaybackData(Playthrough playthrough)
-    {
-        _staticPlaybackData = playthrough;
-    }
+    
 
     #region Delegates
     private void NewTile_GridPositionMoved1(GameTile sender, Rectangle oldGridBounds)

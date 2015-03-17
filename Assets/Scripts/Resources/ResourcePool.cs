@@ -42,10 +42,10 @@ public class ResourcePool : MonoBehaviour
     }
     private void DebugHUD_MessagesCleared(object sender, System.EventArgs e)
     {
-        foreach(var resource in _resources)
-        {
-            DebugHUD.Add(string.Format("{0}: {1}", resource.Type.ToString(), resource.Value));
-        }
+        //foreach(var resource in _resources)
+        //{
+        //    DebugHUD.Add(string.Format("{0}: {1}", resource.Type.ToString(), resource.Value));
+        //}
     }
     
     private void ClearResources()

@@ -10,11 +10,9 @@ using Rotorz.ReorderableList;
 public class ActiveRecipesEditor : Editor
 {
     const int spacing = 3;
-    SerializedProperty _recipesProperty;
 
     void OnEnable()
     {
-        _recipesProperty = serializedObject.FindProperty("Recipes");
     }
 
     public override void OnInspectorGUI()
@@ -29,9 +27,9 @@ public class ActiveRecipesEditor : Editor
     {
         position.y += spacing;
         position.height = EditorGUIUtility.singleLineHeight;
-        itemValue.Recipe = (Recipe)EditorGUI.ObjectField(position, "Recipe", itemValue.Recipe, typeof(Recipe));
+        itemValue.Recipe = (Recipe)EditorGUI.ObjectField(position, "Recipe", itemValue.Recipe, typeof(Recipe), false);
         position.y += EditorGUIUtility.singleLineHeight + spacing;
-        itemValue.Action = (GameAction)EditorGUI.ObjectField(position, "Action", itemValue.Action, typeof(GameAction));
+        itemValue.Action = (GameAction)EditorGUI.ObjectField(position, "Action", itemValue.Action, typeof(GameAction), false);
 
         return itemValue;
     }

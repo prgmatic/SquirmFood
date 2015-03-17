@@ -3,63 +3,113 @@ using System.Collections.Generic;
 
 public class PlaythroughRecorder : MonoBehaviour
 {
+    public bool AutoLogPlaythrough = false;
+
     private List<PlaythroughAction> _data = new List<PlaythroughAction>();
-    private float _time = 0;
-    private bool _recording = false;
+    private int _playthroughID = -1;
 
-    void Awake()
-    {
-        Gameboard.Instance.GameboardReset += Instance_GameStarted;
-    }
-
-    private void Instance_GameStarted()
+    void OnEnable()
     {
         StartRecorder();
+    }
+    void OnDisable()
+    {
+        StopRecorder();
     }
 
     public void StartRecorder()
     {
-        _recording = true;
-        _time = 0f;
-        Gameboard.Instance.TileAdded += Instance_TileAdded;
-        Gameboard.Instance.TileDestroyed += Instance_TileDestroyed;
-        Gameboard.Instance.TileMoved += Instance_TileMoved;
+        Debug.Log("Recording Started");
+        _data.Clear();
+        _playthroughID = -1;
+        Gameboard.Instance.WormMoveInputRecieved += Instance_WormMoveInputRecieved;
+        Gameboard.Instance.GameRetry += Instance_GameRetry;
+        Gameboard.Instance.GameEnded += Instance_GameEnded;
     }
-
     public void StopRecorder()
     {
-        _recording = false;
-        Gameboard.Instance.TileAdded -= Instance_TileAdded;
-        Gameboard.Instance.TileDestroyed -= Instance_TileDestroyed;
-        Gameboard.Instance.TileMoved += Instance_TileMoved;
+        Debug.Log("Recording Stopped");
+        Gameboard.Instance.WormMoveInputRecieved -= Instance_WormMoveInputRecieved;
+        Gameboard.Instance.GameRetry -= Instance_GameRetry;
+        Gameboard.Instance.GameEnded -= Instance_GameEnded;
+        //if(AutoLogPlaythrough && _data.Count > 0)
+        //{
+            //SubmitPlaythrough();
+        //}
     }
 
-    private void Instance_TileMoved(GameTile sender, Rectangle oldGridBounds)
+    public void SubmitPlaythrough()
     {
-        if(sender.GetComponent<Worm>() != null)
-        {
-            //InputAction tileMovedData = new InputAction();
+        SubmitPlaythrough("", "", 0, 0);
+    }
 
-            //tileMovedData.From = oldGridBounds.Position;
-            //tileMovedData.To = sender.GridPosition;
-            //_data.Add(tileMovedData);
-            Debug.Log(_time);
+    public void SubmitPlaythrough(string name, string notes, int difficulty, int satisfaction)
+    {
+        if (_playthroughID > 0)
+        {
+            WebManager.Instance.AddFeedbackToPlaythrough(_playthroughID, difficulty, satisfaction, notes);
+        }
+        else
+        {
+            int levelID = Gameboard.Instance.CurrentLevel.ID;
+            var playthrough = new Playthrough(
+                levelID,
+                name,
+                ValidateKey.Key,
+                notes,
+                difficulty,
+                satisfaction,
+                Gameboard.Instance.GameDuration,
+                Gameboard.Instance.TotalMoves,
+                Gameboard.Instance.MovesThisTry,
+                Gameboard.Instance.Retries, _data);
+            WebManager.Instance.PlaythroughSubmited += Insstance_PlaythroughSubmited;
+            WebManager.Instance.PostPlaythrough(playthrough);
         }
     }
 
-    void Update()
+    public Playthrough ExportPlaythrough()
     {
-        if (_recording)
-            _time += Time.deltaTime;
+        return new Playthrough(
+                Gameboard.Instance.CurrentLevel.ID,
+                name,
+                ValidateKey.Key,
+                "",
+                -1,
+                -1,
+                Gameboard.Instance.GameDuration,
+                Gameboard.Instance.TotalMoves,
+                Gameboard.Instance.MovesThisTry,
+                Gameboard.Instance.Retries, _data);
     }
 
-    private void Instance_TileDestroyed(GameTile sender)
-    {
-    }
 
-    private void Instance_TileAdded(GameTile sender)
+    #region Delegates
+    private void Insstance_PlaythroughSubmited(int playthroughID)
     {
+        _playthroughID = playthroughID;
+        WebManager.Instance.PlaythroughSubmited -= Insstance_PlaythroughSubmited;
     }
+    private void Instance_WormMoveInputRecieved(Direction direction, bool inputValidated)
+    {
+        _data.Add(new InputAction(direction, Gameboard.Instance.GameDuration, inputValidated));
+    }
+    private void Instance_GameRetry()
+    {
+        _data.Add(new RetryAction(Gameboard.Instance.GameDuration));
+    }
+    private void Instance_GameEnded()
+    {
+        Debug.Log("The game has ended");
+    }
+    #endregion
 
-    
+
+
+
+
+
+
+
+
 }

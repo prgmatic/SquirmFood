@@ -26,7 +26,9 @@ public class CallMethodEditor : CustomActionEditor
             callMethod = (CallMethod)target;
             if (callMethod.GameObject != null)
             {
-                GameObject go = callMethod.Fsm.GetOwnerDefaultTarget(callMethod.GameObject);
+                GameObject go = null;
+                if(callMethod.Fsm != null)
+                    go = callMethod.Fsm.GetOwnerDefaultTarget(callMethod.GameObject);
                 if (go != null)
                 {
                     GetMethodsForGameObject(go);
@@ -57,23 +59,25 @@ public class CallMethodEditor : CustomActionEditor
 
     public override bool OnGUI()
     {
-        if (callMethod == null || callMethod.GameObject == null) return false;
+        //if (callMethod == null || callMethod.GameObject == null) return false;
+
 
         if (callMethod.BehaviourName == "" || callMethod.MethodName == "")
         {
             selectedMethod = -1;
         }
-
-        var go = callMethod.Fsm.GetOwnerDefaultTarget(callMethod.GameObject);
+        GameObject go = null;
+        if(callMethod.Fsm != null)
+            go = callMethod.Fsm.GetOwnerDefaultTarget(callMethod.GameObject);
 
         EditField("GameObject");
         if (go != null)
         {
-                if (prevSelectedGameObject != go)
-                {
-                    GetMethodsForGameObject(go);
-                }
-                selectedMethod = EditorGUILayout.Popup("Method", selectedMethod, listOfMethods);
+            if (prevSelectedGameObject != go)
+            {
+                GetMethodsForGameObject(go);
+            }
+            selectedMethod = EditorGUILayout.Popup("Method", selectedMethod, listOfMethods);
         }
         callMethod.BehaviourName = "";
         callMethod.MethodName = "";
@@ -83,9 +87,7 @@ public class CallMethodEditor : CustomActionEditor
             callMethod.MethodName = methods[selectedMethod].Name;
         }
         prevSelectedGameObject = go;
-
-        
-                
+            
         return GUI.changed;
     }
 
