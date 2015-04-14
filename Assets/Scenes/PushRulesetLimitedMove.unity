@@ -9740,8 +9740,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 215
-        y: 818
+        x: 221.867188
+        y: 817.890625
         width: 100
         height: 32
       isBreakpoint: 0

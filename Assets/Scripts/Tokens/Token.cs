@@ -12,6 +12,7 @@ public class Token : ScriptableObject
     public bool IsWorm = false;
     public int Width = 1;
     public int Height = 1;
+    public float ScaleMultiplier = 1f;
 
     public Rectangle GetBounds(int x, int y)
     {

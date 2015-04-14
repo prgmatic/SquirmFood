@@ -28,6 +28,7 @@ public class GameTile : MonoBehaviour
     //private Point _size = new Point(1, 1);
     private Point _gridPosition = Point.zero;
     private Rectangle gravityBounds;
+    private bool _flipped = false;
     #endregion
 
     #region Properties
@@ -84,10 +85,21 @@ public class GameTile : MonoBehaviour
             {
                 this.Color = ((ColoredToken)_tokenProperties).Color;
             }
+
             if (_tokenProperties is TexturedToken)
             {
-                this.Sprite = ((TexturedToken)_tokenProperties).Sprite;
-                this.transform.localScale = new Vector3(1f / Sprite.GetWidth() * Width, 1f / Sprite.GetHeight() * Height, 1);
+                var properties = (TexturedToken)_tokenProperties;
+
+                if (properties.UseSpriteArray)
+                {
+                    this.Sprite = properties.GetSpriteFromSpriteArray();
+                    int rand = UnityEngine.Random.Range(0, 2);
+                    if (rand == 1) _flipped = true;
+                }
+                else this.Sprite = properties.Sprite;
+
+                float scale = 1f / Sprite.GetWidth() * Width;
+                this.transform.localScale = new Vector3(scale, _flipped ? -scale : scale, 1);
             }
         }
     }
@@ -100,6 +112,18 @@ public class GameTile : MonoBehaviour
     void Awake()
     {
         _renderer = GetComponent<SpriteRenderer>();
+    }
+    void Update()
+    {
+        if (_tokenProperties is TexturedToken)
+        {
+            var pos = this.WorldPosition;
+            pos.z = -0.1f - 0.1f * GridPosition.y;
+            this.WorldPosition = pos;
+            //this.Sprite = ((TexturedToken)_tokenProperties).Sprite;
+            float scale = 1f / Sprite.GetWidth() * Width * _tokenProperties.ScaleMultiplier;
+                this.transform.localScale = new Vector3(_flipped ? -scale : scale, scale, 1);
+        }
     }
     public void ApplyGravity()
     {
@@ -228,6 +252,7 @@ public class GameTile : MonoBehaviour
         float timer = 0f;
         Vector3 startPosition = this.transform.position;
         Vector3 endPosition = Gameboard.Instance.GridPositionToWorldPosition(GridPosition.x, GridPosition.y);
+        endPosition.z = this.transform.position.z;
         endPosition.x += 0.5f * Width;
         endPosition.y -= 0.5f * Height;
 
