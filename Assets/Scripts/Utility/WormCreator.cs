@@ -3,19 +3,18 @@ using System.Collections;
 
 public static class WormCreator 
 {
-    public static Worm CreateWorm(Token headToke, Token bodyToken, Point point, WormProperties properties)
+    public static Worm CreateWorm(Point point)
     {
-        return CreateWorm(headToke, bodyToken, point.x, point.y, properties);
+        return CreateWorm(point.x, point.y);
     }
 
-	public static Worm CreateWorm(Token headToken, Token bodyToken, int x, int y, WormProperties properties)
+	public static Worm CreateWorm(int x, int y)
     {
         Gameboard.Instance.DestroyTileAt(x, y, false, false);
-        var head = Gameboard.Instance.AddTileFromToken(headToken, x, y, false, true);
-        if (head == null) return null;
-        Worm worm = head.gameObject.AddComponent<Worm>();
-        worm.SetProperties(properties);
-        worm.SectionToken = bodyToken;
+        var wormTile = Gameboard.Instance.AddTileFromToken(Gameboard.Instance.WormToken, x, y, false, true);
+        if (wormTile == null) return null;
+        Worm worm = wormTile.gameObject.AddComponent<Worm>();
+		worm.WormTile = wormTile;
         return worm;
     }
 }

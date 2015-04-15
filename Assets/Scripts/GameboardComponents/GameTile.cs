@@ -60,16 +60,7 @@ public class GameTile : MonoBehaviour
     public Rectangle GridBounds { get { return new Rectangle(GridLeft, GridTop, Width, Height);} }
 
     public bool Moving { get { return _moving; } }
-    public Sprite Sprite { get { return _renderer.sprite; } set {
-            try
-            {
-                _renderer.sprite = value;
-            }
-            catch
-            {
-                Debug.Log("oh");
-            }
-            } }
+    public Sprite Sprite { get { return _renderer.sprite; } set { _renderer.sprite = value; } }
     public Color Color { get { return _renderer.color; } set { _renderer.color = value; } }
 
     public Token TokenProperties
@@ -117,9 +108,6 @@ public class GameTile : MonoBehaviour
     {
         if (_tokenProperties is TexturedToken)
         {
-            var pos = this.WorldPosition;
-            pos.z = -0.1f - 0.1f * GridPosition.y;
-            this.WorldPosition = pos;
             //this.Sprite = ((TexturedToken)_tokenProperties).Sprite;
             float scale = 1f / Sprite.GetWidth() * Width * _tokenProperties.ScaleMultiplier;
                 this.transform.localScale = new Vector3(_flipped ? -scale : scale, scale, 1);
@@ -128,7 +116,7 @@ public class GameTile : MonoBehaviour
     public void ApplyGravity()
     {
         if (!CanFall || _moving) return;
-        if (!Gameboard.Instance.GridBoundsWithHopper.Contains(this.GridBounds)) return;
+        if (!Gameboard.Instance.GridBounds.Contains(this.GridBounds)) return;
         if (GridBottom < Gameboard.Instance.Rows)
         {
             gravityBounds = new Rectangle(GridLeft, GridTop + 1, Width, Height);

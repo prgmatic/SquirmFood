@@ -20,7 +20,28 @@ public static class Utils
         }
     }
 
-    public static Point CursorGridPosotion { get { return Gameboard.Instance.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition)); } }
+
+    public static Point CursorGridPosotion
+	{
+		get
+		{
+			return Gameboard.Instance.WorldPositionToGridPosition(CursorPositionInWorld);
+		}
+	}
+	private static Plane _worldPlane = new Plane(Vector3.forward, 0f);
+	public static Vector3 CursorPositionInWorld
+	{
+		get
+		{
+			var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			float rayDistance;
+			if (_worldPlane.Raycast(ray, out rayDistance))
+			{
+				return ray.GetPoint(rayDistance);
+			}
+			return Vector3.zero;
+		}
+	}
 
     public static float GetWidth(this Sprite sprite)
     {

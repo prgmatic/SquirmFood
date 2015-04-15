@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class Token : ScriptableObject 
 {
     public byte ID = 0;
-    public List<Resource> Resources = new List<Resource>();
     public bool IsNuisance = false;
     public bool IsEdible = true;
     public bool Pushable = false;

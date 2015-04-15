@@ -8,8 +8,6 @@ public class BoardLayoutImporter
 
     public static void ImportBoardLayout(BoardLayout layout)
     {
-        WormSpawnerInput wormSpawner = Gameboard.Instance.GetComponent<WormSpawnerInput>();
-
         Gameboard.Instance.Clear();
         if(layout.Columns > 0 && layout.Rows > 0)
         {
@@ -20,8 +18,7 @@ public class BoardLayoutImporter
         {
             if (token.Token.IsWorm)
             {
-                if (wormSpawner != null)
-                    wormSpawner.CreateWorm(token.Position);
+				WormCreator.CreateWorm(token.Position);
             }
             else
                 Gameboard.Instance.AddTileFromToken(token.Token, token.Position, false, true);
@@ -47,7 +44,6 @@ public class BoardLayoutImporter
             .Where(t => t.ID != 0 && t.ID != 255)
             .Select(t => t)
             .ToArray();
-        WormSpawnerInput wormSpawner = Gameboard.Instance.GetComponent<WormSpawnerInput>();
 
         using (MemoryStream ms = new MemoryStream(data))
         {

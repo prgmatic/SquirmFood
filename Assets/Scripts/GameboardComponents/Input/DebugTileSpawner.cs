@@ -18,19 +18,15 @@ public class DebugTileSpawner : MonoBehaviour
     }
     void Update()
     {
-        if (!Gameboard.Instance.AcceptingInput) return;
+        //if (!Gameboard.Instance.AcceptingInput) return;
         if(Input.GetMouseButtonDown(1))
         {
-            Point point = Gameboard.Instance.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            Point point = Utils.CursorGridPosotion;
             Gameboard.Instance.DestroyTileAt(point.x, point.y);
         }
-        if (!Gameboard.Instance.AcceptingInput) return;
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if(Gameboard.Instance.GetComponent<WormSpawnerInput>() != null)
-            {
-                Gameboard.Instance.GetComponent<WormSpawnerInput>().CreateWorm(Utils.CursorGridPosotion);
-            }
+			WormCreator.CreateWorm(Utils.CursorGridPosotion);
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -54,7 +50,7 @@ public class DebugTileSpawner : MonoBehaviour
                 if (index < TokensToSpawn.Count)
                 {
                     Token token = TokensToSpawn[index];
-                    Point point = Gameboard.Instance.WorldPositionToGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+					Point point = Utils.CursorGridPosotion;
                     Gameboard.Instance.DestroyTilesInBounds(token.GetBounds(point.x, point.y), false, false);
                     Gameboard.Instance.AddTileFromToken(token, point.x, point.y);
                 }
