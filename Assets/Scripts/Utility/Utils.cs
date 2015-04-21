@@ -28,14 +28,14 @@ public static class Utils
 			return Gameboard.Instance.WorldPositionToGridPosition(CursorPositionInWorld);
 		}
 	}
-	private static Plane _worldPlane = new Plane(Vector3.forward, 0f);
+	public static Plane WorldPlane = new Plane(Vector3.forward, 0f);
 	public static Vector3 CursorPositionInWorld
 	{
 		get
 		{
 			var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			float rayDistance;
-			if (_worldPlane.Raycast(ray, out rayDistance))
+			if (WorldPlane.Raycast(ray, out rayDistance))
 			{
 				return ray.GetPoint(rayDistance);
 			}

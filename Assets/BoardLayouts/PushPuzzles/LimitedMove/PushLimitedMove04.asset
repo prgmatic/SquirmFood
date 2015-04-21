@@ -75,4 +75,4 @@ MonoBehaviour:
       y: 6
   BackgroundTileAttributes: 
   Columns: 0
-  Rows: 0
+  Rows: 10

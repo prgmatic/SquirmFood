@@ -5,6 +5,9 @@ using HutongGames.PlayMaker;
 
 public class LevelSelectButton : MonoBehaviour
 {
+	public delegate void SelectLevelEvent(BoardLayout level);
+	public event SelectLevelEvent LevelSelected;
+
     public Text ButtonText;
 
     [System.NonSerialized]
@@ -12,27 +15,16 @@ public class LevelSelectButton : MonoBehaviour
 
     public void Select()
     {
+		/*
         PlayMakerFSM fsm = Gameboard.Instance.GetComponent<PlayMakerFSM>();
         BoardLayoutSet bls = Gameboard.Instance.GetComponent<BoardLayoutSet>();
         bls.SetLayout(Layout);
         fsm.Fsm.Event("LevelSelected");
-       
-        /*
-        FsmInt level = FsmVariables.GlobalVariables.GetFsmInt("Level");
-        level.Value = 10; 
-        HutongGames.PlayMaker.FsmVariables.GlobalVariables.set
-
-
-        if(Gameboard.Instance.GetComponent<BoardLayoutSet>() != null)
-        {
-            if(Layout != null)
-            {
-                LevelSelectionPanel.Instance.Hide();
-                Gameboard.Instance.Show();
-                Gameboard.Instance.GetComponent<BoardLayoutSet>().SetLayout(Layout);
-                Gameboard.Instance.StartGame();
-            }
-        }
-        */
+		*/
+		Debug.Log("Level selected");
+		if(LevelSelected != null)
+		{
+			LevelSelected(Layout);
+		}
     }
 }

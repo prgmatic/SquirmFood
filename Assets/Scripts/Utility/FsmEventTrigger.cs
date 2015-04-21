@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameboardFsmEvents : MonoBehaviour
+public class FsmEventTrigger : MonoBehaviour
 {
     PlayMakerFSM fsm;
     void Awake()

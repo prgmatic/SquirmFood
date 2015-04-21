@@ -17,6 +17,8 @@ public class Gameboard : MonoBehaviour
     public event GameStateEvent GameRetry;
     public delegate void InputEvent(Direction direction, bool inputValidated);
     public event InputEvent WormMoveInputRecieved;
+	public delegate void TileAttributeEvent(int x, int y, BackgroundTileAttribute attribute);
+	public event TileAttributeEvent TileAttributeChanged;
     #endregion
 
     #region Variables
@@ -81,9 +83,12 @@ public class Gameboard : MonoBehaviour
     {
         _backgroundTileAttributes = new BackgroundTileAttribute[Columns, Rows];
         _tileTable = new GameTile[Columns, Rows];
-		StartGame();
-
+		CurrentLevel = LevelSelectionInfo.Level;
     }
+	void Start()
+	{
+		StartGame();
+	}
     void Update()
     { 
         if (GameState == GameStateType.InProgress || GameState == GameStateType.ViewingPlayback)
@@ -436,6 +441,8 @@ public class Gameboard : MonoBehaviour
     public void SetBackgroundTileAttribute(int x, int y, BackgroundTileAttribute attribute)
     {
         _backgroundTileAttributes[x, y] = attribute;
+		if (TileAttributeChanged != null)
+			TileAttributeChanged(x, y, attribute);
     }
     public BackgroundTileAttribute GetBackgroundTileAttribute(int x, int y)
     {

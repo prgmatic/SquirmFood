@@ -27,9 +27,19 @@ public class CreateToken : MonoBehaviour
         AssetDatabase.Refresh();
         Debug.Log("Creating new textured token.");
     }
-    #endregion
+	#endregion
 
-    private static void CreateDirectory(string directoryName)
+	[MenuItem("Worm Food/Create Level Set")]
+	static void CreateLevelSet()
+	{
+		LevelSet textureToken = ScriptableObject.CreateInstance<LevelSet>();
+		CreateDirectory("Assets/LevelSets");
+		AssetDatabase.CreateAsset(textureToken, "Assets/LevelSets/NewLevelSet.asset");
+		AssetDatabase.Refresh();
+		Debug.Log("Creating new level set.");
+	}
+
+	private static void CreateDirectory(string directoryName)
     {
         if (!Directory.Exists(directoryName))
         {

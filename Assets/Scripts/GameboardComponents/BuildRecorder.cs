@@ -7,25 +7,25 @@ public class BuildRecorder : MonoBehaviour
     int undoStep = 0;
     private bool recordState = false;
     private bool listenToEvents = true;
-    PlayMakerFSM fsm;
-    HutongGames.PlayMaker.FsmState buildingState;
     private int _memoryUse = 0;
 
     void Awake()
     {
+		undoStep = 0;
         Gameboard gb = Gameboard.Instance;
-        fsm = Gameboard.Instance.GetComponent<PlayMakerFSM>();
-        buildingState = fsm.Fsm.GetState("Building");
         gb.GameStarted += Gb_GameStarted;
         gb.TileAdded += Gb_TileAdded;
         gb.TileDestroyed += Gb_TileDestroyed;
         gb.TileMoved += Gb_TileMoved;
         gb.GameboardReset += Gb_GameboardReset;
         gb.GameEnded += Gb_GameEnded;
+		gb.TileAttributeChanged += Gb_TileAttributeChanged;
         DebugHUD.MessagesCleared += DebugHUD_MessagesCleared;
     }
 
-    private void Gb_GameEnded()
+	
+
+	private void Gb_GameEnded()
     {
         boardStates.Clear();
         CalculateMemoryUse();
@@ -38,8 +38,6 @@ public class BuildRecorder : MonoBehaviour
 
     void LateUpdate()
     {
-        if(fsm.Fsm.ActiveState != buildingState)
-            return;
         if(recordState == true)
         {
             if(undoStep < boardStates.Count -1)
@@ -110,8 +108,12 @@ public class BuildRecorder : MonoBehaviour
     {
         MarkToRecord();
     }
+	private void Gb_TileAttributeChanged(int x, int y, Gameboard.BackgroundTileAttribute attribute)
+	{
+		MarkToRecord();
+	}
 
-    private void Gb_GameStarted()
+	private void Gb_GameStarted()
     {
         MarkToRecord();
         boardStates.Clear();

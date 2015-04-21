@@ -16,6 +16,7 @@ public class PlaneTest : MonoBehaviour
 		_renderer = go.AddComponent<SpriteRenderer>();
 		_renderer.sprite = SelectionSprite;
 		_renderer.transform.localScale = new Vector3(1f / SelectionSprite.bounds.size.x, 1f / SelectionSprite.bounds.size.y, 1f);
+		_renderer.sortingOrder = -20;
 		_renderer.enabled = false;
 		_plane = new Plane(Vector3.forward, 0f);
 	}

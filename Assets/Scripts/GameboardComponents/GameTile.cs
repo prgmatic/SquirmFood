@@ -98,6 +98,7 @@ public class GameTile : MonoBehaviour
     public bool IsEdible { get { return TokenProperties.IsEdible; } }
     public bool IsWorm { get { return TokenProperties.IsWorm; } }
     public bool Pushable { get { return TokenProperties.Pushable; } }
+	public bool IsWall { get { return !Pushable && !IsEdible && !CanFall && !IsWorm; } }
     #endregion
 
     void Awake()
@@ -108,8 +109,8 @@ public class GameTile : MonoBehaviour
     {
         if (_tokenProperties is TexturedToken)
         {
-            //this.Sprite = ((TexturedToken)_tokenProperties).Sprite;
-            float scale = 1f / Sprite.GetWidth() * Width * _tokenProperties.ScaleMultiplier;
+			this._renderer.sortingOrder = GridPosition.y * 10 + 15;
+			float scale = 1f / Sprite.GetWidth() * Width * _tokenProperties.ScaleMultiplier;
                 this.transform.localScale = new Vector3(_flipped ? -scale : scale, scale, 1);
         }
     }

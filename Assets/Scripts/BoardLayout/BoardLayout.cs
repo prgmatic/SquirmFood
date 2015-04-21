@@ -12,6 +12,24 @@ public class BoardLayout : ScriptableObject
     [System.NonSerialized]
     public List<Playthrough> Playthroughs = new List<Playthrough>();
 
+
+	public bool IsValidCoordinate(int x, int y)
+	{
+		return x >= 0 && x < Columns && y >= 0 && y < Rows;
+	}
+
+	public Token GetTokenAt(int x, int y)
+	{
+		for(int i = 0;i < Tokens.Count; i++)
+		{
+			if(Tokens[i].Position.x == x && Tokens[i].Position.y == y)
+			{
+				return Tokens[i].Token;
+			}
+		}
+		return null;
+	}
+
     [System.Serializable]
     public class TokenAtPoint
     {
