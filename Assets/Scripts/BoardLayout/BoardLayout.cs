@@ -35,11 +35,13 @@ public class BoardLayout : ScriptableObject
     {
         public Token Token;
         public Point Position;
+		public int Variation = 0;
 
-        public TokenAtPoint(Token token, Point position)
+        public TokenAtPoint(Token token, Point position, int variation = 0)
         {
             this.Token = token;
             this.Position = position;
+			this.Variation = variation;
         }
     }
 }

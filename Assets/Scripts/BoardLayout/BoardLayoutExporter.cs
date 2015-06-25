@@ -4,7 +4,7 @@ using System.IO;
 
 public class BoardLayoutExporter 
 {
-    const int ExportVersion = 0;
+    const int ExportVersion = 1;
 
     public static List<BoardLayout.TokenAtPoint> GetTokensOnBoard()
     {
@@ -13,7 +13,7 @@ public class BoardLayoutExporter
         {
             if (!tile.IsWorm || tile.GetComponent<Worm>() != null)
             {
-                result.Add(new BoardLayout.TokenAtPoint(tile.TokenProperties, tile.GridPosition));
+                result.Add(new BoardLayout.TokenAtPoint(tile.TokenProperties, tile.GridPosition, tile.Variation));
             }
         }
         return result;
@@ -74,6 +74,7 @@ public class BoardLayoutExporter
                     writer.Write(token.Token.ID);
                     writer.Write((byte)token.Position.x);
                     writer.Write((byte)token.Position.y);
+					writer.Write((byte)token.Variation);
                 }
                 result = ms.ToArray();
             }

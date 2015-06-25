@@ -16,12 +16,15 @@ public class BoardLayoutImporter
 
         foreach (var token in layout.Tokens)
         {
-            if (token.Token.IsWorm)
-            {
+			if (token.Token.IsWorm)
+			{
 				WormCreator.CreateWorm(token.Position);
-            }
-            else
-                Gameboard.Instance.AddTileFromToken(token.Token, token.Position, false, true);
+			}
+			else
+			{
+				var tile = Gameboard.Instance.AddTileFromToken(token.Token, token.Position, false, true);
+				tile.Variation = token.Variation;
+			}
         }
         if (layout.BackgroundTileAttributes.Length == layout.Columns * layout.Rows)
         {
@@ -74,6 +77,8 @@ public class BoardLayoutImporter
                     int id = reader.ReadByte();
                     int x = reader.ReadByte();
                     int y = reader.ReadByte();
+					int variation = 0;
+					if (exportVersion > 0) variation = reader.ReadByte();
 
                     if (id == 0 || id == 255)
                         continue;
@@ -82,7 +87,7 @@ public class BoardLayoutImporter
                     {
                         if (token.ID == id)
                         {
-                            result.Tokens.Add(new BoardLayout.TokenAtPoint(token, new Point(x, y)));
+                            result.Tokens.Add(new BoardLayout.TokenAtPoint(token, new Point(x, y), variation));
                         }
                     }
                 }

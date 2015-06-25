@@ -11,72 +11,88 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5151ec5ac43c75d4bbaddaf076e10e5e, type: 3}
   m_Name: PushLimitedMove02
   m_EditorClassIdentifier: 
-  ID: 137
+  ID: -1
   Tokens:
-  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
-    Position:
-      x: 3
-      y: 3
-  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
-    Position:
-      x: 4
-      y: 3
   - Token: {fileID: 11400000, guid: 2fd24fc2c0766464d86c022a1e9ebcd1, type: 2}
     Position:
       x: 3
       y: 2
+    Variation: 0
   - Token: {fileID: 11400000, guid: 2fd24fc2c0766464d86c022a1e9ebcd1, type: 2}
     Position:
       x: 4
       y: 2
-  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
-    Position:
-      x: 3
-      y: 4
-  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
-    Position:
-      x: 4
-      y: 4
+    Variation: 0
   - Token: {fileID: 11400000, guid: 437a0a8335defd24ab92b010a793d3c9, type: 2}
     Position:
       x: 2
       y: 0
+    Variation: 0
   - Token: {fileID: 11400000, guid: 437a0a8335defd24ab92b010a793d3c9, type: 2}
     Position:
       x: 4
       y: 0
-  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
-    Position:
-      x: 5
-      y: 4
-  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
-    Position:
-      x: 2
-      y: 4
-  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
-    Position:
-      x: 2
-      y: 5
-  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
-    Position:
-      x: 3
-      y: 5
-  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
-    Position:
-      x: 4
-      y: 5
-  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
-    Position:
-      x: 5
-      y: 5
+    Variation: 0
   - Token: {fileID: 11400000, guid: f9ccf81679801c442a0e3cae2fd198db, type: 2}
     Position:
       x: 2
       y: 3
+    Variation: 0
   - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
     Position:
       x: 6
       y: 5
-  BackgroundTileAttributes: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    Variation: 0
+  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
+    Position:
+      x: 4
+      y: 5
+    Variation: 1
+  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
+    Position:
+      x: 3
+      y: 5
+    Variation: 3
+  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
+    Position:
+      x: 5
+      y: 5
+    Variation: 1
+  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
+    Position:
+      x: 2
+      y: 5
+    Variation: 3
+  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
+    Position:
+      x: 5
+      y: 4
+    Variation: 3
+  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
+    Position:
+      x: 4
+      y: 3
+    Variation: 1
+  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
+    Position:
+      x: 4
+      y: 4
+    Variation: 3
+  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
+    Position:
+      x: 2
+      y: 4
+    Variation: 0
+  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
+    Position:
+      x: 3
+      y: 4
+    Variation: 1
+  - Token: {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
+    Position:
+      x: 3
+      y: 3
+    Variation: 3
+  BackgroundTileAttributes: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   Columns: 8
   Rows: 10

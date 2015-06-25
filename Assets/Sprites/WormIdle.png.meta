@@ -1,0 +1,440 @@
+fileFormatVersion: 2
+guid: fba10e1b2c239834db296ea76160f89d
+timeCreated: 1430422397
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: WormIdle_0
+    21300002: WormIdle_1
+    21300004: WormIdle_2
+    21300006: WormIdle_3
+    21300008: WormIdle_4
+    21300010: WormIdle_5
+    21300012: WormIdle_6
+    21300014: WormIdle_7
+    21300016: WormIdle_8
+    21300018: WormIdle_9
+    21300020: WormIdle_10
+    21300022: WormIdle_11
+    21300024: WormIdle_12
+    21300026: WormIdle_13
+    21300028: WormIdle_14
+    21300030: WormIdle_15
+    21300032: WormIdle_16
+    21300034: WormIdle_17
+    21300036: WormIdle_18
+    21300038: WormIdle_19
+    21300040: WormIdle_20
+    21300042: WormIdle_21
+    21300044: WormIdle_22
+    21300046: WormIdle_23
+    21300048: WormIdle_24
+    21300050: WormIdle_25
+    21300052: WormIdle_26
+    21300054: WormIdle_27
+    21300056: WormIdle_28
+    21300058: WormIdle_29
+    21300060: WormIdle_30
+    21300062: WormIdle_31
+    21300064: WormIdle_32
+    21300066: WormIdle_33
+    21300068: WormIdle_34
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: WormIdle_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1662
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_1
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 1662
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_2
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 1662
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_3
+      rect:
+        serializedVersion: 2
+        x: 1158
+        y: 1662
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_4
+      rect:
+        serializedVersion: 2
+        x: 1544
+        y: 1662
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_5
+      rect:
+        serializedVersion: 2
+        x: 1930
+        y: 1662
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_6
+      rect:
+        serializedVersion: 2
+        x: 2316
+        y: 1662
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_7
+      rect:
+        serializedVersion: 2
+        x: 2702
+        y: 1662
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_8
+      rect:
+        serializedVersion: 2
+        x: 3088
+        y: 1662
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_9
+      rect:
+        serializedVersion: 2
+        x: 3474
+        y: 1662
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1276
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_11
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 1276
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_12
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 1276
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_13
+      rect:
+        serializedVersion: 2
+        x: 1158
+        y: 1276
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_14
+      rect:
+        serializedVersion: 2
+        x: 1544
+        y: 1276
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_15
+      rect:
+        serializedVersion: 2
+        x: 1930
+        y: 1276
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_16
+      rect:
+        serializedVersion: 2
+        x: 2316
+        y: 1276
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_17
+      rect:
+        serializedVersion: 2
+        x: 2702
+        y: 1276
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_18
+      rect:
+        serializedVersion: 2
+        x: 3088
+        y: 1276
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_19
+      rect:
+        serializedVersion: 2
+        x: 3474
+        y: 1276
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 890
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_21
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 890
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_22
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 890
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_23
+      rect:
+        serializedVersion: 2
+        x: 1158
+        y: 890
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_24
+      rect:
+        serializedVersion: 2
+        x: 1544
+        y: 890
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_25
+      rect:
+        serializedVersion: 2
+        x: 1930
+        y: 890
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_26
+      rect:
+        serializedVersion: 2
+        x: 2316
+        y: 890
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_27
+      rect:
+        serializedVersion: 2
+        x: 2702
+        y: 890
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_28
+      rect:
+        serializedVersion: 2
+        x: 3088
+        y: 890
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_29
+      rect:
+        serializedVersion: 2
+        x: 3474
+        y: 890
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 504
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_31
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 504
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_32
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 504
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_33
+      rect:
+        serializedVersion: 2
+        x: 1158
+        y: 504
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: WormIdle_34
+      rect:
+        serializedVersion: 2
+        x: 1544
+        y: 504
+        width: 386
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

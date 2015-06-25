@@ -8,10 +8,12 @@ public class TexturedToken : ColoredToken
     public List<Sprite> SpriteArray = new List<Sprite>();
     public Sprite Screen = null;
 
-    public Sprite GetSpriteFromSpriteArray()
+    public Sprite GetSpriteFromSpriteArray(out int index)
     {
+		index = 0;
         if (SpriteArray.Count == 0) return null;
         int rand = Random.Range(0, SpriteArray.Count);
+		index = rand;
         return SpriteArray[rand];
     }
 }

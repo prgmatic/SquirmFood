@@ -65,7 +65,38 @@ public static class Utils
         return Quaternion.Euler(0, 0, angle);
     }
 
-    
+	public static Direction GetDirection(Point startPos, Point endPos)
+	{
+		if (startPos.x > endPos.x) return Direction.Left;
+		if (startPos.y < endPos.y) return Direction.Down;
+		if (startPos.y > endPos.y) return Direction.Up;
+		return Direction.Right;
+	}
+
+	#region Vector Utils
+	public static Vector3 SetX(this Vector3 v3, float x)
+	{
+		return new Vector3(x, v3.y, v3.z);
+	}
+	public static Vector3 SetY(this Vector3 v3, float y)
+	{
+		return new Vector3(v3.x, y, v3.z);
+	}
+	public static Vector3 SetZ(this Vector3 v3, float z)
+	{
+		return new Vector3(v3.x, v3.y, z);
+	}
+
+	public static Vector2 SetX(this Vector2 v2, float x)
+	{
+		return new Vector2(x, v2.y);
+	}
+	public static Vector2 SetY(this Vector2 v2, float y)
+	{
+		return new Vector2(v2.x, y);
+	}
+	#endregion
+
 }
 
 public enum Direction
