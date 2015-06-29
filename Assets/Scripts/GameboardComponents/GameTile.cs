@@ -14,7 +14,7 @@ public class GameTile : MonoBehaviour
 	#endregion
 
 	#region Variables
-	private static float MoveTime = .2f;
+	public static float MoveTime = .2f;
 
 	public float Acceleration = 3f;
 	[HideInInspector]
@@ -22,7 +22,7 @@ public class GameTile : MonoBehaviour
 
 
 	private Token _tokenProperties;
-	protected SpriteRenderer _renderer;
+	private SpriteRenderer _renderer;
 	private Vector3 _velocity = Vector3.zero;
 	private bool _moving = false;
 	//private Point _size = new Point(1, 1);
@@ -127,9 +127,9 @@ public class GameTile : MonoBehaviour
 	{
         if (_tokenProperties is TexturedToken)
         {
-            this._renderer.sortingOrder = GridPosition.y * 10 + 15;
             if (!IsWorm)
             {
+                this._renderer.sortingOrder = GridPosition.y * 10 + 15;
                 float scale = 1f / Sprite.GetWidth() * Width * _tokenProperties.ScaleMultiplier;
                 this.transform.localScale = new Vector3(_flipped ? -scale : scale, scale, 1);
             }

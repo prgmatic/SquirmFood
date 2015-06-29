@@ -16,6 +16,7 @@ public class WormAnimationSettings : MonoBehaviour {
     void Update()
     {
         _animator.speed = FrameRate / 15f;
+        GameTile.MoveTime = MoveTime;
     }
 	
 }

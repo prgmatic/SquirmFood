@@ -13,31 +13,31 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: MoveUp
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: MoveDown
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: MoveLeft
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: MoveRight
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -50,7 +50,7 @@ AnimatorController:
     m_DefaultWeight: 0
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_MultiThreadedStateMachine: 1
 --- !u!1101 &110106734
 AnimatorStateTransition:
@@ -702,7 +702,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 132, y: 24, z: 0}
   m_EntryPosition: {x: 132, y: 84, z: 0}
-  m_ExitPosition: {x: 672, y: 84, z: 0}
+  m_ExitPosition: {x: 648, y: 84, z: 0}
   m_ParentStateMachinePosition: {x: 624, y: 0, z: 0}
   m_DefaultState: {fileID: 110210972}
 --- !u!1107 &110732724
@@ -737,28 +737,19 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions:
     data:
-      first: {fileID: 110721126}
-      second: []
-    data:
-      first: {fileID: 110796634}
-      second: []
-    data:
-      first: {fileID: 110747654}
-      second: []
-    data:
-      first: {fileID: 0}
-      second: []
-    data:
-      first: {fileID: 0}
-      second: []
-    data:
       first: {fileID: 0}
       second: []
     data:
       first: {fileID: 110732724}
       second: []
     data:
-      first: {fileID: 0}
+      first: {fileID: 110721126}
+      second: []
+    data:
+      first: {fileID: 110747654}
+      second: []
+    data:
+      first: {fileID: 110796634}
       second: []
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 96, y: 156, z: 0}
