@@ -29,11 +29,11 @@ public class PlaythroughBrowser : EditorWindow
     const float IP_WIDTH = 90f;
     const float PLAYTHROUGHS_BUTTON_WIDTH = 100f;
 
-    [MenuItem("Worm Food/Playthrough Browser", false, 1)]
-    public static void OpenBrowser()
-    {
-        EditorWindow.GetWindow(typeof(PlaythroughBrowser));
-    }
+    //[MenuItem("Worm Food/Playthrough Browser", false, 1)]
+    //public static void OpenBrowser()
+    //{
+    //    EditorWindow.GetWindow(typeof(PlaythroughBrowser));
+    //}
 
     #region Initializers
     void OnEnable()
@@ -376,7 +376,7 @@ public class PlaythroughBrowser : EditorWindow
     private void Insstance_ObtainedLevel(string name, byte[] data, int id)
     {
         WebManager.Instance.ObtainedLevel -= Insstance_ObtainedLevel;
-        BoardLayoutExporterEditor.SaveLevel(BoardLayoutImporter.GetBoardLayoutFromBinary(data), name);
+        //BoardLayoutExporterEditor.SaveLevel(BoardLayoutImporter.GetBoardLayoutFromBinary(data), name);
         browsingState = BrowsingState.BrowsingLevels;
         Repaint();
     }

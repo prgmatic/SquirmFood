@@ -34,39 +34,6 @@ public static class MudLayoutExporter
 		File.WriteAllBytes(Application.dataPath + @"\test.png", data);
 	}
 
-	[MenuItem("Worm Food/Export Pipe Layout")]
-	public static void ExportPipeLayout()
-	{
-		BoardLayout layout = BoardLayoutExporter.GenerateLayout();
-		if (layout == null) return;
-
-		string data = "";
-		foreach(var token in layout.Tokens)
-		{
-
-			if(!token.Token.Pushable && !token.Token.IsEdible && !token.Token.CanFall && !token.Token.IsWorm)
-			{
-				float rotation;
-				var pipeName = PipeObject.GetPipeNameAndRotation(layout, token.Position.x, token.Position.y, out rotation);
-				if (data.Length > 0) data += ",";
-				data += string.Format("{0},{1},{2},{3}", pipeName, rotation, token.Position.x, token.Position.y);
-			}
-		}
-		File.WriteAllText(Application.dataPath + @"\test.pipeLayout", data);
-	}
-
-	[MenuItem("Worm Food/Text texture creation")]
-	public static void TestTexture()
-	{
-		Texture2D texture = new Texture2D(16, 16, TextureFormat.ARGB32, false);
-		texture.SetPixels(0, 0, 16, 16, Color.white);
-		texture.SetPixels(0, 0, 8, 8, Color.black);
-		texture.Apply();
-
-		byte[] data = texture.EncodeToPNG();
-		File.WriteAllBytes(Application.dataPath + @"\test.png", data);
-	}
-
 	public static void SetPixels(this Texture2D texture, int x, int y, int width, int height, Color color)
 	{
 		var colors = new Color[width * height];

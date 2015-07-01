@@ -45,7 +45,7 @@ public class BuildRecorder : MonoBehaviour
                 boardStates.RemoveRange(undoStep + 1, boardStates.Count - undoStep - 1);
             }
             undoStep++;
-            boardStates.Add(BoardLayoutExporter.ExportBinary());
+            boardStates.Add(NewBoardLayout.FromGameboard().ToBinary());
             recordState = false;
             CalculateMemoryUse();
         }
@@ -67,7 +67,7 @@ public class BuildRecorder : MonoBehaviour
         {
             listenToEvents = false;
             undoStep--;
-            BoardLayoutImporter.ImportBinary(boardStates[undoStep]);
+            NewBoardLayout.FromBinary(boardStates[undoStep]).Load();
             listenToEvents = true;
         }
     }
@@ -78,7 +78,7 @@ public class BuildRecorder : MonoBehaviour
         {
             listenToEvents = false;
             undoStep++;
-            BoardLayoutImporter.ImportBinary(boardStates[undoStep]);
+            NewBoardLayout.FromBinary(boardStates[undoStep]).Load();
             listenToEvents = true;
         }
     }

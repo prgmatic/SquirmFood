@@ -12,10 +12,10 @@ public class BoardLayoutExporterEditor
     [MenuItem("Worm Food/Export Board Layout", false, 15)]
     private static void CreateBoardLayout()
     {
-        SaveLevel(BoardLayoutExporter.GenerateLayout(), "Layout");
+        SaveLevel(NewBoardLayout.FromGameboard(), "Layout");
     }
 
-    public static void SaveLevel(BoardLayout layout, string defaultName)
+    public static void SaveLevel(NewBoardLayout layout, string defaultName)
     {
         string startingDir = "Assets";
         if (Directory.Exists(startingDir + "/BoardLayouts")) startingDir += "/BoardLayouts";
@@ -43,8 +43,7 @@ public class BoardLayoutExporterEditor
     [MenuItem("Worm Food/Quick Export _&s", false, 15)]
     public static void QuickExport()
     {
-        QuickSaveData = BoardLayoutExporter.ExportBinary();
-        //QuickSaveLayout = BoardLayoutExporter.GenerateLayout();
+        QuickSaveData = NewBoardLayout.FromGameboard().ToBinary();
         Debug.Log("Layout Quick Export");
     }
     [MenuItem("Worm Food/Quick Export _&s", true)]
@@ -55,11 +54,9 @@ public class BoardLayoutExporterEditor
     [MenuItem("Worm Food/Quick Import _&a", false, 15)]
     public static void QuickImport()
     {
-        
         if (QuickSaveData != null)
         {
-            BoardLayoutImporter.ImportBinary(QuickSaveData);
-            //BoardLayoutImporter.ImportBoardLayout(QuickSaveLayout);
+            NewBoardLayout.FromBinary(QuickSaveData).Load();
             Debug.Log("Layout Quick Import");
         }
     }

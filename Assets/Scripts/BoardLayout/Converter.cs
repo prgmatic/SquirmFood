@@ -6,24 +6,24 @@ using System.IO;
 public class Converter : MonoBehaviour
 {
 
-    [MenuItem("Worm Food/Convert levels to new format")]
-    public static void Convert()
-    {
-        string path = @"BoardLayouts/PushPuzzles/LimitedMove";
-        string newPath = "Assets/BoardLayouts/PushPuzzles/NewLayout";
-        //Debug.Log(Directory.Exists(path) ? "found it" : "nope");
-        //var files = Directory.GetFiles(path, "*.asset");
+    //[MenuItem("Worm Food/Convert levels to new format")]
+    //public static void Convert()
+    //{
+    //    string path = @"BoardLayouts/PushPuzzles/LimitedMove";
+    //    string newPath = "Assets/BoardLayouts/PushPuzzles/NewLayout";
+    //    //Debug.Log(Directory.Exists(path) ? "found it" : "nope");
+    //    //var files = Directory.GetFiles(path, "*.asset");
 
-        var layouts = GetAtPath<BoardLayout>(path);
+    //    var layouts = GetAtPath<BoardLayout>(path);
 
-        foreach (var layout in layouts)
-        {
-            var newLayout = NewBoardLayout.FromOldBoardLayout(layout);
+    //    foreach (var layout in layouts)
+    //    {
+    //        var newLayout = NewBoardLayout.FromOldBoardLayout(layout);
 
-            AssetDatabase.CreateAsset(newLayout, newPath + "/" + layout.name + ".asset");
-        }
-        AssetDatabase.Refresh();
-    }
+    //        AssetDatabase.CreateAsset(newLayout, newPath + "/" + layout.name + ".asset");
+    //    }
+    //    AssetDatabase.Refresh();
+    //}
     public static T[] GetAtPath<T>(string path)
     {
 
