@@ -4,33 +4,21 @@ using System.Collections.Generic;
 [RequireComponent(typeof(GameTile))]
 public class Worm : MonoBehaviour
 {
-    private GameTile _wormTile;
-    public GameTile WormTile
-    {
-        get { return _wormTile; }
-        set
-        {
-            _wormTile = value;
-            _animator = value.GetComponent<Animator>();
-        }
-    }
+    public bool CanFreeMove = false;
+
+    private GameTile _gameTile;
     private Animator _animator;
     private GameObject _wormSprite;
 
     private int _movesTaken = 0;
 
-    public Point MovingTo = Point.zero;
 
     public int MovesTaken { get { return _movesTaken; } }
 
     void Awake()
     {
-        Debug.Log("entered game");
-        //_wormSprite = (GameObject)Instantiate(Resources.Load("Worm"));
-        //_animator = _wormSprite.GetComponent<Animator>();
-        //worm.transform.SetParent(WormTile.transform);
-        //worm.transform.localPosition = Vector3.zero;
-        //DebugHUD.MessagesCleared += DebugHUD_MessagesCleared;
+        _gameTile = GetComponent<GameTile>();
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -60,7 +48,6 @@ public class Worm : MonoBehaviour
             {
                 if (tile.IsEdible)
                 {
-                    MovingTo = new Point(x, y);
                     EatToken(tile);
                     eating = true;
                 }
@@ -68,9 +55,9 @@ public class Worm : MonoBehaviour
                 {
                     if (tile.Moving) return false;
                     Direction direction = Direction.Right;
-                    if (x < WormTile.GridPosition.x) direction = Direction.Left;
-                    else if (y > WormTile.GridPosition.y) direction = Direction.Down;
-                    else if (y < WormTile.GridPosition.y) direction = Direction.Up;
+                    if (x < _gameTile.GridPosition.x) direction = Direction.Left;
+                    else if (y > _gameTile.GridPosition.y) direction = Direction.Down;
+                    else if (y < _gameTile.GridPosition.y) direction = Direction.Up;
                     if (!tile.Push(direction))
                     {
                         return false;
@@ -80,22 +67,25 @@ public class Worm : MonoBehaviour
             }
             else
             {
-                Gameboard.BackgroundTileAttribute currentTileBackgroundAtt = Gameboard.Instance.GetBackgroundTileAttribute(WormTile.GridPosition.x, WormTile.GridPosition.y);
+                Gameboard.BackgroundTileAttribute currentTileBackgroundAtt = Gameboard.Instance.GetBackgroundTileAttribute(_gameTile.GridPosition.x, _gameTile.GridPosition.y);
                 Gameboard.BackgroundTileAttribute movingToTileBackgroundAtt = Gameboard.Instance.GetBackgroundTileAttribute(x, y);
 
-                if (currentTileBackgroundAtt == Gameboard.BackgroundTileAttribute.LimitedMove ||
-                    movingToTileBackgroundAtt == Gameboard.BackgroundTileAttribute.LimitedMove)
+                if (!CanFreeMove)
                 {
-                    //return false;
+                    if (currentTileBackgroundAtt == Gameboard.BackgroundTileAttribute.LimitedMove ||
+                        movingToTileBackgroundAtt == Gameboard.BackgroundTileAttribute.LimitedMove)
+                    {
+                        return false;
+                    }
                 }
             }
         }
         else return false;
         _movesTaken++;
-        var d = Utils.GetDirection(WormTile.GridPosition, new Point(x, y));
+        var d = Utils.GetDirection(_gameTile.GridPosition, new Point(x, y));
         //MudSmearController.Instance.AddSmear(WormTile.GridPosition, d);
 
-        var dir = Utils.GetDirection(WormTile.GridPosition, new Point(x, y));
+        var dir = Utils.GetDirection(_gameTile.GridPosition, new Point(x, y));
         _animator.SetBool("Eat", eating);
         _animator.SetTrigger(1);
         switch(dir)
@@ -114,7 +104,7 @@ public class Worm : MonoBehaviour
                 break;
         }
 
-        WormTile.Move(x, y, true);
+        _gameTile.Move(x, y, true);
         Gameboard.Instance.ApplyGravity();
         return true;
     }

@@ -31,7 +31,7 @@ public class BoardInitalizer : MonoBehaviour
             for(int x = 0; x< Gameboard.Instance.Columns; x++)
             {
                 int index = GetTokenIndexFromWeightedValues();
-                Gameboard.Instance.AddTileFromToken(TokensToSpawn[index].Token, x, y, false);
+                //Gameboard.Instance.AddTileFromToken(TokensToSpawn[index].Token, x, y, false);
             }
         }
     }

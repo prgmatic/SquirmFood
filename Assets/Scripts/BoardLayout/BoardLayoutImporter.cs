@@ -18,12 +18,12 @@ public class BoardLayoutImporter
         {
 			if (token.Token.IsWorm)
 			{
-				WormCreator.CreateWorm(token.Position);
+				//WormCreator.CreateWorm(token.Position);
 			}
 			else
 			{
-				var tile = Gameboard.Instance.AddTileFromToken(token.Token, token.Position, false, true);
-				tile.Variation = token.Variation;
+				//var tile = Gameboard.Instance.AddTileFromToken(token.Token, token.Position, false, true);
+				//tile.Variation = token.Variation;
 			}
         }
         if (layout.BackgroundTileAttributes.Length == layout.Columns * layout.Rows)
@@ -43,7 +43,12 @@ public class BoardLayoutImporter
     {
         BoardLayout result = ScriptableObject.CreateInstance<BoardLayout>();
 
-        var tokens = Resources.FindObjectsOfTypeAll<Token>()
+        //var tokens = Resources.FindObjectsOfTypeAll<Token>()
+        //    .Where(t => t.ID != 0 && t.ID != 255)
+        //    .Select(t => t)
+        //    .ToArray();
+
+        var tiles = Resources.FindObjectsOfTypeAll<GameTile>()
             .Where(t => t.ID != 0 && t.ID != 255)
             .Select(t => t)
             .ToArray();
@@ -83,11 +88,13 @@ public class BoardLayoutImporter
                     if (id == 0 || id == 255)
                         continue;
 
-                    foreach (var token in tokens)
+                    foreach (var tile in tiles)
                     {
-                        if (token.ID == id)
+                        if (tile.ID == id)
                         {
-                            result.Tokens.Add(new BoardLayout.TokenAtPoint(token, new Point(x, y), variation));
+                            
+                            //result.Tokens.Add(new BoardLayout.TokenAtPoint(token, new Point(x, y), variation));
+                            break;
                         }
                     }
                 }

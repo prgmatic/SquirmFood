@@ -35,8 +35,9 @@ public class GameTile : MonoBehaviour
 	#region Properties
 	public Vector3 WorldPosition { get { return this.transform.position; } set { this.transform.position = value; } }
 
-	public int Width { get { return TokenProperties.Width; } set { TokenProperties.Width = value; } }
-	public int Height { get { return TokenProperties.Height; } set { TokenProperties.Height = value; } }
+    public int ID = 0;
+    public int Width = 1;
+    public int Height = 1;
 	public Point Size { get { return new Point(Width, Height); } set { Width = value.x; Height = value.y; } }
 
 	public int GridLeft { get { return _gridPosition.x; } }
@@ -64,41 +65,11 @@ public class GameTile : MonoBehaviour
 	public Sprite Sprite { get { return _renderer.sprite; } set { _renderer.sprite = value; } }
 	public Color Color { get { return _renderer.color; } set { _renderer.color = value; } }
 
-	public Token TokenProperties
-	{
-		get { return _tokenProperties; }
-		set
-		{
-			_tokenProperties = value;
-			this.gameObject.name = _tokenProperties.name;
-			this.Sprite = Utils.DummySprite;
-			this.transform.localScale = new Vector3(.85f, .85f, 1);
-			if (_tokenProperties is ColoredToken)
-			{
-				this.Color = ((ColoredToken)_tokenProperties).Color;
-			}
 
-			if (_tokenProperties is TexturedToken)
-			{
-				var properties = (TexturedToken)_tokenProperties;
-
-				if (properties.UseSpriteArray)
-				{
-					this.Sprite = properties.GetSpriteFromSpriteArray(out _variation);
-					//int rand = UnityEngine.Random.Range(0, 2);
-					//if (rand == 1) _flipped = true;
-				}
-				else this.Sprite = properties.Sprite;
-
-				float scale = 1f / Sprite.GetWidth() * Width;
-				this.transform.localScale = new Vector3(scale, _flipped ? -scale : scale, 1);
-			}
-		}
-	}
-	public bool CanFall { get { return TokenProperties.CanFall; } }
-	public bool IsEdible { get { return TokenProperties.IsEdible; } }
-	public bool IsWorm { get { return TokenProperties.IsWorm; } }
-	public bool Pushable { get { return TokenProperties.Pushable; } }
+	public bool CanFall = false;
+	public bool IsEdible = false;
+	public bool IsWorm = false;
+    public bool Pushable = false;
 	public bool IsWall { get { return !Pushable && !IsEdible && !CanFall && !IsWorm; } }
 	public int Variation
 	{

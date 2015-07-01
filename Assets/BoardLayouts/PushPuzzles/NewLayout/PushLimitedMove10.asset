@@ -1,0 +1,214 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2be3440db8a71044ebb0137058e2c109, type: 3}
+  m_Name: PushLimitedMove10
+  m_EditorClassIdentifier: 
+  ID: 148
+  Columns: 8
+  Rows: 10
+  Tiles:
+  - GameTileID: 5
+    Variation: 0
+    X: 5
+    Y: 4
+  - GameTileID: 5
+    Variation: 0
+    X: 2
+    Y: 5
+  - GameTileID: 5
+    Variation: 0
+    X: 2
+    Y: 3
+  - GameTileID: 5
+    Variation: 0
+    X: 2
+    Y: 1
+  - GameTileID: 5
+    Variation: 0
+    X: 5
+    Y: 1
+  - GameTileID: 5
+    Variation: 0
+    X: 5
+    Y: 6
+  - GameTileID: 5
+    Variation: 0
+    X: 5
+    Y: 7
+  - GameTileID: 5
+    Variation: 0
+    X: 2
+    Y: 6
+  - GameTileID: 7
+    Variation: 0
+    X: 3
+    Y: 7
+  - GameTileID: 5
+    Variation: 0
+    X: 5
+    Y: 0
+  - GameTileID: 5
+    Variation: 0
+    X: 2
+    Y: 0
+  - GameTileID: 5
+    Variation: 0
+    X: 1
+    Y: 4
+  - GameTileID: 5
+    Variation: 0
+    X: 6
+    Y: 5
+  - GameTileID: 2
+    Variation: 0
+    X: 4
+    Y: 5
+  - GameTileID: 2
+    Variation: 0
+    X: 3
+    Y: 5
+  - GameTileID: 2
+    Variation: 0
+    X: 3
+    Y: 2
+  - GameTileID: 6
+    Variation: 0
+    X: 3
+    Y: 0
+  - GameTileID: 2
+    Variation: 0
+    X: 4
+    Y: 4
+  - GameTileID: 5
+    Variation: 0
+    X: 2
+    Y: 7
+  - GameTileID: 5
+    Variation: 0
+    X: 5
+    Y: 2
+  - GameTileID: 5
+    Variation: 0
+    X: 1
+    Y: 1
+  - GameTileID: 5
+    Variation: 0
+    X: 0
+    Y: 2
+  - GameTileID: 5
+    Variation: 0
+    X: 1
+    Y: 3
+  - GameTileID: 5
+    Variation: 0
+    X: 0
+    Y: 3
+  - GameTileID: 5
+    Variation: 0
+    X: 0
+    Y: 1
+  - GameTileID: 5
+    Variation: 0
+    X: 0
+    Y: 4
+  - GameTileID: 5
+    Variation: 0
+    X: 0
+    Y: 5
+  - GameTileID: 5
+    Variation: 0
+    X: 1
+    Y: 6
+  - GameTileID: 5
+    Variation: 0
+    X: 1
+    Y: 5
+  - GameTileID: 5
+    Variation: 0
+    X: 0
+    Y: 6
+  - GameTileID: 5
+    Variation: 0
+    X: 1
+    Y: 7
+  - GameTileID: 5
+    Variation: 0
+    X: 0
+    Y: 7
+  - GameTileID: 5
+    Variation: 0
+    X: 6
+    Y: 7
+  - GameTileID: 5
+    Variation: 0
+    X: 6
+    Y: 6
+  - GameTileID: 5
+    Variation: 0
+    X: 7
+    Y: 6
+  - GameTileID: 5
+    Variation: 0
+    X: 7
+    Y: 7
+  - GameTileID: 5
+    Variation: 0
+    X: 7
+    Y: 5
+  - GameTileID: 5
+    Variation: 0
+    X: 7
+    Y: 4
+  - GameTileID: 5
+    Variation: 0
+    X: 6
+    Y: 4
+  - GameTileID: 5
+    Variation: 0
+    X: 6
+    Y: 3
+  - GameTileID: 5
+    Variation: 0
+    X: 6
+    Y: 2
+  - GameTileID: 5
+    Variation: 0
+    X: 7
+    Y: 3
+  - GameTileID: 5
+    Variation: 0
+    X: 7
+    Y: 2
+  - GameTileID: 5
+    Variation: 0
+    X: 7
+    Y: 1
+  - GameTileID: 5
+    Variation: 0
+    X: 6
+    Y: 0
+  - GameTileID: 5
+    Variation: 0
+    X: 6
+    Y: 1
+  - GameTileID: 5
+    Variation: 0
+    X: 7
+    Y: 0
+  - GameTileID: 5
+    Variation: 0
+    X: 1
+    Y: 0
+  - GameTileID: 5
+    Variation: 0
+    X: 0
+    Y: 0
+  MudTiles: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000

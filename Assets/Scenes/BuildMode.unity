@@ -25,7 +25,7 @@ RenderSettings:
   m_AmbientGroundColor: {r: .0469999984, g: .0430000015, b: .0350000001, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 3
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: .5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -36,7 +36,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 845545418}
 --- !u!127 &3
 LevelGameManager:
   m_ObjectHideFlags: 0
@@ -53,8 +53,8 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 0
-    m_EnableRealtimeLightmaps: 0
+    m_EnableBakedLightmaps: 1
+    m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 3
     m_Resolution: 2
@@ -101,7 +101,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &21500441
 Transform:
   m_ObjectHideFlags: 0
@@ -272,6 +272,7 @@ MonoBehaviour:
   m_SubmitButton: Submit
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
+  m_RepeatDelay: .5
   m_AllowActivationOnMobileDevice: 0
 --- !u!114 &128380456
 MonoBehaviour:
@@ -523,7 +524,7 @@ Camera:
   m_GameObject: {fileID: 313888041}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -535,7 +536,7 @@ Camera:
   far clip plane: 1000
   field of view: 88.4273682
   orthographic: 1
-  orthographic size: 4.99600887
+  orthographic size: 4.96122265
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -547,6 +548,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
+  m_StereoMirrorMode: 0
 --- !u!4 &313888046
 Transform:
   m_ObjectHideFlags: 0
@@ -760,6 +762,66 @@ Transform:
   m_Children: []
   m_Father: {fileID: 333823305}
   m_RootOrder: 1
+--- !u!1 &845545416
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 845545417}
+  - 108: {fileID: 845545418}
+  m_Layer: 0
+  m_Name: Directional light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &845545417
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 845545416}
+  m_LocalRotation: {x: .35083428, y: 0, z: 0, w: .936437547}
+  m_LocalPosition: {x: 0, y: 6.55000019, z: -5.21999979}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1223624364}
+  m_RootOrder: 6
+--- !u!108 &845545418
+Light:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 845545416}
+  m_Enabled: 1
+  serializedVersion: 6
+  m_Type: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_Strength: 1
+    m_Bias: .0500000007
+    m_NormalBias: .400000006
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_BounceIntensity: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_AreaSize: {x: 1, y: 1}
 --- !u!1 &1140820360
 GameObject:
   m_ObjectHideFlags: 0
@@ -851,6 +913,7 @@ Transform:
   - {fileID: 222786964}
   - {fileID: 1140820361}
   - {fileID: 2039477828}
+  - {fileID: 845545417}
   m_Father: {fileID: 0}
   m_RootOrder: 4
 --- !u!1 &1291623941
@@ -1013,12 +1076,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TokensToSpawn:
-  - {fileID: 11400000, guid: 512691bbb92c74048843d5929d114747, type: 2}
-  - {fileID: 11400000, guid: 497c3540c32fefc4dbfc1432e3ff7add, type: 2}
-  - {fileID: 11400000, guid: 2fd24fc2c0766464d86c022a1e9ebcd1, type: 2}
-  - {fileID: 11400000, guid: 2cc7ca4eba895b948ba74922c731a85f, type: 2}
-  - {fileID: 11400000, guid: 1683b5ec0ee66c3459d777e8c6dc9934, type: 2}
-  - {fileID: 11400000, guid: 437a0a8335defd24ab92b010a793d3c9, type: 2}
+  - {fileID: 11473958, guid: a1a62c22d471e4b4dab07afd0baaa57f, type: 2}
+  - {fileID: 11473958, guid: 72dffe1a0b6d78642b07fccb0c424e5a, type: 2}
+  - {fileID: 11473958, guid: c5571367737811843bccdbdd0ff807f2, type: 2}
+  - {fileID: 11473958, guid: e81cbbe05d0e6db438de781a1fb7b211, type: 2}
+  - {fileID: 11473958, guid: b34875922f315d744ad52663b25a281a, type: 2}
+  - {fileID: 11473958, guid: 3b6da21e94c20584b93f306a2f27dd1a, type: 2}
+  - {fileID: 11436158, guid: 4a97d5494d868fd4ba781a5bc60aef7a, type: 2}
 --- !u!114 &1357852418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1177,7 +1241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13516b17bb986094f9277881f9fa3474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FadeTexture: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 0}
+  FadeTexture: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 3}
   FadeValue: 0
 --- !u!1 &1681456457
 GameObject:
@@ -1360,7 +1424,7 @@ Camera:
     height: 1
   near clip plane: .300000012
   far clip plane: 1000
-  field of view: 22.570158
+  field of view: 22.4169998
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -1374,6 +1438,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
+  m_StereoMirrorMode: 0
 --- !u!4 &1855172260
 Transform:
   m_ObjectHideFlags: 0

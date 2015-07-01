@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Name: FallingEdible
   m_EditorClassIdentifier: 
   ID: 4
-  Resources: []
   IsNuisance: 0
   IsEdible: 1
   Pushable: 0

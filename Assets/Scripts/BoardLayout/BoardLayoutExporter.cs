@@ -13,7 +13,7 @@ public class BoardLayoutExporter
         {
             if (!tile.IsWorm || tile.GetComponent<Worm>() != null)
             {
-                result.Add(new BoardLayout.TokenAtPoint(tile.TokenProperties, tile.GridPosition, tile.Variation));
+                //result.Add(new BoardLayout.TokenAtPoint(tile.TokenProperties, tile.GridPosition, tile.Variation));
             }
         }
         return result;

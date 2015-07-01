@@ -6,7 +6,7 @@ public class DebugTileSpawner : MonoBehaviour
 {
     private string[] numberStrings;
 
-    public List<Token> TokensToSpawn;
+    public List<GameTile> TokensToSpawn;
 
     void Awake()
     {
@@ -26,7 +26,7 @@ public class DebugTileSpawner : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
-			WormCreator.CreateWorm(Utils.CursorGridPosotion);
+			//WormCreator.CreateWorm(Utils.CursorGridPosotion);
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -49,10 +49,11 @@ public class DebugTileSpawner : MonoBehaviour
 
                 if (index < TokensToSpawn.Count)
                 {
-                    Token token = TokensToSpawn[index];
+                    GameTile tile = Instantiate(TokensToSpawn[index]);
 					Point point = Utils.CursorGridPosotion;
-                    Gameboard.Instance.DestroyTilesInBounds(token.GetBounds(point.x, point.y), false, false);
-                    Gameboard.Instance.AddTileFromToken(token, point.x, point.y);
+                    tile.GridPosition = point;
+                    Gameboard.Instance.DestroyTilesInBounds(tile.GridBounds, false, false);
+                    Gameboard.Instance.AddGameTile(tile, point.x, point.y);
                 }
             }
         }

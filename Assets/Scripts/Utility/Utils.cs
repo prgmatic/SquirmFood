@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEditor;
+using System.IO;
 using System.Collections;
 
 public static class Utils
@@ -96,7 +98,6 @@ public static class Utils
 		return new Vector2(v2.x, y);
 	}
 	#endregion
-
 }
 
 public enum Direction
