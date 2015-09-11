@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 using System.IO;
 
+[Serializable]
 public class NewBoardLayout : ScriptableObject
 {
     const int EXPORT_VERSION = 0;

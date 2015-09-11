@@ -15,12 +15,12 @@ public class LevelBuildingOptions : MonoBehaviour
 
     private void Insstance_SaveComplete(string levelName, int id)
     {
-        Gameboard.Instance.CurrentLevel = BoardLayoutExporter.GenerateLayout();
-        Gameboard.Instance.CurrentLevel.name = levelName;
-        Gameboard.Instance.CurrentLevel.ID = id;
+        //Gameboard.Instance.CurrentLevel = BoardLayoutExporter.GenerateLayout();
+        //Gameboard.Instance.CurrentLevel.name = levelName;
+        //Gameboard.Instance.CurrentLevel.ID = id;
         
 
-        Gameboard.Instance.GetComponent<PlayMakerFSM>().Fsm.Event("SaveComplete");
+        //Gameboard.Instance.GetComponent<PlayMakerFSM>().Fsm.Event("SaveComplete");
     }
 
     public void SaveLevel()

@@ -23,16 +23,16 @@ public class PlaythroughViewer : MonoBehaviour
 
     public void ViewPlaythrough(List<PlaythroughAction> playthroughActions, BoardLayout boardLayout, PlaybackType playbackType)
     {
-        _currentStep = 0;
-        _playthroughActions = playthroughActions;
-        _playbackType = playbackType;
-        Gameboard.Instance.GetComponent<BoardLayoutSet>().enabled = false;
-        Gameboard.Instance.EndGame();
-        Gameboard.Instance.Show();
-        Gameboard.Instance.GameState = Gameboard.GameStateType.ViewingPlayback;
-        Gameboard.Instance.CurrentLevel = boardLayout;
-        Gameboard.Instance.StartGame();
-        _fsm.Fsm.Event("ViewPlaythrough");
+        //_currentStep = 0;
+        //_playthroughActions = playthroughActions;
+        //_playbackType = playbackType;
+        //Gameboard.Instance.GetComponent<BoardLayoutSet>().enabled = false;
+        //Gameboard.Instance.EndGame();
+        //Gameboard.Instance.Show();
+        //Gameboard.Instance.GameState = Gameboard.GameStateType.ViewingPlayback;
+        //Gameboard.Instance.CurrentLevel = boardLayout;
+        //Gameboard.Instance.StartGame();
+        //_fsm.Fsm.Event("ViewPlaythrough");
     }
 
     void Update()

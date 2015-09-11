@@ -9,7 +9,7 @@ public class LevelSelectionPanel : MonoBehaviour
 
 	public LevelSelectButton LevelButtonPrefab;
 	public RectTransform Content;
-	public LevelSet LevelSet;
+	public NewLevelSet LevelSet;
 
 	void Awake()
 	{
@@ -74,7 +74,7 @@ public class LevelSelectionPanel : MonoBehaviour
 		}
 	}
 
-	private void Button_LevelSelected(BoardLayout level)
+	private void Button_LevelSelected(NewBoardLayout level)
 	{
 		LevelSelectionInfo.SelectLevel(level, this.LevelSet);
 		Application.LoadLevel("PlayMode");

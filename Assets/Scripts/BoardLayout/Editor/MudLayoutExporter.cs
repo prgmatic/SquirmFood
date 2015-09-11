@@ -21,11 +21,12 @@ public static class MudLayoutExporter
 		{
 			for (int x = 0; x < layout.Columns; x++)
 			{
-				var tileAttribute = layout.BackgroundTileAttributes[x + y * layout.Columns];
-				if (tileAttribute == Gameboard.BackgroundTileAttribute.FreeMove)
-				{
-					outputTexture.SetPixels((x + 1) * 140, (y + 1) * 140, 140, 140, mudTileColors);
-				}
+                Debug.LogError("Need to fix this bit");
+                //var tileAttribute = layout.BackgroundTileAttributes[x + y * layout.Columns];
+                //if (tileAttribute == Gameboard.BackgroundTileAttribute.FreeMove)
+                //{
+                //    outputTexture.SetPixels((x + 1) * 140, (y + 1) * 140, 140, 140, mudTileColors);
+                //}
 			}
 		}
 		outputTexture.Apply();

@@ -22,3 +22,23 @@ public class LevelSetEditor : Editor
 		serializedObject.ApplyModifiedProperties();
 	}
 }
+
+[CustomEditor(typeof(NewLevelSet))]
+public class NewLevelSetEditor : Editor
+{
+    private SerializedProperty levels;
+
+
+    void OnEnable()
+    {
+        levels = serializedObject.FindProperty("Levels");
+    }
+
+    public override void OnInspectorGUI()
+    {
+        serializedObject.Update();
+        ReorderableListGUI.Title("Levels");
+        ReorderableListGUI.ListField(levels);
+        serializedObject.ApplyModifiedProperties();
+    }
+}

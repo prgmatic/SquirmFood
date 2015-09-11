@@ -28,10 +28,10 @@ public class SaveLevelPanel : MonoBehaviour
 
     public void SetLevelInfo()
     {
-        var layout = BoardLayoutExporter.GenerateLayout();
-        layout.name = LevelNameInput.text;
-        layout.ID = -1;
-        Gameboard.Instance.CurrentLevel = layout;
-        Gameboard.Instance.GetComponent<PlayMakerFSM>().Fsm.Event("InputComplete");
+        //var layout = BoardLayoutExporter.GenerateLayout();
+        //layout.name = LevelNameInput.text;
+        //layout.ID = -1;
+        //Gameboard.Instance.CurrentLevel = layout;
+        //Gameboard.Instance.GetComponent<PlayMakerFSM>().Fsm.Event("InputComplete");
     }
 }

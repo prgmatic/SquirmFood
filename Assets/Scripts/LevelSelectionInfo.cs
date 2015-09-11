@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 public class LevelSelectionInfo : MonoBehaviour 
 {
-	public BoardLayout SelectedLevel;
-	public LevelSet LevelSet;
+	public NewBoardLayout SelectedLevel;
+	public NewLevelSet LevelSet;
 
-	public static BoardLayout Level
+	public static NewBoardLayout Level
 	{
 		get
 		{
@@ -30,7 +30,7 @@ public class LevelSelectionInfo : MonoBehaviour
 			Destroy(this.gameObject);
 	}
 
-	public static void SelectLevel(BoardLayout level, LevelSet levelSet)
+	public static void SelectLevel(NewBoardLayout level, NewLevelSet levelSet)
 	{
 		if(Instance == null)
 		{

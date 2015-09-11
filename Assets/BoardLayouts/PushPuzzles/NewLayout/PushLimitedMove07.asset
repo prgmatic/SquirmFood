@@ -15,95 +15,95 @@ MonoBehaviour:
   Columns: 8
   Rows: 10
   Tiles:
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 2
     Y: 5
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 5
     Y: 5
-  - GameTileID: 6
+  - ID: 6
     Variation: 0
     X: 4
     Y: 3
-  - GameTileID: 6
+  - ID: 6
     Variation: 0
     X: 2
     Y: 3
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 5
     Y: 6
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 2
     Y: 6
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 3
     Y: 6
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 4
     Y: 6
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 1
     Y: 5
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 1
     Y: 4
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 1
     Y: 3
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 1
     Y: 2
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 2
     Y: 2
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 3
     Y: 2
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 4
     Y: 2
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 5
     Y: 2
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 6
     Y: 2
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 6
     Y: 3
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 6
     Y: 4
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 6
     Y: 5
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 4
     Y: 1
-  - GameTileID: 1
+  - ID: 1
     Variation: 0
     X: 3
     Y: 1
-  - GameTileID: 7
+  - ID: 7
     Variation: 0
     X: 7
     Y: 4

@@ -69,7 +69,7 @@ public class BoardLayoutSet : MonoBehaviour
         if (!this.enabled || _currentBoardIndex < 0) return;
         if (BoardLayouts.Count > 0)
         {
-            Gameboard.Instance.CurrentLevel = BoardLayouts[_currentBoardIndex].Layout;
+            //Gameboard.Instance.CurrentLevel = BoardLayouts[_currentBoardIndex].Layout;
         }
     }
 

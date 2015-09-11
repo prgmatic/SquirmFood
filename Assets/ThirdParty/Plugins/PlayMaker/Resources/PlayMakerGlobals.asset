@@ -25,4 +25,6 @@ MonoBehaviour:
     objectVariables: []
     materialVariables: []
     textureVariables: []
-  events: []
+  events:
+  - RevealMenu
+  - ViewMenu

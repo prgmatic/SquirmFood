@@ -536,8 +536,7 @@ MonoBehaviour:
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -672,8 +671,12 @@ Prefab:
     - target: {fileID: 11431430, guid: 41614e35b647b53459a626488c9779f1, type: 2}
       propertyPath: LevelSet
       value: 
-      objectReference: {fileID: 11400000, guid: 5e7dcc7a55e33204eb21d018eff72be4,
+      objectReference: {fileID: 11400000, guid: 5faad96e229b57c41bddb3d4ef4f7940,
         type: 2}
+    - target: {fileID: 123028, guid: 41614e35b647b53459a626488c9779f1, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 41614e35b647b53459a626488c9779f1, type: 2}
   m_IsPrefabParent: 0
@@ -887,6 +890,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
+  m_StereoMirrorMode: 0
 --- !u!4 &277119055
 Transform:
   m_ObjectHideFlags: 0
@@ -917,7 +921,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &284086066
 RectTransform:
   m_ObjectHideFlags: 0
@@ -994,8 +998,7 @@ MonoBehaviour:
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1820,6 +1823,7 @@ MonoBehaviour:
   m_SubmitButton: Submit
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
+  m_RepeatDelay: .5
   m_AllowActivationOnMobileDevice: 0
 --- !u!114 &757940544
 MonoBehaviour:
@@ -1979,12 +1983,12 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: .5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2124,7 +2128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelButtonPrefab: {fileID: 11475036, guid: 2d54b38b4aa181742a65810c5b3fd32f, type: 2}
   Content: {fileID: 1201020221}
-  LevelSet: {fileID: 11400000, guid: 5e7dcc7a55e33204eb21d018eff72be4, type: 2}
+  LevelSet: {fileID: 11400000, guid: 5faad96e229b57c41bddb3d4ef4f7940, type: 2}
 --- !u!1 &916671067
 GameObject:
   m_ObjectHideFlags: 0
@@ -4559,8 +4563,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 404322769}
   m_HandleRect: {fileID: 404322768}
   m_Direction: 2
-  m_Value: 1
-  m_Size: .590925932
+  m_Value: .999999821
+  m_Size: .590925872
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

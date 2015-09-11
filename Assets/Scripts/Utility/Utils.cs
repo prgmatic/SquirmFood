@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using UnityEditor;
-using System.IO;
+//using UnityEditor;
+//using System.IO;
 using System.Collections;
 
 public static class Utils

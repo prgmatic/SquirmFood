@@ -14,11 +14,11 @@ public class LevelSubmissionPanel : MonoBehaviour
 
     public void Submit()
     {
-        Playthrough playthrough = Gameboard.Instance.GetComponent<PlaythroughRecorder>().ExportPlaythrough();
-        playthrough.TesterName = AuthorName.text;
-        byte[] levelData = BoardLayoutExporter.ExportBinary(Gameboard.Instance.CurrentLevel);
-        WebManager.Instance.SubmitLevel(LevelName.text, levelData, playthrough);
-        Gameboard.Instance.GetComponent<PlayMakerFSM>().Fsm.Event("LevelSubmitted");
+        //Playthrough playthrough = Gameboard.Instance.GetComponent<PlaythroughRecorder>().ExportPlaythrough();
+        //playthrough.TesterName = AuthorName.text;
+        //byte[] levelData = BoardLayoutExporter.ExportBinary(Gameboard.Instance.CurrentLevel);
+        //WebManager.Instance.SubmitLevel(LevelName.text, levelData, playthrough);
+        //Gameboard.Instance.GetComponent<PlayMakerFSM>().Fsm.Event("LevelSubmitted");
     }
 	
 }

@@ -5,7 +5,7 @@ PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 7
   AndroidProfiler: 0
-  defaultScreenOrientation: 4
+  defaultScreenOrientation: 0
   targetDevice: 2
   targetResolution: 0
   accelerometerFrequency: 60
@@ -25,7 +25,7 @@ PlayerSettings:
   m_MobileMTRendering: 0
   m_Stereoscopic3D: 0
   iosShowActivityIndicatorOnLoading: -1
-  androidShowActivityIndicatorOnLoading: -1
+  androidShowActivityIndicatorOnLoading: 0
   iosAppInBackgroundBehavior: 0
   displayResolutionDialog: 1
   allowedAutorotateToPortrait: 1
@@ -135,7 +135,7 @@ PlayerSettings:
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:
-    - m_Icon: {fileID: 2800000, guid: 4173e77a4225d3c409aff8e6263d0a64, type: 3}
+    - m_Icon: {fileID: 2800000, guid: ff87daf34edead8439027f8941e3e0df, type: 3}
       m_Size: 128
   m_BuildTargetBatching:
   - m_BuildTarget: Android

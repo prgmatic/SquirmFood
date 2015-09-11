@@ -5,13 +5,13 @@ using HutongGames.PlayMaker;
 
 public class LevelSelectButton : MonoBehaviour
 {
-	public delegate void SelectLevelEvent(BoardLayout level);
+	public delegate void SelectLevelEvent(NewBoardLayout level);
 	public event SelectLevelEvent LevelSelected;
 
     public Text ButtonText;
 
     [System.NonSerialized]
-    public BoardLayout Layout;
+    public NewBoardLayout Layout;
 
     public void Select()
     {

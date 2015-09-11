@@ -36,7 +36,7 @@ public class Gameboard : MonoBehaviour
     private int _movesThisTry = 0;
     private int _retries = 0;
     private Playthrough _playbackData = null;
-    private BoardLayout _currentLevel;
+    private NewBoardLayout _currentLevel;
 
     [System.NonSerialized]
     public List<GameTile> gameTiles = new List<GameTile>();
@@ -60,7 +60,7 @@ public class Gameboard : MonoBehaviour
     public int TotalMoves { get { return _totalMoves; } }
     public int MovesThisTry { get { return _movesThisTry; } }
     public int Retries { get { return _retries; } }
-    public BoardLayout CurrentLevel
+    public NewBoardLayout CurrentLevel
     {
         get { return _currentLevel; }
         set { _currentLevel = value; }
@@ -122,7 +122,8 @@ public class Gameboard : MonoBehaviour
         if (GameboardReset != null)
             GameboardReset();
         if (CurrentLevel != null)
-            BoardLayoutImporter.ImportBoardLayout(CurrentLevel);
+            CurrentLevel.Load();
+            //BoardLayoutImporter.ImportBoardLayout(CurrentLevel);
     }
     public void AdvanceLevel()
     {

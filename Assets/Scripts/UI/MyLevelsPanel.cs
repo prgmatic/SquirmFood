@@ -30,12 +30,11 @@ public class MyLevelsPanel : MonoBehaviour
 
     private void Insstance_ObtainedLevel(string name, byte[] data, int id)
     {
-        var layout = BoardLayoutImporter.GetBoardLayoutFromBinary(data);
-        layout.name = name;
-        layout.ID = id;
-        Gameboard.Instance.CurrentLevel = layout;
-        Gameboard.Instance.GetComponent<PlayMakerFSM>().Fsm.Event("DownloadComplete");
-        //BoardLayoutImporter.ImportBinary(data);
+        //var layout = BoardLayoutImporter.GetBoardLayoutFromBinary(data);
+        //layout.name = name;
+        //layout.ID = id;
+        //Gameboard.Instance.CurrentLevel = layout;
+        //Gameboard.Instance.GetComponent<PlayMakerFSM>().Fsm.Event("DownloadComplete");
     }
 
     private void Insstance_ObtainedMyLevels(JSONArray data)

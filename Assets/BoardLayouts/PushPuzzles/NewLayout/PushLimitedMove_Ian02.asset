@@ -15,19 +15,19 @@ MonoBehaviour:
   Columns: 8
   Rows: 10
   Tiles:
-  - GameTileID: 2
+  - ID: 2
     Variation: 0
     X: 3
     Y: 3
-  - GameTileID: 2
+  - ID: 2
     Variation: 0
     X: 7
     Y: 6
-  - GameTileID: 3
+  - ID: 3
     Variation: 0
     X: 0
     Y: 7
-  - GameTileID: 7
+  - ID: 7
     Variation: 0
     X: 4
     Y: 3

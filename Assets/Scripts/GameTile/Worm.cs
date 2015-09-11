@@ -39,7 +39,7 @@ public class Worm : MonoBehaviour
 
     public bool Move(int x, int y)
     {
-        bool eating = false;
+        _animator.SetInteger("AnimationType", (int)WormAnimationType.Move);
 
         if (Gameboard.Instance.IsValidTileCoordinate(x, y, false))
         {
@@ -48,8 +48,8 @@ public class Worm : MonoBehaviour
             {
                 if (tile.IsEdible)
                 {
+                    _animator.SetInteger("AnimationType", (int)WormAnimationType.Eat);
                     EatToken(tile);
-                    eating = true;
                 }
                 else if (tile.Pushable)
                 {
@@ -58,10 +58,11 @@ public class Worm : MonoBehaviour
                     if (x < _gameTile.GridPosition.x) direction = Direction.Left;
                     else if (y > _gameTile.GridPosition.y) direction = Direction.Down;
                     else if (y < _gameTile.GridPosition.y) direction = Direction.Up;
-                    if (!tile.Push(direction))
+                    if (tile.Push(direction))
                     {
-                        return false;
+                        _animator.SetInteger("AnimationType", (int)WormAnimationType.Push);
                     }
+                    else return false;
                 }
                 else return false;
             }
@@ -86,23 +87,9 @@ public class Worm : MonoBehaviour
         //MudSmearController.Instance.AddSmear(WormTile.GridPosition, d);
 
         var dir = Utils.GetDirection(_gameTile.GridPosition, new Point(x, y));
-        _animator.SetBool("Eat", eating);
-        _animator.SetTrigger(1);
-        switch(dir)
-        {
-            case Direction.Up:
-                _animator.SetTrigger("MoveUp");
-                break;
-            case Direction.Down:
-                _animator.SetTrigger("MoveDown");
-                break;
-            case Direction.Left:
-                _animator.SetTrigger("MoveLeft");
-                break;
-            case Direction.Right:
-                _animator.SetTrigger("MoveRight");
-                break;
-        }
+        _animator.SetInteger("MoveDirection", (int)dir);
+        _animator.SetTrigger("Move");
+        
 
         _gameTile.Move(x, y, true);
         Gameboard.Instance.ApplyGravity();
