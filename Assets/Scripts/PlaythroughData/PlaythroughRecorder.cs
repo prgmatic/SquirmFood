@@ -38,58 +38,53 @@ public class PlaythroughRecorder : MonoBehaviour
         //}
     }
 
-    public void SubmitPlaythrough()
-    {
-        SubmitPlaythrough("", "", 0, 0);
-    }
+    //public void SubmitPlaythrough()
+    //{
+    //    SubmitPlaythrough("", "", 0, 0);
+    //}
 
-    public void SubmitPlaythrough(string name, string notes, int difficulty, int satisfaction)
-    {
-        if (_playthroughID > 0)
-        {
-            WebManager.Instance.AddFeedbackToPlaythrough(_playthroughID, difficulty, satisfaction, notes);
-        }
-        else
-        {
-            int levelID = Gameboard.Instance.CurrentLevel.ID;
-            var playthrough = new Playthrough(
-                levelID,
-                name,
-                ValidateKey.Key,
-                notes,
-                difficulty,
-                satisfaction,
-                Gameboard.Instance.GameDuration,
-                Gameboard.Instance.TotalMoves,
-                Gameboard.Instance.MovesThisTry,
-                Gameboard.Instance.Retries, _data);
-            WebManager.Instance.PlaythroughSubmited += Insstance_PlaythroughSubmited;
-            WebManager.Instance.PostPlaythrough(playthrough);
-        }
-    }
+    //public void SubmitPlaythrough(string name, string notes, int difficulty, int satisfaction)
+    //{
+    //    if (_playthroughID > 0)
+    //    {
+    //        WebManager.Instance.AddFeedbackToPlaythrough(_playthroughID, difficulty, satisfaction, notes);
+    //    }
+    //    else
+    //    {
+    //        int levelID = Gameboard.Instance.CurrentLevel.ID;
+    //        var playthrough = new Playthrough(
+    //            levelID,
+    //            name,
+    //            ValidateKey.Key,
+    //            notes,
+    //            difficulty,
+    //            satisfaction,
+    //            Gameboard.Instance.GameDuration,
+    //            Gameboard.Instance.TotalMoves,
+    //            Gameboard.Instance.MovesThisTry,
+    //            Gameboard.Instance.Retries, _data);
+    //        WebManager.Instance.PlaythroughSubmited += Insstance_PlaythroughSubmited;
+    //        WebManager.Instance.PostPlaythrough(playthrough);
+    //    }
+    //}
 
-    public Playthrough ExportPlaythrough()
-    {
-        return new Playthrough(
-                Gameboard.Instance.CurrentLevel.ID,
-                name,
-                ValidateKey.Key,
-                "",
-                -1,
-                -1,
-                Gameboard.Instance.GameDuration,
-                Gameboard.Instance.TotalMoves,
-                Gameboard.Instance.MovesThisTry,
-                Gameboard.Instance.Retries, _data);
-    }
+    //public Playthrough ExportPlaythrough()
+    //{
+    //    return new Playthrough(
+    //            Gameboard.Instance.CurrentLevel.ID,
+    //            name,
+    //            ValidateKey.Key,
+    //            "",
+    //            -1,
+    //            -1,
+    //            Gameboard.Instance.GameDuration,
+    //            Gameboard.Instance.TotalMoves,
+    //            Gameboard.Instance.MovesThisTry,
+    //            Gameboard.Instance.Retries, _data);
+    //}
 
 
     #region Delegates
-    private void Insstance_PlaythroughSubmited(int playthroughID)
-    {
-        _playthroughID = playthroughID;
-        WebManager.Instance.PlaythroughSubmited -= Insstance_PlaythroughSubmited;
-    }
     private void Instance_WormMoveInputRecieved(Direction direction, bool inputValidated)
     {
         _data.Add(new InputAction(direction, Gameboard.Instance.GameDuration, inputValidated));

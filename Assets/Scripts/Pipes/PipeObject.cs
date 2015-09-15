@@ -44,7 +44,7 @@ public class PipeObject : MonoBehaviour
 		pipe.layer = this.gameObject.layer;
 	}
 
-	public static string GetPipeNameAndRotation(BoardLayout layout, int x, int y, out float rotation)
+	public static string GetPipeNameAndRotation(NewBoardLayout layout, int x, int y, out float rotation)
 	{
 		rotation = 0f;
 		if (!layout.IsValidCoordinate(x, y)) return string.Empty;
@@ -52,7 +52,7 @@ public class PipeObject : MonoBehaviour
 		return SelectPrefab(out rotation, ni).name;
 	}
 
-	private static NeighborInfo GetNeightborInfo(BoardLayout layout, int x, int y)
+	private static NeighborInfo GetNeightborInfo(NewBoardLayout layout, int x, int y)
 	{
 		bool top = IsWall(layout, x, y - 1);
 		bool bottom = IsWall(layout, x, y + 1);
@@ -62,13 +62,13 @@ public class PipeObject : MonoBehaviour
 		return new NeighborInfo(top, bottom, left, right);
 	}
 
-	private static bool IsWall(BoardLayout layout, int x, int y)
+	private static bool IsWall(NewBoardLayout layout, int x, int y)
 	{
 		if (!layout.IsValidCoordinate(x, y)) return false;
-		var token = layout.GetTokenAt(x, y);
-		if(token != null)
+		var tile = layout.GetGameTileAt(x, y);
+		if(tile != null)
 		{
-			return !token.Pushable && !token.IsEdible && !token.CanFall && !token.IsWorm;
+			return !tile.Pushable && !tile.IsEdible && !tile.CanFall && !tile.IsWorm;
         }
 		return false;
 	}

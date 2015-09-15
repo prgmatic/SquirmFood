@@ -20,8 +20,6 @@ public class GameTile : MonoBehaviour
 	[HideInInspector]
 	public string Category = "";
 
-
-	private Token _tokenProperties;
 	private SpriteRenderer _renderer;
 	private Vector3 _velocity = Vector3.zero;
 	private bool _moving = false;
@@ -77,15 +75,6 @@ public class GameTile : MonoBehaviour
 		set
 		{
 			_variation = value;
-			if (_tokenProperties is TexturedToken)
-			{
-				var properties = (TexturedToken)_tokenProperties;
-
-				if (properties.UseSpriteArray)
-				{
-					this.Sprite = properties.SpriteArray[_variation];
-				}
-			}
 		}
 	}
 	#endregion
@@ -96,15 +85,7 @@ public class GameTile : MonoBehaviour
 	}
 	void Update()
 	{
-        if (_tokenProperties is TexturedToken)
-        {
-            if (!IsWorm)
-            {
-                this._renderer.sortingOrder = GridPosition.y * 10 + 15;
-                float scale = 1f / Sprite.GetWidth() * Width * _tokenProperties.ScaleMultiplier;
-                this.transform.localScale = new Vector3(_flipped ? -scale : scale, scale, 1);
-            }
-        }
+         
 	}
 	public void ApplyGravity()
 	{

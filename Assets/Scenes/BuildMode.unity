@@ -896,7 +896,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1223624364
 Transform:
   m_ObjectHideFlags: 0
@@ -1064,7 +1064,6 @@ MonoBehaviour:
   ShowLevelSelectionScreenOnStartup: 0
   Columns: 8
   Rows: 10
-  WormToken: {fileID: 11400000, guid: f9ccf81679801c442a0e3cae2fd198db, type: 2}
 --- !u!114 &1357852417
 MonoBehaviour:
   m_ObjectHideFlags: 0

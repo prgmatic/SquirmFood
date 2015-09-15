@@ -36,6 +36,13 @@ public class NewBoardLayout : ScriptableObject
             }
         }
     }
+
+    public static GameTile GetPrefab(int id)
+    {
+        if (_tilePrefabs.ContainsKey(id))
+            return _tilePrefabs[id];
+        return null;
+    }
     #endregion
 
     #region CreationMethods
@@ -51,7 +58,7 @@ public class NewBoardLayout : ScriptableObject
                 result.Columns = reader.ReadByte();
                 result.Rows = reader.ReadByte(); ;
 
-                
+
                 // Read tile info
                 int numberOfTokens = reader.ReadInt32();
                 for (int i = 0; i < numberOfTokens; i++)
@@ -69,7 +76,7 @@ public class NewBoardLayout : ScriptableObject
 
                 // Read Mud info
                 int numberOfMudTiles = reader.ReadInt32();
-                for(int i = 0;i < numberOfMudTiles; i++)
+                for (int i = 0; i < numberOfMudTiles; i++)
                 {
                     result.MudTiles.Add(reader.ReadInt32());
                 }
@@ -81,7 +88,7 @@ public class NewBoardLayout : ScriptableObject
     public static NewBoardLayout FromGameboard()
     {
         var result = ScriptableObject.CreateInstance<NewBoardLayout>();
-        foreach(var tile in Gameboard.Instance.gameTiles)
+        foreach (var tile in Gameboard.Instance.gameTiles)
         {
             result.Tiles.Add(new GameTileLayoutInfo((byte)tile.ID, 0, (byte)tile.GridLeft, (byte)tile.GridTop));
         }
@@ -91,31 +98,10 @@ public class NewBoardLayout : ScriptableObject
         {
             for (int x = 0; x < result.Columns; x++)
             {
-                if(Gameboard.Instance.GetBackgroundTileAttribute(x,y) == Gameboard.BackgroundTileAttribute.FreeMove)
+                if (Gameboard.Instance.GetBackgroundTileAttribute(x, y) == Gameboard.BackgroundTileAttribute.FreeMove)
                 {
                     result.MudTiles.Add(x + y * result.Columns);
                 }
-            }
-        }
-        return result;
-    }
-
-    public static NewBoardLayout FromOldBoardLayout(BoardLayout layout)
-    {
-        var result = ScriptableObject.CreateInstance<NewBoardLayout>();
-        result.ID = layout.ID;
-        result.Columns = (byte)layout.Columns;
-        result.Rows = (byte)layout.Rows;
-
-        foreach (var token in layout.Tokens)
-        {
-            result.Tiles.Add(new GameTileLayoutInfo(token.Token.ID, (byte)token.Variation, (byte)token.Position.x, (byte)token.Position.y));
-        }
-        for (int i = 0; i < layout.BackgroundTileAttributes.Length; i++)
-        {
-            if(layout.BackgroundTileAttributes[i] == Gameboard.BackgroundTileAttribute.FreeMove)
-            {
-                result.MudTiles.Add(i);
             }
         }
         return result;
@@ -165,7 +151,7 @@ public class NewBoardLayout : ScriptableObject
         {
             using (BinaryWriter writer = new BinaryWriter(ms))
             {
-                
+
                 // Write layout header
                 writer.Write(EXPORT_VERSION);
                 writer.Write(Columns);
@@ -185,7 +171,7 @@ public class NewBoardLayout : ScriptableObject
 
                 // Write MudTile info
                 writer.Write(MudTiles.Count);
-                foreach(var mudTile in MudTiles)
+                foreach (var mudTile in MudTiles)
                 {
                     writer.Write(mudTile);
                 }
@@ -193,5 +179,30 @@ public class NewBoardLayout : ScriptableObject
             }
         }
         return result;
+    }
+
+    public bool IsValidCoordinate(int x, int y)
+    {
+        return x >= 0 && x < Columns && y >= 0 && y < Rows;
+    }
+
+    public GameTileLayoutInfo GetGameTileInfoAt(int x, int y)
+    {
+        for (int i = 0; i < Tiles.Count; i++)
+        {
+            if (Tiles[i].X == x && Tiles[i].Y == y)
+            {
+                return Tiles[i];
+            }
+        }
+        return null;
+    }
+
+    public GameTile GetGameTileAt(int x, int y)
+    {
+        var info = GetGameTileInfoAt(x, y);
+        if (_tilePrefabs.ContainsKey(info.ID))
+            return _tilePrefabs[info.ID];
+        return null;
     }
 }

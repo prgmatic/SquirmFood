@@ -26,7 +26,6 @@ public class Gameboard : MonoBehaviour
     public bool ShowLevelSelectionScreenOnStartup = true;
     public int Columns = 8;
     public int Rows = 10;
-    public Token WormToken;
 
     private GameTile[,] _tileTable;
     private BackgroundTileAttribute[,] _backgroundTileAttributes;
@@ -124,15 +123,6 @@ public class Gameboard : MonoBehaviour
         if (CurrentLevel != null)
             CurrentLevel.Load();
             //BoardLayoutImporter.ImportBoardLayout(CurrentLevel);
-    }
-    public void AdvanceLevel()
-    {
-        BoardLayoutSet bls = GetComponent<BoardLayoutSet>();
-        if (bls != null)
-        {
-            bls.NextLevel();
-        }
-        //StartGame();
     }
     public void Retry()
     {
