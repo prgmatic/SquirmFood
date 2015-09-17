@@ -42,6 +42,7 @@ public class PipeObject : MonoBehaviour
 		pipe.transform.localPosition = Vector3.zero;
 		pipe.transform.localRotation = Quaternion.Euler(0, 0, rotation);
 		pipe.layer = this.gameObject.layer;
+		pipe.isStatic = true;
 	}
 
 	public static string GetPipeNameAndRotation(NewBoardLayout layout, int x, int y, out float rotation)

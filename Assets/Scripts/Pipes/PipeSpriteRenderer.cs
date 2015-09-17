@@ -20,6 +20,7 @@ public class PipeSpriteRenderer : MonoBehaviour
 			go.layer = this.gameObject.layer;
 			go.transform.rotation = rot;
 			go.transform.SetParent(this.transform);
+			go.isStatic = true;
 			_renderers[i] = go.AddComponent<SpriteRenderer>();
 			var r = _renderers[i];
 			r.sortingOrder = (_renderers.Length - i) * 10;

@@ -11,6 +11,10 @@ public class PipeRender : MonoBehaviour
 		_gameboard = Gameboard.Instance;
 		_gameboard.TileAdded += Instance_TileAdded;
 		_gameboard.TileDestroyed += Instance_TileDestroyed;
+	}
+
+	void Start()
+	{
 		AddPipeObjects();
 	}
 
@@ -68,6 +72,7 @@ public class PipeRender : MonoBehaviour
 				go.name = "Pipe";
 				go.transform.SetParent(pipesGO.transform);
 				go.layer = pipesGO.layer;
+				go.isStatic = true;
 				var po = go.AddComponent<PipeObject>();
 				po.transform.position = Gameboard.Instance.GridPositionToWorldPosition(x, y) + new Vector3(0.5f, -0.5f, 0f);
 				po.transform.rotation = Quaternion.Euler(180, 0, 0);
