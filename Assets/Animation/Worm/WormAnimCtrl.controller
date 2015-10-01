@@ -1031,12 +1031,12 @@ AnimatorStateMachine:
       second:
       - {fileID: 110926244}
     data:
-      first: {fileID: 110721126}
-      second: []
-    data:
       first: {fileID: 110796634}
       second:
       - {fileID: 110970558}
+    data:
+      first: {fileID: 110721126}
+      second: []
     data:
       first: {fileID: 110764902}
       second:

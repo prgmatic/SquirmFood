@@ -9,10 +9,11 @@ public class GameboardLoader : MonoBehaviour
 	private Thread _thread;
 	private AsyncOperation _async;
 	private bool _loadingLevel = false;
-
+    private float _awakeTime;
 
 	void Awake()
 	{
+        _awakeTime = Time.time;
 		_loadingLevel = true;
 		_async = Application.LoadLevelAdditiveAsync ("PlayMode");
 	}
@@ -22,9 +23,10 @@ public class GameboardLoader : MonoBehaviour
 		if (_loadingLevel && _async.isDone) 
 		{
 			_loadingLevel = false;
-			Debug.Log("Load complete");
+            Debug.Log(string.Format("Load Time {0}", Time.time - _awakeTime));
 			GameObject.Find("Main Camera").SetActive(false);
-			//GameObject.Find("Game").SetActive(false);
+            //GameObject.Find("Game").SetActive(false);
+            this.enabled = false;
 		}
 	}
 

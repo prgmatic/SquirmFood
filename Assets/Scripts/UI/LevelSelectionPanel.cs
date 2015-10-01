@@ -10,6 +10,7 @@ public class LevelSelectionPanel : MonoBehaviour
 	public LevelSelectButton LevelButtonPrefab;
 	public RectTransform Content;
 	public NewLevelSet LevelSet;
+	public MenuController MenuController;
 
 	void Awake()
 	{
@@ -52,7 +53,7 @@ public class LevelSelectionPanel : MonoBehaviour
 
 	public void OpenMyLevels()
 	{
-		Gameboard.Instance.GetComponent<PlayMakerFSM>().Fsm.Event("OpenMyLevelsPanel");
+		//Gameboard.Instance.GetComponent<PlayMakerFSM>().Fsm.Event("OpenMyLevelsPanel");
 	}
 
 	private void FillContent()
@@ -77,6 +78,7 @@ public class LevelSelectionPanel : MonoBehaviour
 	private void Button_LevelSelected(NewBoardLayout level)
 	{
 		LevelSelectionInfo.SelectLevel(level, this.LevelSet);
-		Application.LoadLevel("PlayMode");
+		MenuController.ShowGameboard();
+		//Application.LoadLevel("PlayMode");
 	}
 }

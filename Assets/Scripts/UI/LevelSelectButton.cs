@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using HutongGames.PlayMaker;
 
 public class LevelSelectButton : MonoBehaviour
 {
@@ -15,12 +14,6 @@ public class LevelSelectButton : MonoBehaviour
 
     public void Select()
     {
-		/*
-        PlayMakerFSM fsm = Gameboard.Instance.GetComponent<PlayMakerFSM>();
-        BoardLayoutSet bls = Gameboard.Instance.GetComponent<BoardLayoutSet>();
-        bls.SetLayout(Layout);
-        fsm.Fsm.Event("LevelSelected");
-		*/
 		Debug.Log("Level selected");
 		if(LevelSelected != null)
 		{

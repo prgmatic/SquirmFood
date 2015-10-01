@@ -10,6 +10,6 @@ public class RetryButton : MonoBehaviour
     }
 	public void Retry()
     {
-        Gameboard.Instance.GetComponent<PlayMakerFSM>().Fsm.Event("Retry");
+        Gameboard.Instance.Retry();
     }
 }

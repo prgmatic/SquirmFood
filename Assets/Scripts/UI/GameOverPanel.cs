@@ -15,6 +15,13 @@ public class GameOverPanel : MonoBehaviour
 	{
 		LevelSelectionInfo.Instance.AdvanceLevel();
 		Gameboard.Instance.StartGame();
+        MenuController.Instance.ShowGameboard();
 	}
+
+    public void Retry()
+    {
+		Gameboard.Instance.StartGame();
+        MenuController.Instance.ShowGameboard();
+    }
 
 }

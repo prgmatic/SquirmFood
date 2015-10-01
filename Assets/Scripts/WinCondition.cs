@@ -8,7 +8,7 @@ public class WinCondition : MonoBehaviour
 	void Awake()
 	{
 		Gameboard.Instance.TileDestroyed += Instance_TileDestroyed;
-		if (GameWon) DoGameWon();
+		//if (GameWon) DoGameWon();
 	}
 
 	private void Instance_TileDestroyed(GameTile sender)
@@ -36,5 +36,6 @@ public class WinCondition : MonoBehaviour
 	{
 		Gameboard.Instance.EndGame();
 		Debug.Log("The game has been won");
+        MenuController.Instance.ShowGameOver();
 	}
 }

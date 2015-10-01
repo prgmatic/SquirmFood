@@ -209,7 +209,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: d583397fe58ceb44cb61e325bdc17eda, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: d583397fe58ceb44cb61e325bdc17eda, type: 3}
       propertyPath: m_Name
@@ -778,7 +778,7 @@ Camera:
   far clip plane: 1000
   field of view: 88.4273682
   orthographic: 1
-  orthographic size: 6.18084717
+  orthographic size: 7.32573318
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2488,7 +2488,7 @@ Camera:
     height: 1
   near clip plane: .300000012
   far clip plane: 1000
-  field of view: 27.7350273
+  field of view: 32.6191597
   orthographic: 0
   orthographic size: 5
   m_Depth: 0

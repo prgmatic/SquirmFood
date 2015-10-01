@@ -14,12 +14,7 @@ public class PlaythroughViewer : MonoBehaviour
     private PlaybackType _playbackType = PlaybackType.None;
     private List<PlaythroughAction> _playthroughActions = null;
     private int _currentStep = 0;
-    private PlayMakerFSM _fsm;
-
-    void Awake()
-    {
-        _fsm = Gameboard.Instance.GetComponent<PlayMakerFSM>();
-    }
+    
 
     public void ViewPlaythrough(List<PlaythroughAction> playthroughActions, NewBoardLayout boardLayout, PlaybackType playbackType)
     {
