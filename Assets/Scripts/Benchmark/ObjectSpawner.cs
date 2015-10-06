@@ -39,9 +39,4 @@ public class ObjectSpawner : MonoBehaviour
             if (!Auto) _spawning = false;
         }
     }
-
-    private void OnGUI()
-    {
-        GUILayout.Label("hello");
-    }
 }
