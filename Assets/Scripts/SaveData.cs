@@ -20,17 +20,16 @@ public static class SaveData
             else _currentLevel = value;
         }
     }
-
-    private static string SAVE_PATH
+    public static string SAVE_PATH
     {
         get { return Application.persistentDataPath + Path.DirectorySeparatorChar + "player.sav"; }
     }
+
     private static int _currentLevel;
 
     static SaveData()
     {
-        LevelsCompleted = new bool[GameManager.Instance.LevelSet.Levels.Count];
-        CurrentLevel = -1;
+        Init();
     }
     public static void Save()
     {
@@ -75,5 +74,25 @@ public static class SaveData
                 reader.Close();
             }
         }
+    }
+
+    public static void Delete()
+    {
+        if (File.Exists(SAVE_PATH))
+        {
+            File.Delete(SAVE_PATH);
+            Debug.Log("Save Data Deleted.");
+        }
+        else
+        {
+            Debug.Log("No Save Data to Delete.");
+        }
+        Init();
+    }
+
+    private static void Init()
+    {
+        LevelsCompleted = new bool[GameManager.Instance.LevelSet.Levels.Count];
+        CurrentLevel = -1;
     }
 }

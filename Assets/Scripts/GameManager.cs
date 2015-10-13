@@ -80,6 +80,10 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+    public void DeleteSave()
+    {
+        SaveData.Delete();
+    }
 
     private void Awake()
     {

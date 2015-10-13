@@ -194,7 +194,7 @@ public class Gameboard : MonoBehaviour
 
         Vector3 worldPosition = GridPositionToWorldPosition(x, y);
         tile.transform.SetParent(this.transform);
-        tile.gameObject.layer = this.gameObject.layer;
+        //tile.gameObject.layer = this.gameObject.layer;
         tile.GridPosition = new Point(x, y);
         tile.WorldLeft = worldPosition.x;
         tile.WorldTop = worldPosition.y;
