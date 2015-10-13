@@ -1,0 +1,421 @@
+fileFormatVersion: 2
+guid: eb7f1b0a25129f643aad307ad9670c9c
+timeCreated: 1444404667
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: boardFrame
+    100002: boardFrame001
+    100004: boardpan
+    100006: boardpan001
+    100008: body repeat001
+    100010: body repeat002
+    100012: body top
+    100014: camDriver
+    100016: coolingTower repeat001
+    100018: coolingTower repeat002
+    100020: coolingTower top
+    100022: Dummy001
+    100024: Dummy002
+    100026: Dummy003
+    100028: flatCam
+    100030: flatCam.Target
+    100032: foot001
+    100034: foot002
+    100036: foot003
+    100038: gameBoard
+    100040: gameBoard001
+    100042: gameCam
+    100044: gameCam.Target
+    100046: //RootNode
+    100048: hand001
+    100050: hand002
+    100052: hand003
+    100054: head001
+    100056: head002
+    100058: head003
+    100060: hoses repeat001
+    100062: hoses top
+    100064: machineBodyCam
+    100066: machineBodyCam.Target
+    100068: monitor
+    100070: mud crevices
+    100072: mud crevices001
+    100074: mud paths
+    100076: mud paths001
+    100078: sky
+    100080: squareReference
+    100082: teethBaseLeft001
+    100084: teethBaseLeft002
+    100086: teethBaseRight001
+    100088: teethBaseRight002
+    100090: teethEndLeft001
+    100092: teethEndLeft002
+    100094: teethEndRight001
+    100096: teethEndRight002
+    100098: teethMidLeft001
+    100100: teethMidLeft002
+    100102: teethMidRight001
+    100104: teethMidRight002
+    100106: Bottom
+    100108: Mid
+    100110: Top
+    100112: Bottom01
+    100114: Bottom02
+    100116: Bottom03
+    100118: Bottom04
+    100120: Bottom06
+    100122: Bottom08
+    100124: teethBaseLeft
+    100126: teethBaseRight
+    100128: teethEndLeft
+    100130: teethEndRight
+    100132: teethMiddleLeft
+    100134: teethMiddleLeft001
+    100136: teethMiddleRight
+    100138: teethMiddleRight001
+    100140: tokenFoot002
+    100142: tokenFoot003
+    100144: tokenFoot01
+    100146: tokenHand01
+    100148: tokenHand02
+    100150: tokenHand03
+    100152: tokenHead01
+    100154: tokenHead02
+    100156: tokenHead03
+    400000: boardFrame
+    400002: boardFrame001
+    400004: boardpan
+    400006: boardpan001
+    400008: body repeat001
+    400010: body repeat002
+    400012: body top
+    400014: camDriver
+    400016: coolingTower repeat001
+    400018: coolingTower repeat002
+    400020: coolingTower top
+    400022: Dummy001
+    400024: Dummy002
+    400026: Dummy003
+    400028: flatCam
+    400030: flatCam.Target
+    400032: foot001
+    400034: foot002
+    400036: foot003
+    400038: gameBoard
+    400040: gameBoard001
+    400042: gameCam
+    400044: gameCam.Target
+    400046: //RootNode
+    400048: hand001
+    400050: hand002
+    400052: hand003
+    400054: head001
+    400056: head002
+    400058: head003
+    400060: hoses repeat001
+    400062: hoses top
+    400064: machineBodyCam
+    400066: machineBodyCam.Target
+    400068: monitor
+    400070: mud crevices
+    400072: mud crevices001
+    400074: mud paths
+    400076: mud paths001
+    400078: sky
+    400080: squareReference
+    400082: teethBaseLeft001
+    400084: teethBaseLeft002
+    400086: teethBaseRight001
+    400088: teethBaseRight002
+    400090: teethEndLeft001
+    400092: teethEndLeft002
+    400094: teethEndRight001
+    400096: teethEndRight002
+    400098: teethMidLeft001
+    400100: teethMidLeft002
+    400102: teethMidRight001
+    400104: teethMidRight002
+    400106: Bottom
+    400108: Mid
+    400110: Top
+    400112: Bottom01
+    400114: Bottom02
+    400116: Bottom03
+    400118: Bottom04
+    400120: Bottom06
+    400122: Bottom08
+    400124: teethBaseLeft
+    400126: teethBaseRight
+    400128: teethEndLeft
+    400130: teethEndRight
+    400132: teethMiddleLeft
+    400134: teethMiddleLeft001
+    400136: teethMiddleRight
+    400138: teethMiddleRight001
+    400140: tokenFoot002
+    400142: tokenFoot003
+    400144: tokenFoot01
+    400146: tokenHand01
+    400148: tokenHand02
+    400150: tokenHand03
+    400152: tokenHead01
+    400154: tokenHead02
+    400156: tokenHead03
+    2300000: boardFrame
+    2300002: boardFrame001
+    2300004: boardpan
+    2300006: boardpan001
+    2300008: body repeat001
+    2300010: body repeat002
+    2300012: body top
+    2300014: coolingTower repeat001
+    2300016: coolingTower repeat002
+    2300018: coolingTower top
+    2300020: foot001
+    2300022: foot002
+    2300024: foot003
+    2300026: gameBoard
+    2300028: gameBoard001
+    2300030: hand001
+    2300032: hand002
+    2300034: hand003
+    2300036: head001
+    2300038: head002
+    2300040: head003
+    2300042: hoses repeat001
+    2300044: hoses top
+    2300046: monitor
+    2300048: mud crevices
+    2300050: mud crevices001
+    2300052: mud paths
+    2300054: mud paths001
+    2300056: sky
+    2300058: teethBaseLeft001
+    2300060: teethBaseLeft002
+    2300062: teethBaseRight001
+    2300064: teethBaseRight002
+    2300066: teethEndLeft001
+    2300068: teethEndLeft002
+    2300070: teethEndRight001
+    2300072: teethEndRight002
+    2300074: teethMidLeft001
+    2300076: teethMidLeft002
+    2300078: teethMidRight001
+    2300080: teethMidRight002
+    2300082: Bottom01
+    2300084: Bottom02
+    2300086: Bottom03
+    2300088: Bottom04
+    2300090: Bottom06
+    2300092: Bottom08
+    2300094: teethBaseLeft
+    2300096: teethBaseRight
+    2300098: teethEndLeft
+    2300100: teethEndRight
+    2300102: teethMiddleLeft
+    2300104: teethMiddleLeft001
+    2300106: teethMiddleRight
+    2300108: teethMiddleRight001
+    2300110: tokenFoot002
+    2300112: tokenFoot003
+    2300114: tokenFoot01
+    2300116: tokenHand01
+    2300118: tokenHand02
+    2300120: tokenHand03
+    2300122: tokenHead01
+    2300124: tokenHead02
+    2300126: tokenHead03
+    3300000: boardFrame
+    3300002: boardFrame001
+    3300004: boardpan
+    3300006: boardpan001
+    3300008: body repeat001
+    3300010: body repeat002
+    3300012: body top
+    3300014: coolingTower repeat001
+    3300016: coolingTower repeat002
+    3300018: coolingTower top
+    3300020: foot001
+    3300022: foot002
+    3300024: foot003
+    3300026: gameBoard
+    3300028: gameBoard001
+    3300030: hand001
+    3300032: hand002
+    3300034: hand003
+    3300036: head001
+    3300038: head002
+    3300040: head003
+    3300042: hoses repeat001
+    3300044: hoses top
+    3300046: monitor
+    3300048: mud crevices
+    3300050: mud crevices001
+    3300052: mud paths
+    3300054: mud paths001
+    3300056: sky
+    3300058: teethBaseLeft001
+    3300060: teethBaseLeft002
+    3300062: teethBaseRight001
+    3300064: teethBaseRight002
+    3300066: teethEndLeft001
+    3300068: teethEndLeft002
+    3300070: teethEndRight001
+    3300072: teethEndRight002
+    3300074: teethMidLeft001
+    3300076: teethMidLeft002
+    3300078: teethMidRight001
+    3300080: teethMidRight002
+    3300082: Bottom01
+    3300084: Bottom02
+    3300086: Bottom03
+    3300088: Bottom04
+    3300090: Bottom06
+    3300092: Bottom08
+    3300094: teethBaseLeft
+    3300096: teethBaseRight
+    3300098: teethEndLeft
+    3300100: teethEndRight
+    3300102: teethMiddleLeft
+    3300104: teethMiddleLeft001
+    3300106: teethMiddleRight
+    3300108: teethMiddleRight001
+    3300110: tokenFoot002
+    3300112: tokenFoot003
+    3300114: tokenFoot01
+    3300116: tokenHand01
+    3300118: tokenHand02
+    3300120: tokenHand03
+    3300122: tokenHead01
+    3300124: tokenHead02
+    3300126: tokenHead03
+    4300000: gameBoard
+    4300002: mud paths
+    4300004: mud crevices
+    4300006: boardpan
+    4300008: boardFrame
+    4300010: gameBoard001
+    4300012: mud paths001
+    4300014: mud crevices001
+    4300016: boardpan001
+    4300018: boardFrame001
+    4300020: sky
+    4300022: body repeat001
+    4300024: body top
+    4300026: coolingTower top
+    4300028: coolingTower repeat001
+    4300030: coolingTower repeat002
+    4300032: body repeat002
+    4300034: hoses top
+    4300036: hoses repeat001
+    4300038: monitor
+    4300040: foot001
+    4300042: foot002
+    4300044: foot003
+    4300046: hand002
+    4300048: hand003
+    4300050: hand001
+    4300052: head003
+    4300054: head001
+    4300056: head002
+    4300058: teethBaseLeft001
+    4300060: teethMidLeft001
+    4300062: teethEndLeft001
+    4300064: teethBaseRight001
+    4300066: teethMidRight001
+    4300068: teethEndRight001
+    4300070: teethBaseLeft002
+    4300072: teethMidLeft002
+    4300074: teethEndLeft002
+    4300076: teethBaseRight002
+    4300078: teethMidRight002
+    4300080: teethEndRight002
+    4300082: teethBaseLeft
+    4300084: teethMiddleLeft
+    4300086: teethEndLeft
+    4300088: teethMiddleLeft001
+    4300090: teethBaseRight
+    4300092: teethMiddleRight
+    4300094: teethEndRight
+    4300096: teethMiddleRight001
+    4300098: tokenFoot01
+    4300100: tokenFoot002
+    4300102: tokenFoot003
+    4300104: tokenHand01
+    4300106: tokenHand02
+    4300108: tokenHand03
+    4300110: tokenHead01
+    4300112: tokenHead02
+    4300114: tokenHead03
+    4300116: Bottom08
+    4300118: Bottom06
+    4300120: Bottom04
+    4300122: Bottom03
+    4300124: Bottom02
+    4300126: Bottom01
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 10
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -123,6 +123,7 @@ public class NewBoardLayout : ScriptableObject
         }
 
         Gameboard.Instance.Clear();
+        Gameboard.Instance.CurrentLevel = this;
         if (Columns > 0 && Rows > 0)
         {
             Gameboard.Instance.SetBoardSize(Columns, Rows);

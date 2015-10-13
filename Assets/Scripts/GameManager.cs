@@ -1,0 +1,122 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class GameManager : MonoBehaviour
+{
+    public static GameManager Instance { get; private set; }
+    public NewLevelSet LevelSet;
+    public Transform Game;
+    public GameObject InGameControls;
+
+    [System.NonSerialized]
+    public GameState State;
+
+    public void WarpToStart()
+    {
+        HideInGameControls();
+        State = GameState.StartScreen;
+        CameraPanner.Instance.WarpCameraToStart();
+    }
+
+    public void GoToStart()
+    {
+        HideInGameControls();
+        State = GameState.StartScreen;
+        CameraPanner.Instance.PanToStart();
+    }
+    public void GoToMainMenu()
+    {
+        HideInGameControls();
+        if (State != GameState.MainMenu && State != GameState.LevelSelect)
+            CameraPanner.Instance.PanToMonitor();
+        MonitorController.Instance.OpenMainMenu();
+        State = GameState.MainMenu;
+    }
+    public void GoToLevelSelect()
+    {
+        HideInGameControls();
+        if (State != GameState.MainMenu && State != GameState.LevelSelect)
+            CameraPanner.Instance.PanToMonitor();
+        MonitorController.Instance.OpenLevelSelect();
+        State = GameState.LevelSelect;
+    }
+    public void PlayLevel(int levelNumber)
+    {
+        ShowInGameControls();
+        State = GameState.PlayingGame;
+        Gameboard.Instance.Clear();
+        Game.transform.position = Game.transform.position.SetY(-7.2f - 24f * levelNumber);
+        LevelSet.Levels[levelNumber].Load();
+        CameraPanner.Instance.PanToGameboard(levelNumber);
+        SaveData.CurrentLevel = levelNumber;
+    }
+    public void ContinueGame()
+    {
+        if(SaveData.CurrentLevel < 0)
+        {
+            SaveData.CurrentLevel = 0;
+        }
+        PlayLevel(SaveData.CurrentLevel);
+    }
+    public void LevelComplete()
+    {
+        Debug.Log("Show complete menu");
+        SaveData.LevelsCompleted[SaveData.CurrentLevel] = true;
+        SaveData.CurrentLevel++;
+        SaveData.Save();
+    }
+    public void GoBack()
+    {
+        switch(State)
+        {
+            case GameState.MainMenu:
+                GoToStart();
+                break;
+            case GameState.LevelSelect:
+                GoToMainMenu();
+                break;
+            case GameState.PlayingGame:
+                GoToMainMenu();
+                break;
+        }
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            Init();
+        }
+        else if (this != Instance)
+            Destroy(this.gameObject);
+    }
+    private void Init()
+    {
+        SaveData.Load();
+        WarpToStart();
+        //Gameboard.Instance.
+
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            GoBack();
+    }
+    private void ShowInGameControls()
+    {
+        InGameControls.SetActive(true);
+    }
+    private void HideInGameControls()
+    {
+        InGameControls.SetActive(false);
+    }
+
+    public enum GameState
+    {
+        StartScreen,
+        MainMenu,
+        LevelSelect,
+        PlayingGame
+    }
+}

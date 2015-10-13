@@ -35,7 +35,6 @@ public class WinCondition : MonoBehaviour
 	private void DoGameWon()
 	{
 		Gameboard.Instance.EndGame();
-		Debug.Log("The game has been won");
-        MenuController.Instance.ShowGameOver();
+        GameManager.Instance.LevelComplete();
 	}
 }
