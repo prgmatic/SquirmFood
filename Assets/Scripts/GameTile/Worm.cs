@@ -9,6 +9,7 @@ public class Worm : MonoBehaviour
     private GameTile _gameTile;
     private Animator _animator;
     private GameObject _wormSprite;
+    private ParticleSystem _emitter;
 
     private int _movesTaken = 0;
 
@@ -19,6 +20,7 @@ public class Worm : MonoBehaviour
     {
         _gameTile = GetComponent<GameTile>();
         _animator = GetComponent<Animator>();
+        _emitter = GetComponentInChildren<ParticleSystem>();
     }
 
     void Update()
@@ -99,5 +101,10 @@ public class Worm : MonoBehaviour
     public void EatToken(GameTile tile)
     {
         Gameboard.Instance.DestroyTile(tile, true, false);
+    }
+
+    public void EmitParticles(int numberOfParticles)
+    {
+        _emitter.Emit(numberOfParticles);
     }
 }

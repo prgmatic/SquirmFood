@@ -7,26 +7,27 @@ public class GameManager : MonoBehaviour
     public NewLevelSet LevelSet;
     public Transform Game;
     public GameObject InGameControls;
+    public GameObject PostLevelMenu;
 
     [System.NonSerialized]
     public GameState State;
 
     public void WarpToStart()
     {
-        HideInGameControls();
+        ClearMenus();
         State = GameState.StartScreen;
         CameraPanner.Instance.WarpCameraToStart();
     }
 
     public void GoToStart()
     {
-        HideInGameControls();
+        ClearMenus();
         State = GameState.StartScreen;
         CameraPanner.Instance.PanToStart();
     }
     public void GoToMainMenu()
     {
-        HideInGameControls();
+        ClearMenus();
         if (State != GameState.MainMenu && State != GameState.LevelSelect)
             CameraPanner.Instance.PanToMonitor();
         MonitorController.Instance.OpenMainMenu();
@@ -34,7 +35,7 @@ public class GameManager : MonoBehaviour
     }
     public void GoToLevelSelect()
     {
-        HideInGameControls();
+        ClearMenus();
         if (State != GameState.MainMenu && State != GameState.LevelSelect)
             CameraPanner.Instance.PanToMonitor();
         MonitorController.Instance.OpenLevelSelect();
@@ -42,11 +43,13 @@ public class GameManager : MonoBehaviour
     }
     public void PlayLevel(int levelNumber)
     {
+        ClearMenus();
         ShowInGameControls();
         State = GameState.PlayingGame;
         Gameboard.Instance.Clear();
         Game.transform.position = Game.transform.position.SetY(-7.2f - 24f * levelNumber);
         LevelSet.Levels[levelNumber].Load();
+        Gameboard.Instance.StartGame();
         CameraPanner.Instance.PanToGameboard(levelNumber);
         SaveData.CurrentLevel = levelNumber;
     }
@@ -64,6 +67,13 @@ public class GameManager : MonoBehaviour
         SaveData.LevelsCompleted[SaveData.CurrentLevel] = true;
         SaveData.CurrentLevel++;
         SaveData.Save();
+        ClearMenus();
+        ShowPostLevelMenu();
+    }
+    public void ReplayLevel()
+    {
+        SaveData.CurrentLevel--;
+        ContinueGame();
     }
     public void GoBack()
     {
@@ -99,8 +109,6 @@ public class GameManager : MonoBehaviour
     {
         SaveData.Load();
         WarpToStart();
-        //Gameboard.Instance.
-
     }
     private void Update()
     {
@@ -114,6 +122,19 @@ public class GameManager : MonoBehaviour
     private void HideInGameControls()
     {
         InGameControls.SetActive(false);
+    }
+    private void ShowPostLevelMenu()
+    {
+        PostLevelMenu.SetActive(true);
+    }
+    private void HidePostLevelMenu()
+    {
+        PostLevelMenu.SetActive(false);
+    }
+    private void ClearMenus()
+    {
+        HideInGameControls();
+        HidePostLevelMenu();
     }
 
     public enum GameState
