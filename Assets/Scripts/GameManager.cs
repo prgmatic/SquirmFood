@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
     public void LevelComplete()
     {
         Debug.Log("Show complete menu");
+        State = GameState.PostLevel;
         SaveData.LevelsCompleted[SaveData.CurrentLevel] = true;
         SaveData.CurrentLevel++;
         SaveData.Save();
@@ -142,6 +143,7 @@ public class GameManager : MonoBehaviour
         StartScreen,
         MainMenu,
         LevelSelect,
-        PlayingGame
+        PlayingGame,
+        PostLevel
     }
 }
