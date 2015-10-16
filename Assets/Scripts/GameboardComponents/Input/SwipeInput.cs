@@ -33,14 +33,12 @@ public class SwipeInput : MonoBehaviour
         {
             _touchStartPosition = touch.position;
             _watchingForSwipe = true;
-            Debug.Log("I've been touched");
         }
         else if(_watchingForSwipe && touch.phase == TouchPhase.Ended)
         {
             _watchingForSwipe = false;
             Vector2 delta = touch.position - _touchStartPosition;
             var dot = Vector2.Dot(delta.normalized, Vector2.up);
-            Debug.Log(dot);
             if(delta.magnitude >= minimumSwipeDistance)
             {
                 if(dot > .7071f)

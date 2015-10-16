@@ -1579,6 +1579,7 @@ GameObject:
   - 114: {fileID: 1855172263}
   - 114: {fileID: 1855172262}
   - 114: {fileID: 1855172264}
+  - 81: {fileID: 1855172265}
   m_Layer: 0
   m_Name: 3DCamera
   m_TagString: MainCamera
@@ -1706,6 +1707,13 @@ MonoBehaviour:
   blurAndFlaresShader: {fileID: 4800000, guid: be6e39cf196f146d5be72fbefb18ed75, type: 3}
   brightPassFilterShader: {fileID: 4800000, guid: 0aeaa4cb29f5d4e9c8455f04c8575c8c,
     type: 3}
+--- !u!81 &1855172265
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1855172258}
+  m_Enabled: 1
 --- !u!1001 &1855915439
 Prefab:
   m_ObjectHideFlags: 0

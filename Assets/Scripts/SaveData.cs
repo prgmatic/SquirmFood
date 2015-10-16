@@ -5,9 +5,11 @@ public static class SaveData
 {
 
     private const byte SAVE_VERSION = 0;
-    
 
     public static bool[] LevelsCompleted;
+    public static float FXVolume;
+    public static float MusicVolume;
+
     public static int CurrentLevel
     {
         get { return _currentLevel; }
@@ -38,6 +40,8 @@ public static class SaveData
             using (BinaryWriter writer = new BinaryWriter(fileStream))
             {
                 writer.Write(SAVE_VERSION);
+                writer.Write(FXVolume);
+                writer.Write(MusicVolume);
                 writer.Write(CurrentLevel);
                 writer.Write(LevelsCompleted.Length);
                 foreach(var levelComplete in LevelsCompleted)
@@ -57,22 +61,33 @@ public static class SaveData
             Debug.Log("No save file exists");
             return;
         }
-        using (FileStream fileStream = new FileStream(SAVE_PATH, FileMode.Open))
+        try
         {
-            using (BinaryReader reader = new BinaryReader(fileStream))
+            using (FileStream fileStream = new FileStream(SAVE_PATH, FileMode.Open))
             {
-                // Read the save version
-                reader.ReadByte();
-                // Read the current level
-                CurrentLevel = reader.ReadInt32();
-                // Load LevelsCompleted Data
-                var arySize = reader.ReadInt32();
-                for(int i = 0; i < LevelsCompleted.Length || i < arySize; i++)
+                using (BinaryReader reader = new BinaryReader(fileStream))
                 {
-                    LevelsCompleted[i] = reader.ReadBoolean();
+                    // Read the save version
+                    reader.ReadByte();
+                    // Read Volume Levels
+                    FXVolume = reader.ReadSingle();
+                    MusicVolume = reader.ReadSingle();
+                    // Read the current level
+                    CurrentLevel = reader.ReadInt32();
+                    // Load LevelsCompleted Data
+                    var arySize = reader.ReadInt32();
+                    for (int i = 0; i < LevelsCompleted.Length || i < arySize; i++)
+                    {
+                        LevelsCompleted[i] = reader.ReadBoolean();
+                    }
+                    reader.Close();
                 }
-                reader.Close();
             }
+            GameManager.Instance.SetSliderValues();
+        }
+        catch
+        {
+            Delete();
         }
     }
 
@@ -94,5 +109,7 @@ public static class SaveData
     {
         LevelsCompleted = new bool[GameManager.Instance.LevelSet.Levels.Count];
         CurrentLevel = -1;
+        FXVolume = 1f;
+        MusicVolume = 1f;
     }
 }

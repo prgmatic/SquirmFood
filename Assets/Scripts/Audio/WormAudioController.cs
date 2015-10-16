@@ -4,32 +4,35 @@ using System.Collections;
 [RequireComponent(typeof(AudioSource))]
 public class WormAudioController : MonoBehaviour
 {
-    public AudioClip WormMove;
-    public AudioClip WormEat;
-    public AudioClip TokenSlide;
-
-    private AudioSource _audio;
+    private AudioSource _move;
+    private AudioSource _eat;
+    private AudioSource _slide;
 
     void Awake()
     {
-        _audio = GetComponent<AudioSource>();
+        var audioSources = GetComponents<AudioSource>();
+        _move = audioSources[0];
+        _eat = audioSources[1];
+        _slide = audioSources[2];
     }
 
     public void PlayMoveSound()
     {
-        _audio.clip = WormMove;
-        _audio.Play();
+        _move.Play();
     }
 
     public void PlayEatSound()
     {
-        _audio.clip = WormEat;
-        _audio.Play();
+        _eat.Play();
     }
 
     public void PlayTokenSlideSound()
     {
-        _audio.clip = TokenSlide;
-        _audio.Play();
+        _slide.Play();
+    }
+
+    private void Update()
+    {
+        _move.volume = _eat.volume = _slide.volume = SaveData.FXVolume;
     }
 }

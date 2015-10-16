@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class GameManager : MonoBehaviour
     public Transform Game;
     public GameObject InGameControls;
     public GameObject PostLevelMenu;
+    public GameObject MidGameMenu;
+    public Slider FXVolumeSlider;
+    public Slider MusicVolumeSlider;
 
     [System.NonSerialized]
     public GameState State;
@@ -18,7 +22,6 @@ public class GameManager : MonoBehaviour
         State = GameState.StartScreen;
         CameraPanner.Instance.WarpCameraToStart();
     }
-
     public void GoToStart()
     {
         ClearMenus();
@@ -27,6 +30,7 @@ public class GameManager : MonoBehaviour
     }
     public void GoToMainMenu()
     {
+        SaveData.Save();
         ClearMenus();
         if (State != GameState.MainMenu && State != GameState.LevelSelect)
             CameraPanner.Instance.PanToMonitor();
@@ -76,6 +80,29 @@ public class GameManager : MonoBehaviour
         SaveData.CurrentLevel--;
         ContinueGame();
     }
+    public void PauseGame()
+    {
+        if (State != GameState.PlayingGame) return;
+        ClearMenus();
+        ShowMidGameMenu();
+        State = GameState.GamePaused;
+    }
+    public void ResumeGame()
+    {
+        SaveData.Save();
+        if (State != GameState.GamePaused) return;
+        ClearMenus();
+        ShowInGameControls();
+        State = GameState.PlayingGame;
+    }
+    public void SetFXVolume(float volume)
+    {
+        SaveData.FXVolume = volume;
+    }
+    public void SetMusicVolume(float volume)
+    {
+        SaveData.MusicVolume = volume;
+    }
     public void GoBack()
     {
         switch(State)
@@ -94,6 +121,11 @@ public class GameManager : MonoBehaviour
     public void DeleteSave()
     {
         SaveData.Delete();
+    }
+    public void SetSliderValues()
+    {
+        FXVolumeSlider.value = SaveData.FXVolume;
+        MusicVolumeSlider.value = SaveData.MusicVolume;
     }
 
     private void Awake()
@@ -132,10 +164,19 @@ public class GameManager : MonoBehaviour
     {
         PostLevelMenu.SetActive(false);
     }
+    private void ShowMidGameMenu()
+    {
+        MidGameMenu.SetActive(true);
+    }
+    private void HideMidGameMenu()
+    {
+        MidGameMenu.SetActive(false);
+    }
     private void ClearMenus()
     {
         HideInGameControls();
         HidePostLevelMenu();
+        HideMidGameMenu();
     }
 
     public enum GameState
@@ -144,6 +185,7 @@ public class GameManager : MonoBehaviour
         MainMenu,
         LevelSelect,
         PlayingGame,
-        PostLevel
+        PostLevel,
+        GamePaused
     }
 }

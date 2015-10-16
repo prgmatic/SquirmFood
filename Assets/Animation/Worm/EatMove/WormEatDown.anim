@@ -90,3 +90,10 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: .200000003
+    functionName: EmitParticles
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 5
+    messageOptions: 0
