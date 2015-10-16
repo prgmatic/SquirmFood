@@ -13,7 +13,6 @@ public class AutoSaver : MonoBehaviour
     {
         if (Time.time - _lastSave >= SaveInterval)
         {
-            Debug.Log("Autosaving");
             SaveLevel(NewBoardLayout.FromGameboard(), "Autosave");
             _lastSave = Time.time;
         }
@@ -26,7 +25,6 @@ public class AutoSaver : MonoBehaviour
 
         AssetDatabase.CreateAsset(layout, path);
         AssetDatabase.Refresh();
-        Debug.Log("Layout Saved");
 
     }
 
