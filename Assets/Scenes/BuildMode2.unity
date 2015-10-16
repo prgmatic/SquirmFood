@@ -538,7 +538,7 @@ Camera:
   far clip plane: 1000
   field of view: 88.4273682
   orthographic: 1
-  orthographic size: 6.58040619
+  orthographic size: 6.58561087
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -792,6 +792,46 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1675574398}
   m_RootOrder: 0
+--- !u!1 &837952140
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 837952142}
+  - 114: {fileID: 837952141}
+  m_Layer: 0
+  m_Name: Autosaver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!114 &837952141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 837952140}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dbb2d4dc7d514941829a8d97132b67e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SaveInterval: 10
+--- !u!4 &837952142
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 837952140}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.61606717, y: -8.33050632, z: -5.19140625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
 --- !u!1 &845545416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1406,7 +1446,7 @@ Camera:
     height: 1
   near clip plane: .300000012
   far clip plane: 1000
-  field of view: 29.45224
+  field of view: 29.4745197
   orthographic: 0
   orthographic size: 5
   m_Depth: 1
@@ -1605,7 +1645,7 @@ Camera:
     height: 1
   near clip plane: .300000012
   far clip plane: 1000
-  field of view: 29.45224
+  field of view: 29.4745197
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
