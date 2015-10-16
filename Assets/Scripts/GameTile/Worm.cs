@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Worm : MonoBehaviour
 {
     public bool CanFreeMove = false;
+    public Direction FacingDirection = Direction.Right;
 
     private GameTile _gameTile;
     private Animator _animator;
@@ -25,6 +26,8 @@ public class Worm : MonoBehaviour
 
     void Update()
     {
+        _animator.SetFloat("FacingDirection", (int)FacingDirection);
+
         //_wormSprite.transform.position = WormTile.transform.position;
         //WormTile.Hide();
     }
@@ -39,9 +42,13 @@ public class Worm : MonoBehaviour
         */
     }
 
+
+
     public bool Move(int x, int y)
     {
+        FacingDirection = Utils.GetDirection(_gameTile.GridPosition, new Point(x, y));
         _animator.SetInteger("AnimationType", (int)WormAnimationType.Move);
+        _animator.SetInteger("MoveDirection", (int)FacingDirection);
 
         if (Gameboard.Instance.IsValidTileCoordinate(x, y, false))
         {
@@ -56,11 +63,7 @@ public class Worm : MonoBehaviour
                 else if (tile.Pushable)
                 {
                     if (tile.Moving) return false;
-                    Direction direction = Direction.Right;
-                    if (x < _gameTile.GridPosition.x) direction = Direction.Left;
-                    else if (y > _gameTile.GridPosition.y) direction = Direction.Down;
-                    else if (y < _gameTile.GridPosition.y) direction = Direction.Up;
-                    if (tile.Push(direction))
+                    if (tile.Push(FacingDirection))
                     {
                         _animator.SetInteger("AnimationType", (int)WormAnimationType.Push);
                     }
@@ -75,8 +78,7 @@ public class Worm : MonoBehaviour
 
                 if (!CanFreeMove)
                 {
-                    if (currentTileBackgroundAtt == Gameboard.BackgroundTileAttribute.LimitedMove ||
-                        movingToTileBackgroundAtt == Gameboard.BackgroundTileAttribute.LimitedMove)
+                    if (movingToTileBackgroundAtt == Gameboard.BackgroundTileAttribute.LimitedMove)
                     {
                         return false;
                     }
@@ -85,13 +87,10 @@ public class Worm : MonoBehaviour
         }
         else return false;
         _movesTaken++;
-        var d = Utils.GetDirection(_gameTile.GridPosition, new Point(x, y));
         //MudSmearController.Instance.AddSmear(WormTile.GridPosition, d);
 
-        var dir = Utils.GetDirection(_gameTile.GridPosition, new Point(x, y));
-        _animator.SetInteger("MoveDirection", (int)dir);
         _animator.SetTrigger("Move");
-        
+
 
         _gameTile.Move(x, y, true);
         Gameboard.Instance.ApplyGravity();

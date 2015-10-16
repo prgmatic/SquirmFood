@@ -90,7 +90,16 @@ public class NewBoardLayout : ScriptableObject
         var result = ScriptableObject.CreateInstance<NewBoardLayout>();
         foreach (var tile in Gameboard.Instance.gameTiles)
         {
-            result.Tiles.Add(new GameTileLayoutInfo((byte)tile.ID, 0, (byte)tile.GridLeft, (byte)tile.GridTop));
+            var worm = tile.GetComponent<Worm>();
+            // If the tile is a worm, get it's facing direction and save it under the variation variable
+            if (worm != null)
+            {
+                result.Tiles.Add(new GameTileLayoutInfo((byte)tile.ID, (byte)worm.FacingDirection, (byte)tile.GridLeft, (byte)tile.GridTop));
+            }
+            else
+            {
+                result.Tiles.Add(new GameTileLayoutInfo((byte)tile.ID, 0, (byte)tile.GridLeft, (byte)tile.GridTop));
+            }
         }
         result.Columns = (byte)Gameboard.Instance.Columns;
         result.Rows = (byte)Gameboard.Instance.Rows;
@@ -135,6 +144,10 @@ public class NewBoardLayout : ScriptableObject
             {
                 GameTile newTile = Instantiate(dict[tile.ID]);
                 Gameboard.Instance.AddGameTile(newTile, tile.X, tile.Y, false);
+                var worm = newTile.GetComponent<Worm>();
+                // If tile is a worm, load up it's facing direction from the variation variable
+                if (worm != null)
+                    worm.FacingDirection = (Direction)tile.Variation;
             }
 
         }

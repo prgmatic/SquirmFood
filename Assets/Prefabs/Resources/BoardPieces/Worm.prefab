@@ -285,7 +285,7 @@ Animator:
   m_GameObject: {fileID: 108978}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1807009d67cd9d145be8b73affbcccaf, type: 2}
+  m_Controller: {fileID: 9100000, guid: 52875f6945389964596d490ce7bd8715, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -336,6 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanFreeMove: 0
+  FacingDirection: 3
 --- !u!114 &11490310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1519,6 +1520,10 @@ Prefab:
       propertyPath: TokenSlide
       value: 
       objectReference: {fileID: 8300000, guid: 80bdf9ec3f0fb8a469e49b19b0e0058c, type: 3}
+    - target: {fileID: 0}
+      propertyPath: FacingDirection
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 108978}
