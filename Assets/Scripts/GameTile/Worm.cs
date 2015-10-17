@@ -46,55 +46,63 @@ public class Worm : MonoBehaviour
 
     public bool Move(int x, int y)
     {
+        var canMove = CanMoveTo(x, y);
         FacingDirection = Utils.GetDirection(_gameTile.GridPosition, new Point(x, y));
         _animator.SetInteger("AnimationType", (int)WormAnimationType.Move);
         _animator.SetInteger("MoveDirection", (int)FacingDirection);
 
-        if (Gameboard.Instance.IsValidTileCoordinate(x, y, false))
+        if(canMove)
         {
-            GameTile tile = Gameboard.Instance.GetTileAt(x, y);
-            if (tile != null)
+            GameTile tileAtDestination = Gameboard.Instance.GetTileAt(x, y);
+            if(tileAtDestination != null)
             {
-                if (tile.IsEdible)
+                if (tileAtDestination.IsEdible)
                 {
+                    EatToken(tileAtDestination);
                     _animator.SetInteger("AnimationType", (int)WormAnimationType.Eat);
-                    EatToken(tile);
                 }
-                else if (tile.Pushable)
+                else if (tileAtDestination.Pushable)
                 {
-                    if (tile.Moving) return false;
-                    if (tile.Push(FacingDirection))
-                    {
-                        _animator.SetInteger("AnimationType", (int)WormAnimationType.Push);
-                    }
-                    else return false;
-                }
-                else return false;
-            }
-            else
-            {
-                Gameboard.BackgroundTileAttribute currentTileBackgroundAtt = Gameboard.Instance.GetBackgroundTileAttribute(_gameTile.GridPosition.x, _gameTile.GridPosition.y);
-                Gameboard.BackgroundTileAttribute movingToTileBackgroundAtt = Gameboard.Instance.GetBackgroundTileAttribute(x, y);
-
-                if (!CanFreeMove)
-                {
-                    if (movingToTileBackgroundAtt == Gameboard.BackgroundTileAttribute.LimitedMove)
-                    {
-                        return false;
-                    }
+                    tileAtDestination.Push(FacingDirection);
+                    _animator.SetInteger("AnimationType", (int)WormAnimationType.Push);
                 }
             }
+            _gameTile.Move(x, y);
         }
-        else return false;
-        _movesTaken++;
-        //MudSmearController.Instance.AddSmear(WormTile.GridPosition, d);
+        else
+        {
+            _animator.SetInteger("AnimationType", (int)WormAnimationType.Invalid);
+        }
 
-        _animator.SetTrigger("Move");
-
-
-        _gameTile.Move(x, y, true);
         Gameboard.Instance.ApplyGravity();
-        return true;
+        _animator.SetTrigger("Move");
+        return canMove;\
+    }
+
+    private bool CanMoveTo(int x, int y)
+    {
+        // If destination is not a valid coordinate, worm can't move
+        if (!Gameboard.Instance.IsValidTileCoordinate(x, y, false))
+            return false;
+
+        GameTile tileAtDestination = Gameboard.Instance.GetTileAt(x, y);
+        // Is there a tile at destination
+        if(tileAtDestination != null)
+        {
+            // If tile is edible or pushable, the worm can move
+            var dir = Utils.GetDirection(_gameTile.GridPosition, new Point(x, y));
+            return tileAtDestination.IsEdible || tileAtDestination.CanPuch(dir);
+        }
+        // No tile at destination
+        else
+        {
+            if (CanFreeMove)
+                return true;
+            // If mud is at destination, worm can move
+            else return Gameboard.Instance.GetBackgroundTileAttribute(x, y) == Gameboard.BackgroundTileAttribute.FreeMove;
+        }
+        
+
     }
 
     public void EatToken(GameTile tile)

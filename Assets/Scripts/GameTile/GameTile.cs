@@ -144,6 +144,37 @@ public class GameTile : MonoBehaviour
 		}
 	}
 
+    public bool CanPuch(Direction direction)
+    {
+        if (!Pushable || Moving)
+            return false;
+        Rectangle newBounds = GridBounds;
+        switch (direction)
+        {
+            case Direction.Left:
+                newBounds.x -= 1;
+                break;
+            case Direction.Right:
+                newBounds.x += 1;
+                break;
+            case Direction.Up:
+                newBounds.y -= 1;
+                break;
+            case Direction.Down:
+                newBounds.y += 1;
+                break;
+        }
+        if (Gameboard.Instance.GridBounds.Contains(newBounds))
+        {
+            if (Gameboard.Instance.NumberOfTilesInBounds(newBounds, this) == 0)
+            {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
 	public bool Push(Direction direction)
 	{
 		Rectangle newBounds = GridBounds;

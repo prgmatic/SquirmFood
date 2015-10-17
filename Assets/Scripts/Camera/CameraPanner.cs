@@ -16,6 +16,8 @@ public class CameraPanner : MonoBehaviour
 
     public void WarpCameraToStart()
     {
+        if (!enabled)
+            return;
         transform.position = transform.position.SetY(GameStartYpos);
     }
 
@@ -47,8 +49,15 @@ public class CameraPanner : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+
+    }
+
     private IEnumerator Pan(float yPos)
     {
+        if (!enabled)
+            yield break;
         float startPos = transform.position.y;
         float timer = 0f;
         while (timer < PanTime)

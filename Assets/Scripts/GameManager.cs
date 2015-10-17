@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         ShowInGameControls();
         State = GameState.PlayingGame;
         Gameboard.Instance.Clear();
-        Game.transform.position = Game.transform.position.SetY(-7.2f - 24f * levelNumber);
+        Game.transform.position = Game.transform.position.SetY(-7.2f - 22f * levelNumber);
         LevelSet.Levels[levelNumber].Load();
         Gameboard.Instance.StartGame();
         CameraPanner.Instance.PanToGameboard(levelNumber);
