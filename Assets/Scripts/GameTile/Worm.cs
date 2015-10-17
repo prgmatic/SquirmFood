@@ -76,7 +76,7 @@ public class Worm : MonoBehaviour
 
         Gameboard.Instance.ApplyGravity();
         _animator.SetTrigger("Move");
-        return canMove;\
+        return canMove;
     }
 
     private bool CanMoveTo(int x, int y)
