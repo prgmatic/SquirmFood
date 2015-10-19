@@ -6,12 +6,19 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public NewLevelSet LevelSet;
-    public Transform Game;
+    public GameObject Game;
     public GameObject InGameControls;
     public GameObject PostLevelMenu;
     public GameObject MidGameMenu;
     public Slider FXVolumeSlider;
     public Slider MusicVolumeSlider;
+    public GameObject LevelPreviews;
+    public GameObject LevelInfos;
+
+    public int CurrentLevel
+    {
+        get { return SaveData.CurrentLevel; }
+    }
 
     [System.NonSerialized]
     public GameState State;
@@ -47,8 +54,9 @@ public class GameManager : MonoBehaviour
     }
     public void PlayLevel(int levelNumber)
     {
+        Game.Show();
         ClearMenus();
-        ShowInGameControls();
+        InGameControls.Show();
         State = GameState.PlayingGame;
         Gameboard.Instance.Clear();
         Game.transform.position = Game.transform.position.SetY(-7.2f - 22f * levelNumber);
@@ -73,8 +81,13 @@ public class GameManager : MonoBehaviour
         SaveData.CurrentLevel++;
         SaveData.Save();
         ClearMenus();
-        ShowPostLevelMenu();
+        Game.Hide();
+        LevelInfos.Show();
+        LevelPreviews.Show();
+        UpdateLevelViews();
+        //PostLevelMenu.Show();
     }
+
     public void ReplayLevel()
     {
         SaveData.CurrentLevel--;
@@ -83,16 +96,18 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         if (State != GameState.PlayingGame) return;
-        ClearMenus();
-        ShowMidGameMenu();
         State = GameState.GamePaused;
+        ClearMenus();
+        LevelInfos.Show();
+        LevelPreviews.Show();
+        UpdateLevelViews();
     }
     public void ResumeGame()
     {
         SaveData.Save();
         if (State != GameState.GamePaused) return;
         ClearMenus();
-        ShowInGameControls();
+        InGameControls.Show();
         State = GameState.PlayingGame;
     }
     public void SetFXVolume(float volume)
@@ -142,41 +157,27 @@ public class GameManager : MonoBehaviour
     {
         SaveData.Load();
         WarpToStart();
+        Game.Hide();
+        LevelInfos.Show();
+        LevelPreviews.Show();
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
             GoBack();
     }
-    private void ShowInGameControls()
-    {
-        InGameControls.SetActive(true);
-    }
-    private void HideInGameControls()
-    {
-        InGameControls.SetActive(false);
-    }
-    private void ShowPostLevelMenu()
-    {
-        PostLevelMenu.SetActive(true);
-    }
-    private void HidePostLevelMenu()
-    {
-        PostLevelMenu.SetActive(false);
-    }
-    private void ShowMidGameMenu()
-    {
-        MidGameMenu.SetActive(true);
-    }
-    private void HideMidGameMenu()
-    {
-        MidGameMenu.SetActive(false);
-    }
     private void ClearMenus()
     {
-        HideInGameControls();
-        HidePostLevelMenu();
-        HideMidGameMenu();
+        InGameControls.Hide();
+        PostLevelMenu.Hide();
+        MidGameMenu.Hide();
+        LevelInfos.Hide();
+        LevelPreviews.Hide();
+    }
+    private void UpdateLevelViews()
+    {
+        LevelPreviews.GetComponent<LevelPreviewPanner>().UpdatePreview();
+        LevelInfos.GetComponent<LevelInfoPanner>().UpdateInfo();
     }
 
     public enum GameState

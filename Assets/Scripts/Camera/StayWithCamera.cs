@@ -24,10 +24,6 @@ public class StayWithCamera : MonoBehaviour {
         int layersDown = -(int)((Camera.transform.position.y - Adjustment) / LAYER_HEIGHT);
         layersDown -= 1;
         layersDown = Mathf.Max(0, layersDown);
-        //Debug.Log(layersDown);
         this.transform.position = this.transform.position.SetY(layersDown * -LAYER_HEIGHT);
-        //if(layersDown >= 0)
-        //{
-        //}
     }
 }

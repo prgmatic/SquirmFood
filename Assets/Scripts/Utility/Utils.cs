@@ -98,6 +98,15 @@ public static class Utils
 		return new Vector2(v2.x, y);
 	}
 	#endregion
+
+    public static void Show(this GameObject go)
+    {
+        go.SetActive(true);
+    }
+    public static void Hide(this GameObject go)
+    {
+        go.SetActive(false);
+    }
 }
 
 public enum Direction
