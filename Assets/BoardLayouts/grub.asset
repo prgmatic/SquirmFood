@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2be3440db8a71044ebb0137058e2c109, type: 3}
+  m_Name: grub
+  m_EditorClassIdentifier: 
+  ID: -1
+  Columns: 8
+  Rows: 10
+  Tiles:
+  - ID: 7
+    Variation: 0
+    X: 3
+    Y: 4
+  - ID: 1
+    Variation: 0
+    X: 3
+    Y: 5
+  - ID: 1
+    Variation: 0
+    X: 5
+    Y: 2
+  - ID: 6
+    Variation: 0
+    X: 5
+    Y: 0
+  - ID: 1
+    Variation: 0
+    X: 4
+    Y: 7
+  - ID: 1
+    Variation: 0
+    X: 4
+    Y: 8
+  - ID: 1
+    Variation: 0
+    X: 5
+    Y: 8
+  - ID: 1
+    Variation: 0
+    X: 4
+    Y: 3
+  - ID: 1
+    Variation: 0
+    X: 4
+    Y: 2
+  - ID: 1
+    Variation: 0
+    X: 7
+    Y: 4
+  - ID: 1
+    Variation: 0
+    X: 7
+    Y: 5
+  - ID: 2
+    Variation: 0
+    X: 5
+    Y: 7
+  - ID: 3
+    Variation: 0
+    X: 4
+    Y: 9
+  - ID: 1
+    Variation: 0
+    X: 1
+    Y: 2
+  - ID: 6
+    Variation: 0
+    X: 0
+    Y: 0
+  - ID: 1
+    Variation: 0
+    X: 6
+    Y: 5
+  - ID: 1
+    Variation: 0
+    X: 6
+    Y: 2
+  - ID: 2
+    Variation: 0
+    X: 3
+    Y: 8
+  - ID: 1
+    Variation: 0
+    X: 2
+    Y: 2
+  - ID: 1
+    Variation: 0
+    X: 1
+    Y: 7
+  - ID: 2
+    Variation: 0
+    X: 1
+    Y: 3
+  - ID: 1
+    Variation: 0
+    X: 6
+    Y: 6
+  - ID: 5
+    Variation: 0
+    X: 7
+    Y: 8
+  - ID: 5
+    Variation: 0
+    X: 3
+    Y: 0
+  MudTiles: 0a0000001200000013000000170000001f000000300000003300000037000000380000003a0000003b0000003c0000003f00000042000000430000004d000000

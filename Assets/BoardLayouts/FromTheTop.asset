@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2be3440db8a71044ebb0137058e2c109, type: 3}
+  m_Name: FromTheTop
+  m_EditorClassIdentifier: 
+  ID: -1
+  Columns: 8
+  Rows: 10
+  Tiles:
+  - ID: 1
+    Variation: 0
+    X: 0
+    Y: 2
+  - ID: 1
+    Variation: 0
+    X: 1
+    Y: 2
+  - ID: 6
+    Variation: 0
+    X: 1
+    Y: 0
+  - ID: 5
+    Variation: 0
+    X: 5
+    Y: 2
+  - ID: 1
+    Variation: 0
+    X: 4
+    Y: 2
+  - ID: 1
+    Variation: 0
+    X: 0
+    Y: 5
+  - ID: 1
+    Variation: 0
+    X: 1
+    Y: 5
+  - ID: 5
+    Variation: 0
+    X: 5
+    Y: 7
+  - ID: 1
+    Variation: 0
+    X: 6
+    Y: 7
+  - ID: 1
+    Variation: 0
+    X: 6
+    Y: 8
+  - ID: 1
+    Variation: 0
+    X: 5
+    Y: 8
+  - ID: 1
+    Variation: 0
+    X: 3
+    Y: 8
+  - ID: 1
+    Variation: 0
+    X: 2
+    Y: 7
+  - ID: 7
+    Variation: 3
+    X: 1
+    Y: 8
+  MudTiles: 0100000002000000090000000a0000000c0000000d0000000e000000100000001100000012000000130000001400000015000000160000001a0000001b0000001d0000001e000000200000002100000022000000250000002c0000002d00000034000000350000003600000038000000390000003a0000003b0000003c0000003d0000003e0000004000000041000000420000004400000045000000460000004800000049000000
