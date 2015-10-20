@@ -7,8 +7,8 @@ public static class SaveData
     private const byte SAVE_VERSION = 0;
 
     public static bool[] LevelsCompleted;
-    public static float FXVolume;
-    public static float MusicVolume;
+    public static byte MusicVolume;
+    public static byte SFXVolume;
 
     public static int CurrentLevel
     {
@@ -40,8 +40,8 @@ public static class SaveData
             using (BinaryWriter writer = new BinaryWriter(fileStream))
             {
                 writer.Write(SAVE_VERSION);
-                writer.Write(FXVolume);
                 writer.Write(MusicVolume);
+                writer.Write(SFXVolume);
                 writer.Write(CurrentLevel);
                 writer.Write(LevelsCompleted.Length);
                 foreach(var levelComplete in LevelsCompleted)
@@ -70,8 +70,8 @@ public static class SaveData
                     // Read the save version
                     reader.ReadByte();
                     // Read Volume Levels
-                    FXVolume = reader.ReadSingle();
-                    MusicVolume = reader.ReadSingle();
+                    MusicVolume = reader.ReadByte();
+                    SFXVolume = reader.ReadByte();
                     // Read the current level
                     CurrentLevel = reader.ReadInt32();
                     // Load LevelsCompleted Data
@@ -109,7 +109,7 @@ public static class SaveData
     {
         LevelsCompleted = new bool[GameManager.Instance.LevelSet.Levels.Count];
         CurrentLevel = -1;
-        FXVolume = 1f;
-        MusicVolume = 1f;
+        SFXVolume = 5;
+        MusicVolume = 5;
     }
 }

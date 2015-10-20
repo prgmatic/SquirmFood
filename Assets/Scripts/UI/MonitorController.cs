@@ -7,27 +7,23 @@ public class MonitorController : MonoBehaviour
     public static MonitorController Instance { get; private set; }
 
     public GameObject MainMenuControls;
-    public GameObject LevelSelectControls;
-    public GameObject LevelSelectContent;
-    public Text PlayButtonText;
+    public GameObject OptionsMenuControls;
+    public AudioVolumeDisplay MusicDisplay;
+    public AudioVolumeDisplay SFXDisplay;
 
     public void OpenMainMenu()
     {
         MainMenuControls.SetActive(true);
-        LevelSelectControls.SetActive(false);
-        UpdatePlayButtonText();
+        OptionsMenuControls.SetActive(false);
     }
 
-    public void OpenLevelSelect()
+    public void OpenOptionsMenu()
     {
-        LevelSelectControls.SetActive(true);
+        MusicDisplay.SetSprite(SaveData.MusicVolume);
+        SFXDisplay.SetSprite(SaveData.SFXVolume);
+
+        OptionsMenuControls.SetActive(true);
         MainMenuControls.SetActive(false);
-        UpdateLevelSelectButtons();
-    }
-
-    public void SelectLevel(int levelNumber)
-    {
-        CameraPanner.Instance.PanToGameboard(levelNumber);
     }
 
     private void Awake()
@@ -40,22 +36,4 @@ public class MonitorController : MonoBehaviour
         else if (this != Instance)
             Destroy(this.gameObject);
     }
-
-    private void UpdatePlayButtonText()
-    {
-        PlayButtonText.text = SaveData.CurrentLevel >= 0 ? "Continue" : "New Game";
-    }
-
-    private void UpdateLevelSelectButtons()
-    {
-        var buttons = LevelSelectContent.GetComponentsInChildren<LevelSelectButton2>();
-        foreach(var button in buttons)
-        {
-            button.ButtonText.text = "Level " + (button.LevelNumber + 1);
-            if (SaveData.LevelsCompleted[button.LevelNumber])
-                button.ButtonText.text += " (Complete)";
-        }
-    }
-
-    
 }

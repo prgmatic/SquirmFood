@@ -34,6 +34,9 @@ public class WormAudioController : MonoBehaviour
     private void Update()
     {
         if (GameManager.Instance != null)
-            _move.volume = _eat.volume = _slide.volume = SaveData.FXVolume;
+        {
+            var volume = (float)SaveData.SFXVolume / 5f;
+            _move.volume = _eat.volume = _slide.volume = volume;
+        }
     }
 }

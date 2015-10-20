@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2be3440db8a71044ebb0137058e2c109, type: 3}
-  m_Name: ToxicMushrooms
+  m_Name: ToxicShroomFarm
   m_EditorClassIdentifier: 
   ID: -1
   Columns: 8
