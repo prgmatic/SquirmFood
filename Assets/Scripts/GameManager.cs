@@ -8,8 +8,6 @@ public class GameManager : MonoBehaviour
     public NewLevelSet LevelSet;
     public GameObject Game;
     public GameObject InGameControls;
-    public GameObject PostLevelMenu;
-    public GameObject MidGameMenu;
     public Slider FXVolumeSlider;
     public Slider MusicVolumeSlider;
     public GameObject LevelPreviews;
@@ -39,17 +37,24 @@ public class GameManager : MonoBehaviour
     {
         SaveData.Save();
         ClearMenus();
-        if (State != GameState.MainMenu && State != GameState.LevelSelect)
+        if (State != GameState.MainMenu && State != GameState.OptionsMenu)
             CameraPanner.Instance.PanToMonitor();
         MonitorController.Instance.OpenMainMenu();
         State = GameState.MainMenu;
     }
+
+    public void OpenOptionsMenu()
+    {
+        ClearMenus();
+        if (State != GameState.MainMenu)
+            CameraPanner.Instance.PanToMonitor();
+        MonitorController.Instance.OpenOptionsMenu();
+        State = GameState.OptionsMenu;
+    }
     public void GoToLevelSelect()
     {
         ClearMenus();
-        if (State != GameState.MainMenu && State != GameState.LevelSelect)
-            CameraPanner.Instance.PanToMonitor();
-        MonitorController.Instance.OpenLevelSelect();
+        CameraPanner.Instance.PanToGameboard(0);
         State = GameState.LevelSelect;
     }
     public void PlayLevel(int levelNumber)
@@ -67,7 +72,7 @@ public class GameManager : MonoBehaviour
     }
     public void ContinueGame()
     {
-        if(SaveData.CurrentLevel < 0)
+        if (SaveData.CurrentLevel < 0)
         {
             SaveData.CurrentLevel = 0;
         }
@@ -110,17 +115,9 @@ public class GameManager : MonoBehaviour
         InGameControls.Show();
         State = GameState.PlayingGame;
     }
-    public void SetFXVolume(float volume)
-    {
-        SaveData.FXVolume = volume;
-    }
-    public void SetMusicVolume(float volume)
-    {
-        SaveData.MusicVolume = volume;
-    }
     public void GoBack()
     {
-        switch(State)
+        switch (State)
         {
             case GameState.MainMenu:
                 GoToStart();
@@ -139,9 +136,30 @@ public class GameManager : MonoBehaviour
     }
     public void SetSliderValues()
     {
-        FXVolumeSlider.value = SaveData.FXVolume;
+        FXVolumeSlider.value = SaveData.SFXVolume;
         MusicVolumeSlider.value = SaveData.MusicVolume;
     }
+    public void MusicVolumeUp()
+    {
+        SaveData.MusicVolume = (byte)Mathf.Min(5, SaveData.MusicVolume + 1);
+        MonitorController.Instance.MusicDisplay.SetSprite(SaveData.MusicVolume);
+    }
+    public void MusicVolumeDown()
+    {
+        SaveData.MusicVolume = (byte)Mathf.Max(0, SaveData.MusicVolume - 1);
+        MonitorController.Instance.MusicDisplay.SetSprite(SaveData.MusicVolume);
+    }
+    public void SFXVolumeUp()
+    {
+        SaveData.SFXVolume = (byte)Mathf.Min(5, SaveData.SFXVolume + 1);
+        MonitorController.Instance.SFXDisplay.SetSprite(SaveData.SFXVolume);
+    }
+    public void SFXVolumeDown()
+    {
+        SaveData.SFXVolume = (byte)Mathf.Max(0, SaveData.SFXVolume - 1);
+        MonitorController.Instance.SFXDisplay.SetSprite(SaveData.SFXVolume);
+    }
+
 
     private void Awake()
     {
@@ -169,8 +187,6 @@ public class GameManager : MonoBehaviour
     private void ClearMenus()
     {
         InGameControls.Hide();
-        PostLevelMenu.Hide();
-        MidGameMenu.Hide();
         LevelInfos.Hide();
         LevelPreviews.Hide();
     }
@@ -184,6 +200,7 @@ public class GameManager : MonoBehaviour
     {
         StartScreen,
         MainMenu,
+        OptionsMenu,
         LevelSelect,
         PlayingGame,
         PostLevel,
