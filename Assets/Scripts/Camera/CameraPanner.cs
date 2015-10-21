@@ -25,6 +25,13 @@ public class CameraPanner : MonoBehaviour
     {
         get { return GameManager.Instance.State != GameManager.GameState.PlayingGame; }
     }
+    public int CurrentLayer
+    {
+        get
+        {
+            return Mathf.Max(0, -(int)((this.transform.position.y - FirstGameboardYPos) / LayerHeight));
+        }
+    }
 
     private float _maxScroll;
     private float _minScroll;
@@ -32,13 +39,14 @@ public class CameraPanner : MonoBehaviour
     private Vector2 _previousSwipePosition;
     private float _velocity = 0f;
     private float _previousYPos = 0f;
+    private float _snapPos = 0f;
     private bool _snapping = false;
     private bool _panning = false;
 
-    private float _yPos
+    public float YPos
     {
         get { return this.transform.position.y; }
-        set
+        private set
         {
             this.transform.position = this.transform.position.SetY(value);
         }
@@ -86,6 +94,7 @@ public class CameraPanner : MonoBehaviour
     private void Start()
     {
         _maxScroll = GameStartYpos;
+        _minScroll = FirstGameboardYPos - (GameManager.Instance.LevelSet.Levels.Count - 1)* LayerHeight;
     }
 
     private void Update()
@@ -102,7 +111,7 @@ public class CameraPanner : MonoBehaviour
             {
                 var moveAmount = (_previousSwipePosition.y - Input.mousePosition.y) * ScrollSensitivity;
                 moveAmount /= (float)Screen.height;
-                _yPos += moveAmount;
+                YPos += moveAmount;
                 _previousSwipePosition = Input.mousePosition;
                 ClampView();
                 _velocity = GetVelocity();
@@ -110,9 +119,13 @@ public class CameraPanner : MonoBehaviour
         }
         else if (_velocity != 0)
         {
-            if (_yPos > _maxScroll)
+            if (YPos > _maxScroll)
             {
                 SnapToPoint(_maxScroll);
+            }
+            else if(YPos < _minScroll)
+            {
+                SnapToPoint(_minScroll);
             }
             else
             {
@@ -122,13 +135,18 @@ public class CameraPanner : MonoBehaviour
                 }
                 else
                 {
-                    _snapping = true;
-                    SnapToPoint(FindSnapToPosition());
+                    if(!_snapping)
+                    {
+                        _snapping = true;
+                        _snapPos = FindSnapToPosition();
+
+                    }
+                    SnapToPoint(_snapPos);
                 }
             }
             ApplyVelocity();
         }
-        _previousYPos = _yPos;
+        _previousYPos = YPos;
     }
 
     private IEnumerator Pan(float yPos)
@@ -153,17 +171,21 @@ public class CameraPanner : MonoBehaviour
 
     private void ClampView()
     {
-        if (_yPos > _maxScroll)
+        if (YPos > _maxScroll)
         {
-            var offset = _yPos - _maxScroll;
+            var offset = YPos - _maxScroll;
             //_yPos += offset;
-            _yPos = _yPos - RubberDelta(offset, ViewSize);
+            YPos = YPos - RubberDelta(offset, ViewSize);
             //_yPos = TopClamp;
+        }
+        if(YPos < _minScroll)
+        {
+            YPos = _minScroll;
         }
     }
     private float GetVelocity()
     {
-        float newVelocity = (_yPos - _previousYPos) / deltaTime;
+        float newVelocity = (YPos - _previousYPos) / deltaTime;
         return Mathf.Lerp(_velocity, newVelocity, deltaTime * 10);
     }
 
@@ -176,7 +198,7 @@ public class CameraPanner : MonoBehaviour
 
     private void ApplyVelocity()
     {
-        _yPos += _velocity * deltaTime;
+        YPos += _velocity * deltaTime;
     }
 
     private static float RubberDelta(float overStretching, float viewSize)
@@ -187,25 +209,25 @@ public class CameraPanner : MonoBehaviour
     private void SnapToPoint(float target)
     {
         float speed = _velocity;
-        var position = Mathf.SmoothDamp(_yPos, target, ref speed, SnapSpeed, Mathf.Infinity, deltaTime);
+        var position = Mathf.SmoothDamp(YPos, target, ref speed, SnapSpeed, Mathf.Infinity, deltaTime);
         _velocity = speed;
     }
 
     private float FindSnapToPosition()
     {
-        if(_yPos > MonitorYPos)
+        if(YPos > MonitorYPos)
         {
-            float distFromStart = Mathf.Abs(GameStartYpos - _yPos);
-            float distFromMonitor = Mathf.Abs(MonitorYPos - _yPos);
+            float distFromStart = Mathf.Abs(GameStartYpos - YPos);
+            float distFromMonitor = Mathf.Abs(MonitorYPos - YPos);
 
             if(distFromStart < distFromMonitor)
                 return GameStartYpos;
             return MonitorYPos;
         }
-        else if (_yPos > FirstGameboardYPos)
+        else if (YPos > FirstGameboardYPos)
         {
-            float distFromMonitor = Mathf.Abs(MonitorYPos - _yPos);
-            float distFromFirst = Mathf.Abs(FirstGameboardYPos - _yPos);
+            float distFromMonitor = Mathf.Abs(MonitorYPos - YPos);
+            float distFromFirst = Mathf.Abs(FirstGameboardYPos - YPos);
 
             if (distFromMonitor < distFromFirst)
                 return MonitorYPos;
@@ -214,7 +236,7 @@ public class CameraPanner : MonoBehaviour
             //return _yPos;
         }
 
-        var layer = Mathf.RoundToInt((_yPos - FirstGameboardYPos) / LayerHeight);
+        var layer = Mathf.RoundToInt((YPos - FirstGameboardYPos) / LayerHeight);
         return FirstGameboardYPos - layer * -LayerHeight;
     }
 
