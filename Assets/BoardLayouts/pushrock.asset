@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2be3440db8a71044ebb0137058e2c109, type: 3}
+  m_Name: pushrock
+  m_EditorClassIdentifier: 
+  ID: -1
+  Columns: 8
+  Rows: 10
+  Tiles:
+  - ID: 1
+    Variation: 0
+    X: 2
+    Y: 0
+  - ID: 1
+    Variation: 0
+    X: 3
+    Y: 1
+  - ID: 1
+    Variation: 0
+    X: 4
+    Y: 2
+  - ID: 1
+    Variation: 0
+    X: 5
+    Y: 3
+  - ID: 3
+    Variation: 0
+    X: 5
+    Y: 2
+  - ID: 5
+    Variation: 0
+    X: 6
+    Y: 7
+  - ID: 1
+    Variation: 0
+    X: 1
+    Y: 3
+  - ID: 6
+    Variation: 0
+    X: 0
+    Y: 1
+  - ID: 7
+    Variation: 3
+    X: 0
+    Y: 0
+  - ID: 1
+    Variation: 0
+    X: 4
+    Y: 8
+  - ID: 1
+    Variation: 0
+    X: 4
+    Y: 6
+  - ID: 1
+    Variation: 0
+    X: 6
+    Y: 9
+  - ID: 4
+    Variation: 0
+    X: 5
+    Y: 1
+  - ID: 2
+    Variation: 0
+    X: 2
+    Y: 8
+  MudTiles: 01000000030000000c0000001a0000001e00000026000000270000002f00000035000000370000003c00000040000000410000004200000048000000490000004a0000004c000000
