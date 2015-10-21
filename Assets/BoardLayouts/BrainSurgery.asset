@@ -39,22 +39,54 @@ MonoBehaviour:
     Variation: 0
     X: 7
     Y: 0
+  - ID: 1
+    Variation: 0
+    X: 5
+    Y: 2
+  - ID: 1
+    Variation: 0
+    X: 6
+    Y: 2
+  - ID: 6
+    Variation: 0
+    X: 5
+    Y: 0
+  - ID: 1
+    Variation: 0
+    X: 5
+    Y: 9
+  - ID: 1
+    Variation: 0
+    X: 6
+    Y: 9
+  - ID: 1
+    Variation: 0
+    X: 0
+    Y: 9
+  - ID: 1
+    Variation: 0
+    X: 1
+    Y: 9
+  - ID: 6
+    Variation: 0
+    X: 0
+    Y: 7
   - ID: 2
     Variation: 0
-    X: 2
-    Y: 9
+    X: 3
+    Y: 6
   - ID: 5
     Variation: 0
     X: 4
     Y: 6
   - ID: 2
     Variation: 0
-    X: 3
-    Y: 2
+    X: 2
+    Y: 7
   - ID: 2
     Variation: 0
-    X: 7
-    Y: 3
+    X: 5
+    Y: 4
   - ID: 5
     Variation: 0
     X: 2
@@ -63,14 +95,42 @@ MonoBehaviour:
     Variation: 0
     X: 2
     Y: 4
+  - ID: 1
+    Variation: 0
+    X: 1
+    Y: 5
   - ID: 5
     Variation: 0
     X: 0
     Y: 4
   - ID: 7
     Variation: 3
-    X: 7
-    Y: 2
+    X: 0
+    Y: 5
+  - ID: 1
+    Variation: 0
+    X: 3
+    Y: 1
+  - ID: 4
+    Variation: 0
+    X: 3
+    Y: 0
+  - ID: 1
+    Variation: 0
+    X: 3
+    Y: 5
+  - ID: 1
+    Variation: 0
+    X: 5
+    Y: 5
+  - ID: 1
+    Variation: 0
+    X: 6
+    Y: 5
+  - ID: 1
+    Variation: 0
+    X: 4
+    Y: 3
   - ID: 1
     Variation: 0
     X: 4
@@ -85,8 +145,8 @@ MonoBehaviour:
     Y: 0
   - ID: 2
     Variation: 0
-    X: 7
-    Y: 9
+    X: 1
+    Y: 3
   - ID: 5
     Variation: 0
     X: 1
