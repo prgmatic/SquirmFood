@@ -13,6 +13,7 @@ public class NewBoardLayout : ScriptableObject
     public byte Rows;
     public List<GameTileLayoutInfo> Tiles = new List<GameTileLayoutInfo>();
     public List<int> MudTiles = new List<int>();
+    public LevelDifficulty Difficulty = LevelDifficulty.Easy;
 
     private static Dictionary<int, GameTile> _tilePrefabs;
 
@@ -218,5 +219,12 @@ public class NewBoardLayout : ScriptableObject
         if (_tilePrefabs.ContainsKey(info.ID))
             return _tilePrefabs[info.ID];
         return null;
+    }
+
+    public enum LevelDifficulty
+    {
+        Easy,
+        Medium,
+        Hard
     }
 }

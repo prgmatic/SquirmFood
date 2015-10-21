@@ -21,12 +21,10 @@ public class ScrollingLevelTitle : MonoBehaviour
         _scrollingStartPosition = ScrollingTitle.transform.position;
         _scrollDistance = _scrollingStartPosition.y - (_staticStartPosition.y - _layerHeight);
     }
-
     private void LateUpdate()
     {
         PositionScrollingTitle();
     }
-
     private void PositionScrollingTitle()
     {
         var camPos = CameraPanner.Instance.YPos;
@@ -44,8 +42,8 @@ public class ScrollingLevelTitle : MonoBehaviour
             var zPos = GetScrollingDepth(offset / _scrollDistance);
             SetScrollingTitlePosition(yPos, zPos);
 
-            StaticTitle.LevelName.text = GetLevelTitle(_currentLayer);
-            ScrollingTitle.LevelName.text = GetLevelTitle(_currentLayer + 1);
+            StaticTitle.SetLevel(GameManager.Instance.GetLevel(_currentLayer));
+            ScrollingTitle.SetLevel(GameManager.Instance.GetLevel(_currentLayer + 1));
             ScrollingTitle.SetAlpha(Mathf.Lerp(MinAlpha, 1f, offset / _scrollDistance));
         }
         else
@@ -53,29 +51,24 @@ public class ScrollingLevelTitle : MonoBehaviour
             StaticTitle.transform.position = StaticTitle.transform.position.SetY(_staticStartPosition.y - (_currentLayer + 1) * _layerHeight);
             SetScrollingTitlePosition(_scrollingStartPosition.y - (_currentLayer + 1) * _layerHeight, _scrollingStartPosition.z);
 
-
-            StaticTitle.LevelName.text = GetLevelTitle(_currentLayer + 1);
-            ScrollingTitle.LevelName.text = GetLevelTitle(_currentLayer + 2);
+            StaticTitle.SetLevel(GameManager.Instance.GetLevel(_currentLayer + 1));
+            ScrollingTitle.SetLevel(GameManager.Instance.GetLevel(_currentLayer + 2));
             ScrollingTitle.SetAlpha(MinAlpha);
         }
-
-
     }
-
     private float GetScrollingDepth(float delta)
     {
         return Mathf.Lerp(_scrollingStartPosition.z, _staticStartPosition.z, delta);
     }
-
     private void SetScrollingTitlePosition(float yPos, float zPos)
     {
         ScrollingTitle.transform.position = new Vector3(0, yPos, zPos);
     }
-    private string GetLevelTitle(int levelNumber)
-    {
-        var level = GameManager.Instance.LevelSet.Levels[levelNumber];
-        if (level != null)
-            return level.name;
-        return string.Empty;
-    }
+    //private string GetLevelTitle(int levelNumber)
+    //{
+    //    var level = GameManager.Instance.LevelSet.Levels[levelNumber];
+    //    if (level != null)
+    //        return level.name;
+    //    return string.Empty;
+    //}
 }

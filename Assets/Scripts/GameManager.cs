@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public delegate void StateEvent(GameState state);
+    public event StateEvent StateChanged;
+
     public static GameManager Instance { get; private set; }
     public NewLevelSet LevelSet;
     public GameObject Game;
@@ -18,8 +21,21 @@ public class GameManager : MonoBehaviour
         get { return SaveData.CurrentLevel; }
     }
 
-    [System.NonSerialized]
-    public GameState State;
+    public GameState State
+    {
+        get { return _state; }
+        private set
+        {
+            if(value != _state)
+            {
+                if (StateChanged != null)
+                    StateChanged(value);
+            }
+            _state = value;
+        }
+    }
+
+    private GameState _state;
 
     public void WarpToStart()
     {
@@ -158,6 +174,12 @@ public class GameManager : MonoBehaviour
     {
         SaveData.SFXVolume = (byte)Mathf.Max(0, SaveData.SFXVolume - 1);
         MonitorController.Instance.SFXDisplay.SetSprite(SaveData.SFXVolume);
+    }
+    public NewBoardLayout GetLevel(int levelNumber)
+    {
+        if (levelNumber >= 0 && levelNumber < LevelSet.Levels.Count)
+            return LevelSet.Levels[levelNumber];
+        return null;
     }
 
 
