@@ -9,12 +9,20 @@ public class LevelInfoView : MonoBehaviour
     public RectTransform OptionalGoalsContainer;
     public GoalView GoalViewPrefab;
 
+    public Sprite LevelCompleteEnabled;
+    public Sprite LevelCompleteDisabled;
+    public Sprite _100PercentEnabled;
+    public Sprite _100PercentDisabled;
+    public Image LevelCompleteStatus;
+    public Image _100PercentCompleteStatus;
+
     private int _levelNumber;
 
 
     public void SetLevel(int levelNumber)
     {
         _levelNumber = levelNumber;
+        var level = GameManager.Instance.GetLevel(levelNumber);
 
         // Do we show the play or resume button?
         if(GameManager.Instance.State == GameManager.GameState.GamePaused 
@@ -29,6 +37,28 @@ public class LevelInfoView : MonoBehaviour
             ResumeButton.Hide();
         }
 
+        ClearGoals();
+        if(level != null)
+        {
+            if (level.LimitedMovesGoal)
+                AddGoal(string.Format("USE LESS THAN {0} MOVES", level.NumberOfMoves));
+            if (level.EatAllMushroomsGoal)
+                AddGoal(string.Format("COLLECT ALL MUSHROOMS"));
+            AddGoal("Complete All Goals");
+
+        }
+
+
+        if (level != null)
+        {
+            LevelCompleteStatus.sprite = SaveData.LevelsCompleted[levelNumber] ? LevelCompleteEnabled : LevelCompleteDisabled;
+            _100PercentCompleteStatus.sprite = _100PercentDisabled;
+        }
+        else
+        {
+            LevelCompleteStatus.sprite = LevelCompleteDisabled;
+            _100PercentCompleteStatus.sprite = _100PercentDisabled;
+        }
     }
 
     public void PlayLevel()
