@@ -8,6 +8,7 @@ public class LevelPreview : MonoBehaviour
     public float Right { get { return transform.position.x + (float)_columns / 2f; } }
     public float Top { get { return transform.position.y + (float)_rows / 2f; } }
     public float Bottom { get { return transform.position.y - (float)_rows / 2f; } }
+    public SpriteRenderer MudSpriteRenderer;
 
     private byte _rows;
     private byte _columns;
@@ -48,6 +49,7 @@ public class LevelPreview : MonoBehaviour
 
     public void LoadLevel(int levelNumber)
     {
+        MudSpriteRenderer.enabled = false;
         Clear();
         _levelNumber = levelNumber;
         var level = GetLevel(levelNumber);
@@ -86,10 +88,21 @@ public class LevelPreview : MonoBehaviour
                 AddTile(go, tile.X, tile.Y, tileWidth, tileHeight);
             }
         }
-        foreach (var mudTile in level.MudTiles)
+
+        if(level.MudTiles.Count > 0)
         {
-            AddMudTile(mudTile % _columns, mudTile / _columns);
-            //Gameboard.Instance.SetBackgroundTileAttribute(mudTile % Columns, mudTile / Columns, Gameboard.BackgroundTileAttribute.FreeMove);
+            if(level.MudMask != null)
+            {
+                MudSpriteRenderer.enabled = true;
+                MudSpriteRenderer.material.SetTexture("_MaskTex", level.MudMask.texture);
+            }
+            else
+            {
+                foreach (var mudTile in level.MudTiles)
+                {
+                    AddMudTile(mudTile % _columns, mudTile / _columns);
+                }
+            }
         }
     }
 

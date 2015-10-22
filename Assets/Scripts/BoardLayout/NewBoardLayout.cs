@@ -14,11 +14,14 @@ public class NewBoardLayout : ScriptableObject
     public List<GameTileLayoutInfo> Tiles = new List<GameTileLayoutInfo>();
     public List<int> MudTiles = new List<int>();
     public LevelDifficulty Difficulty = LevelDifficulty.Easy;
+    public Sprite MudMask;
 
     // optional goals
     public bool LimitedMovesGoal = false;
     public int NumberOfMoves = 10;
     public bool EatAllMushroomsGoal = false;
+
+    
 
     private static Dictionary<int, GameTile> _tilePrefabs;
 

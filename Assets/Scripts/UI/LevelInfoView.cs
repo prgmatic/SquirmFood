@@ -44,7 +44,7 @@ public class LevelInfoView : MonoBehaviour
                 AddGoal(string.Format("USE LESS THAN {0} MOVES", level.NumberOfMoves));
             if (level.EatAllMushroomsGoal)
                 AddGoal(string.Format("COLLECT ALL MUSHROOMS"));
-            AddGoal("Complete All Goals");
+            AddGoal("ALL GOALS IN ONE RUN");
 
         }
 

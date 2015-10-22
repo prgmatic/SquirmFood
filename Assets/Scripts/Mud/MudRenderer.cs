@@ -13,7 +13,18 @@ public class MudRenderer : MonoBehaviour
 		InitMudTiles(gameboard);
 	}
 
-	private void InitMudTiles(Gameboard gameboard)
+    public void Show()
+    {
+        foreach (var renderer in _mudRenderers)
+            renderer.gameObject.SetActive(true);
+    }
+    public void Hide()
+    {
+        foreach (var renderer in _mudRenderers)
+            renderer.gameObject.SetActive(false);
+    }
+
+    private void InitMudTiles(Gameboard gameboard)
 	{
 		var parent = new GameObject();
 		parent.name = "MudTiles";

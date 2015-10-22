@@ -19,6 +19,8 @@ public class Gameboard : MonoBehaviour
     public event InputEvent WormMoveInputRecieved;
     public delegate void TileAttributeEvent(int x, int y, BackgroundTileAttribute attribute);
     public event TileAttributeEvent TileAttributeChanged;
+    public delegate void LevelEvent(NewBoardLayout level);
+    public event LevelEvent LevelChanged;
     #endregion
 
     #region Variables
@@ -62,7 +64,15 @@ public class Gameboard : MonoBehaviour
     public NewBoardLayout CurrentLevel
     {
         get { return _currentLevel; }
-        set { _currentLevel = value; }
+        set
+        {
+            if (_currentLevel != value)
+            {
+                if (LevelChanged != null)
+                    LevelChanged(value);
+            }
+            _currentLevel = value;
+        }
     }
     #endregion
 
@@ -122,7 +132,7 @@ public class Gameboard : MonoBehaviour
             GameboardReset();
         if (CurrentLevel != null)
             CurrentLevel.Load();
-            //BoardLayoutImporter.ImportBoardLayout(CurrentLevel);
+        //BoardLayoutImporter.ImportBoardLayout(CurrentLevel);
     }
     public void Retry()
     {
@@ -203,7 +213,7 @@ public class Gameboard : MonoBehaviour
         gameTiles.Add(tile);
         if (GridBounds.Contains(newTileBounds))
             AddTileToTileTable(tile);
-        if(applyGravity)
+        if (applyGravity)
             tile.ApplyGravity();
         if (TileAdded != null)
             TileAdded(tile);

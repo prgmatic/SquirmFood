@@ -11,6 +11,7 @@ public class NewBoardLayoutEditor : Editor
         var layout = (NewBoardLayout)target;
         
         layout.Difficulty = (NewBoardLayout.LevelDifficulty)EditorGUILayout.EnumPopup("Difficulty", layout.Difficulty);
+        layout.MudMask = (Sprite)EditorGUILayout.ObjectField("Mud Mask", layout.MudMask, typeof(Sprite), false);
 
         GUILayout.Label("Optional Goals");
         EditorGUI.indentLevel++;

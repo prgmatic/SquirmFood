@@ -163,8 +163,10 @@ PlayerSettings:
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:
-    - m_Icon: {fileID: 2800000, guid: ff87daf34edead8439027f8941e3e0df, type: 3}
-      m_Size: 128
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: ff87daf34edead8439027f8941e3e0df, type: 3}
+      m_Width: 128
+      m_Height: 128
   m_BuildTargetBatching:
   - m_BuildTarget: Android
     m_StaticBatching: 1
