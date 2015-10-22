@@ -85,16 +85,4 @@ public class VignetteController : MonoBehaviour
         _fading = false;
         Alpha = 0f;
     }
-
-    private void OnGUI()
-    {
-        if (GUILayout.Button("FadeIn"))
-        {
-            FadeIn();
-        }
-        if(GUILayout.Button("FadeOut"))
-        {
-            FadeOut();
-        }
-    }
 }

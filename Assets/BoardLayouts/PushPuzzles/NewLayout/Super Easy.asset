@@ -40,3 +40,9 @@ MonoBehaviour:
     X: 2
     Y: 3
   MudTiles: 
+  Difficulty: 2
+  MudMask: {fileID: 0}
+  NumberOfUndoes: 3
+  LimitedMovesGoal: 0
+  NumberOfMoves: 10
+  EatAllMushroomsGoal: 0

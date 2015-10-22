@@ -65,12 +65,12 @@ public class PipeObject : MonoBehaviour
 
 	private static bool IsWall(NewBoardLayout layout, int x, int y)
 	{
-		if (!layout.IsValidCoordinate(x, y)) return false;
-		var tile = layout.GetGameTileAt(x, y);
-		if(tile != null)
-		{
-			return !tile.Pushable && !tile.IsEdible && !tile.CanFall && !tile.IsWorm;
-        }
+		//if (!layout.IsValidCoordinate(x, y)) return false;
+		//var tile = layout.GetGameTileAt(x, y);
+		//if(tile != null)
+		//{
+		//	return !tile.Pushable && !tile.IsEdible && !tile.CanFall && !tile.IsWorm;
+  //      }
 		return false;
 	}
 

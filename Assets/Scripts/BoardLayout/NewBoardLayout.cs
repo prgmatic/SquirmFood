@@ -15,6 +15,7 @@ public class NewBoardLayout : ScriptableObject
     public List<int> MudTiles = new List<int>();
     public LevelDifficulty Difficulty = LevelDifficulty.Easy;
     public Sprite MudMask;
+    public int NumberOfUndoes = 0;
 
     // optional goals
     public bool LimitedMovesGoal = false;
@@ -23,36 +24,8 @@ public class NewBoardLayout : ScriptableObject
 
     
 
-    private static Dictionary<int, GameTile> _tilePrefabs;
 
     #region StaticMethods
-
-    #region Initialization
-    static NewBoardLayout()
-    {
-        InitTilePrefabs();
-    }
-
-    private static void InitTilePrefabs()
-    {
-        var prefabs = Resources.LoadAll<GameTile>("BoardPieces");
-        _tilePrefabs = new Dictionary<int, GameTile>();
-        foreach (var prefab in prefabs)
-        {
-            if (!_tilePrefabs.ContainsKey(prefab.ID))
-            {
-                _tilePrefabs.Add(prefab.ID, prefab);
-            }
-        }
-    }
-
-    public static GameTile GetPrefab(int id)
-    {
-        if (_tilePrefabs.ContainsKey(id))
-            return _tilePrefabs[id];
-        return null;
-    }
-    #endregion
 
     #region CreationMethods
     public static NewBoardLayout FromBinary(byte[] data)
@@ -220,15 +193,6 @@ public class NewBoardLayout : ScriptableObject
         }
         return null;
     }
-
-    public GameTile GetGameTileAt(int x, int y)
-    {
-        var info = GetGameTileInfoAt(x, y);
-        if (_tilePrefabs.ContainsKey(info.ID))
-            return _tilePrefabs[info.ID];
-        return null;
-    }
-
     public enum LevelDifficulty
     {
         Easy,

@@ -108,3 +108,9 @@ MonoBehaviour:
     X: 6
     Y: 9
   MudTiles: 06000000070000000f00000017000000190000001e0000001f000000290000002a0000002b0000002c0000002d00000039000000460000004b000000
+  Difficulty: 0
+  MudMask: {fileID: 21300000, guid: 986d2aebc229c0846bc3c3afeebdd4ba, type: 3}
+  NumberOfUndoes: 0
+  LimitedMovesGoal: 0
+  NumberOfMoves: 10
+  EatAllMushroomsGoal: 0

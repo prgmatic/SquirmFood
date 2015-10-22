@@ -11,6 +11,7 @@ public class NewBoardLayoutEditor : Editor
         var layout = (NewBoardLayout)target;
         
         layout.Difficulty = (NewBoardLayout.LevelDifficulty)EditorGUILayout.EnumPopup("Difficulty", layout.Difficulty);
+        layout.NumberOfUndoes = EditorGUILayout.IntField("Number of Undoes", layout.NumberOfUndoes);
         layout.MudMask = (Sprite)EditorGUILayout.ObjectField("Mud Mask", layout.MudMask, typeof(Sprite), false);
 
         GUILayout.Label("Optional Goals");
@@ -24,6 +25,8 @@ public class NewBoardLayoutEditor : Editor
         }
         layout.EatAllMushroomsGoal = EditorGUILayout.Toggle("Eat all mushrooms", layout.EatAllMushroomsGoal);
         EditorGUI.indentLevel--;
+
+        EditorUtility.SetDirty(target);
 
         if (Application.isPlaying)
         {

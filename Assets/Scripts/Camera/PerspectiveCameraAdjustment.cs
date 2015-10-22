@@ -7,7 +7,7 @@ public class PerspectiveCameraAdjustment : MonoBehaviour
 
 	[Range(1f, 179f)]
 	public float FieldOfView = 45f;
-	public float TargetFrustrumWidth = 9.5f;
+    public float TargetFrustrumWidth = 9.5f;
 
 	private Camera _camera;
 	private float _distance = 0f;
@@ -35,11 +35,11 @@ public class PerspectiveCameraAdjustment : MonoBehaviour
 
 	void UpdateFOV()
 	{
-		var frustumHeight = FrustumHeightAtDistance(_distance, FieldOfView);
-		var frustumWidth = frustumHeight * _camera.aspect;
-		if (frustumWidth < TargetFrustrumWidth)
+		var currentFrustumHeight = FrustumHeightAtDistance(_distance, FieldOfView);
+		var currentFrustumWidth = currentFrustumHeight * _camera.aspect;
+		if (currentFrustumWidth < TargetFrustrumWidth)
 		{
-			var targetHeight = TargetFrustrumWidth / frustumWidth * frustumHeight;
+			var targetHeight = TargetFrustrumWidth / currentFrustumWidth * currentFrustumHeight;
 			_camera.fieldOfView = FOVForHeightAndDistance(targetHeight, _distance);
 		}
 		else

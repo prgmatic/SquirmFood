@@ -49,6 +49,7 @@ public static class MudLayoutExporter
                 if (level.name == mask.name)
                 {
                     level.MudMask = mask;
+                    EditorUtility.SetDirty(level);
                     break;
                 }
             }
