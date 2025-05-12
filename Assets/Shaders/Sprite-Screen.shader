@@ -1,4 +1,6 @@
-﻿Shader "Custom/Sprite-Screen" 
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/Sprite-Screen" 
 {
 	Properties 
 	{
@@ -58,7 +60,7 @@
 			VertexOutput ScreenVertex(VertexInput input)
 			{
 				VertexOutput output;
-				output.vertex = mul(UNITY_MATRIX_MVP, input.vertex);
+				output.vertex = UnityObjectToClipPos(input.vertex);
 				output.screenPos = output.vertex;
 				output.texcoord = input.texcoord;
 				output.color = input.color * _Color;

@@ -5,6 +5,6 @@ public class TextureQualityChanger : MonoBehaviour {
 
 	public void ChangeTextureQuality(int mipmap)
     {
-        QualitySettings.masterTextureLimit = mipmap;
+        QualitySettings.globalTextureMipmapLimit = mipmap;
     }
 }
