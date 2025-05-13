@@ -116,9 +116,9 @@ public class Gameboard : MonoBehaviour
         _retries = 0;
         Clear();
         GameState = GameStateType.InProgress;
+        ResetBoard();
         if (GameStarted != null)
             GameStarted();
-        ResetBoard();
     }
     public void EndGame()
     {
@@ -419,7 +419,22 @@ public class Gameboard : MonoBehaviour
         }
     }
 
-    public void MoveWorm(Direction direction)
+    public bool MoveWorm(Worm worm, Direction direction)
+    {
+        bool inputValidated = false;
+
+        if (worm.Move(direction))
+        {
+            inputValidated = true;
+            _movesThisTry++;
+            _totalMoves++; 
+        }
+        if (WormMoveInputRecieved != null)
+            WormMoveInputRecieved(direction, inputValidated);
+        return inputValidated;
+    }
+
+    public bool MoveWorm(Direction direction)
     {
         int x = 0;
         int y = 0;
@@ -455,6 +470,7 @@ public class Gameboard : MonoBehaviour
         }
         if (WormMoveInputRecieved != null)
             WormMoveInputRecieved(direction, inputValidated);
+        return inputValidated;
     }
 
     public void ApplyGravity()

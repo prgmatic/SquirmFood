@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(GameTile))]
@@ -15,7 +16,10 @@ public class Worm : MonoBehaviour
     private int _movesTaken = 0;
 
 
-    public int MovesTaken { get { return _movesTaken; } }
+    public int MovesTaken
+    {
+        get { return _movesTaken; }
+    }
 
     void Awake()
     {
@@ -43,6 +47,20 @@ public class Worm : MonoBehaviour
     }
 
 
+    public bool Move(Direction direction)
+    {
+        Point targetPos = direction switch
+        {
+            Direction.Up => new Point(0, -1),
+            Direction.Down => new Point(0, 1),
+            Direction.Left => new Point(-1, 0),
+            Direction.Right => new Point(1, 0),
+            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+        };
+        targetPos.x += _gameTile.GridPosition.x;
+        targetPos.y += _gameTile.GridPosition.y;
+        return Move(targetPos.x, targetPos.y);
+    }
 
     public bool Move(int x, int y)
     {
@@ -51,10 +69,10 @@ public class Worm : MonoBehaviour
         _animator.SetInteger("AnimationType", (int)WormAnimationType.Move);
         _animator.SetInteger("MoveDirection", (int)FacingDirection);
 
-        if(canMove)
+        if (canMove)
         {
             GameTile tileAtDestination = Gameboard.Instance.GetTileAt(x, y);
-            if(tileAtDestination != null)
+            if (tileAtDestination != null)
             {
                 if (tileAtDestination.IsEdible)
                 {
@@ -67,6 +85,7 @@ public class Worm : MonoBehaviour
                     _animator.SetInteger("AnimationType", (int)WormAnimationType.Push);
                 }
             }
+
             _gameTile.Move(x, y);
         }
         else
@@ -79,7 +98,7 @@ public class Worm : MonoBehaviour
         return canMove;
     }
 
-    private bool CanMoveTo(int x, int y)
+    public bool CanMoveTo(int x, int y)
     {
         // If destination is not a valid coordinate, worm can't move
         if (!Gameboard.Instance.IsValidTileCoordinate(x, y, false))
@@ -87,22 +106,20 @@ public class Worm : MonoBehaviour
 
         GameTile tileAtDestination = Gameboard.Instance.GetTileAt(x, y);
         // Is there a tile at destination
-        if(tileAtDestination != null)
+        if (tileAtDestination != null)
         {
             // If tile is edible or pushable, the worm can move
             var dir = Utils.GetDirection(_gameTile.GridPosition, new Point(x, y));
-            return tileAtDestination.IsEdible || tileAtDestination.CanPuch(dir);
+            return tileAtDestination.IsEdible || tileAtDestination.CanPush(dir);
         }
         // No tile at destination
-        else
-        {
-            if (CanFreeMove)
-                return true;
-            // If mud is at destination, worm can move
-            else return Gameboard.Instance.GetBackgroundTileAttribute(x, y) == Gameboard.BackgroundTileAttribute.FreeMove;
-        }
-        
 
+        if (CanFreeMove)
+            return true;
+        // If mud is at destination, worm can move
+        else
+            return Gameboard.Instance.GetBackgroundTileAttribute(x, y) ==
+                   Gameboard.BackgroundTileAttribute.FreeMove;
     }
 
     public void EatToken(GameTile tile)

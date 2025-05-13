@@ -144,9 +144,9 @@ public class GameTile : MonoBehaviour
 		}
 	}
 
-    public bool CanPuch(Direction direction)
+    public bool CanPush(Direction direction)
     {
-        if (!Pushable || Moving)
+        if (!Pushable)// || Moving)
             return false;
         Rectangle newBounds = GridBounds;
         switch (direction)
